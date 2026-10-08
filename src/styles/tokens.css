@@ -1,0 +1,272 @@
+/**
+ * Tokens base del Design System v1.1 (`Design System.md`).
+ *
+ * Fuente normativa: `Design System.md`. NO se copio CSS de
+ * `references/design/components.md` ni de `landing.md`.
+ *
+ * Alcance de Fase 1: solo la capa de tokens necesaria para establecer la
+ * Fundacion. No se implementan componentes de negocio.
+ *
+ * REGLA ESTRUCTURAL DE ESTE ARCHIVO
+ *   Tailwind v4 namespacia sus propias variables (`--radius-*`, `--font-*`,
+ *   `--shadow-*`, `--color-*`). Un token que Tailwind tambien namespacia debe
+ *   declararse UNA sola vez, en `@theme`. Si se declara tambien en `:root` con el
+ *   mismo nombre, el build emite `--radius-card: var(--radius-card)`, que es una
+ *   autorreferencia invalida y deja `border-radius` sin valor.
+ *
+ * Distribucion:
+ *     - `@theme`      -> tokens que Tailwind namespcia (radios, fuentes, sombras).
+ *     - `:root`       -> tokens sin namespace de Tailwind, incluidos los que se
+ *                        resuelven en runtime (`--primary`) y los que el shell
+ *                        consume con `var()`.
+ */
+
+/* --------------------------------------------------------------------------
+ * Typography — Design System.md 4.1
+ * IBM Plex Sans / IBM Plex Mono, auto-hospedadas (sin CDN).
+ * ----------------------------------------------------------------------- */
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+@import 'tailwindcss';
+
+/* --------------------------------------------------------------------------
+ * 1. Tokens que Tailwind namespcia
+ * ----------------------------------------------------------------------- */
+@theme {
+  /* -- Tipografia (4.1). IBM Plex, auto-hospedada. */
+  --font-sans:
+    'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* -- Radio por contexto (6.1). Dos contextos, sin valores de compromiso. */
+  --radius-xs: 6px; /* chips, tabs, tags, segmented control */
+  --radius-control: 18px; /* App: botones, inputs, badges, search */
+  --radius-card: 24px; /* App: cards, dialogs, drawers, popovers */
+  --radius-nested: 10px; /* App: elementos dentro de una card */
+  --radius-pill: 9999px; /* avatares, filtros, switches */
+  --radius-landing-control: 12px; /* Landing (preparado, no usado en Fase 1) */
+  --radius-landing-card: 12px;
+
+  /* -- Sombras (6.3). Opacidad total <= 0.12, nunca con tinte cromatico.
+   * Card en reposo = hairline 1px + sombra casi imperceptible. */
+  --shadow-card: 0 1px 3px rgb(16 18 22 / 0.08), 0 1px 2px -1px rgb(16 18 22 / 0.06);
+  --shadow-elevated: 0 6px 16px -6px rgb(16 18 22 / 0.12), 0 2px 6px -2px rgb(16 18 22 / 0.08);
+  --shadow-floating: 0 16px 48px -12px rgb(16 18 22 / 0.18);
+}
+
+/* --------------------------------------------------------------------------
+ * 2. Tokens runtime
+ *
+ * CSS plano a proposito: son el contrato de `Design System.md` y se resuelven en
+ * runtime. Ninguno de estos nombres esta namespaced por Tailwind.
+ * ----------------------------------------------------------------------- */
+:root {
+  /* -- Superficies (3.2). Rampa neutra fria, un tono por nivel, sin bordes. */
+  --surface-paper: #ffffff;
+  --surface-canvas: #f6f7f9;
+  --surface-sidebar: #fcfcfd; /* un tono por encima del canvas, SIN borde */
+  --surface-sunken: #f1f2f5;
+  --surface-featured: #eaeef2;
+  --surface-contextual: #ffffff;
+  --surface-input-fill: #f4f5f7;
+  --surface-dark-frame: #1b1d22;
+
+  /* -- Contenido (3.3). Contraste verificado: AA en todo texto util. */
+  --foreground: #16181d; /* 16.57:1 sobre canvas */
+  --foreground-secondary: #55596a; /* 6.48:1 */
+  --foreground-muted: #6b7080; /* 4.60:1 — AA tambien, no decorativo */
+  --foreground-subtle: #8a8e9e; /* texto deshabilitado y divisores; >= 3:1 */
+  --foreground-on-dark: #f2f3f5;
+
+  /* -- Bordes (6.2). Hairline obligatorio en cards; no lo sustituye la sombra. */
+  --border: #e3e5ea;
+  --border-strong: #8a8f9e; /* 3.01:1 sobre canvas — borde de control */
+  --ring: var(--primary);
+
+  /* -- Marca configurable por Clinic (3.4).
+   *
+   * `--primary` NO tiene color fijo compilado: se resuelve en runtime desde
+   * `Clinic` cuando esa feature exista. Aqui solo existe `--primary-default`, un
+   * placeholder reemplazable por diseño (instalación nueva o clínica sin color
+   * configurado), de familia clínica fría y baja saturación.
+   * El naranja de `landing.md` y el rojo de `components.md` NO se adoptan. */
+  --primary-default: #3e637c;
+  --primary: var(--primary-default);
+  --primary-hover: color-mix(in oklab, var(--primary) 88%, black);
+  --primary-subtle: color-mix(in oklab, var(--primary) 12%, white);
+  --primary-ink: color-mix(in oklab, var(--primary) 82%, black);
+
+  --accent: color-mix(in oklab, var(--primary) 62%, white);
+  --accent-ink: color-mix(in oklab, var(--primary) 74%, black);
+
+  /* -- Estados semánticos (3.5). NO configurables, NO dependen de Clinic, y
+   * siempre disjuntos de la marca aunque los tonos se parezcan. */
+  --info-subtle: #e8f0f4;
+  --info-ink: #2c5c74;
+  --success-subtle: #e6f2ec;
+  --success-ink: #1f6b47;
+  --warning-subtle: #f7f0e2;
+  --warning-ink: #7a5a15;
+  --danger-subtle: #f8e9e9;
+  --danger-ink: #a02c2c;
+  --muted: #eef0f3;
+
+  /* -- Escala tipográfica (4.2). Pesos 400/500/600, los únicos. */
+  --text-display: 4.5rem; /* 72px — solo xl+ */
+  --text-h1: 3rem; /* 48px */
+  --text-h2: 2.25rem; /* 36px */
+  --text-h3: 1.875rem; /* 30px — título de página (app) */
+  --text-h4: 1.5rem; /* 24px */
+  --text-h5: 1.25rem; /* 20px */
+  --text-body-lg: 1.25rem;
+  --text-body: 1rem; /* 16px — landing */
+  --text-body-app: 0.875rem; /* 14px — app */
+  --text-body-sm: 0.8125rem; /* 13px — densidad de tabla */
+  --text-caption: 0.75rem;
+  --text-micro: 0.6875rem;
+
+  /* -- Espaciado (5.1). Escala de 4px. */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px; /* gap entre elementos en la app */
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px; /* padding de card en la app */
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-12: 48px; /* separación entre secciones, ambos contextos */
+  --space-16: 64px;
+  --space-18: 72px; /* banda de landing */
+  --space-20: 80px;
+  --space-24: 96px;
+  --space-40: 160px; /* banda principal de landing */
+
+  /* -- Anillo de foco (17.1). 2px y >= 3:1: el de 1px de la referencia no cumple. */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+
+  /* -- Anchos máximos (8.1). */
+  --max-width-app: 1280px;
+  --max-width-landing: 1200px;
+}
+
+/* --------------------------------------------------------------------------
+ * 3. Puente de color hacia Tailwind
+ *
+ * Solo color y nada más: `--color-*` no colisiona con ningún token del
+ * Design System, así que el mapeo es seguro y de una sola dirección.
+ * ----------------------------------------------------------------------- */
+@theme inline {
+  --color-paper: var(--surface-paper);
+  --color-canvas: var(--surface-canvas);
+  --color-sidebar: var(--surface-sidebar);
+  --color-sunken: var(--surface-sunken);
+  --color-featured: var(--surface-featured);
+  --color-contextual: var(--surface-contextual);
+  --color-input-fill: var(--surface-input-fill);
+  --color-dark-frame: var(--surface-dark-frame);
+
+  --color-ink: var(--foreground);
+  --color-ink-secondary: var(--foreground-secondary);
+  --color-ink-muted: var(--foreground-muted);
+  --color-ink-subtle: var(--foreground-subtle);
+  --color-ink-on-dark: var(--foreground-on-dark);
+
+  --color-hairline: var(--border);
+  --color-hairline-strong: var(--border-strong);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-ink: var(--primary-ink);
+
+  --color-info-subtle: var(--info-subtle);
+  --color-info-ink: var(--info-ink);
+  --color-success-subtle: var(--success-subtle);
+  --color-success-ink: var(--success-ink);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-ink: var(--warning-ink);
+  --color-danger-subtle: var(--danger-subtle);
+  --color-danger-ink: var(--danger-ink);
+  --color-muted-fill: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+ * 4. Base
+ * ----------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--surface-canvas);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: var(--text-body-app); /* 14px: contexto app (2.5, 4.2) */
+    line-height: 1.43; /* 1.43 para cuerpo en app */
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Foco visible y consistente: 2px, >= 3:1, nunca `outline: none` (17.1). */
+  :focus-visible {
+    outline: var(--focus-ring-width) solid var(--ring);
+    outline-offset: var(--focus-ring-offset);
+    border-radius: var(--radius-xs);
+  }
+
+  /* Jerarquía por tamaño y peso, nunca bajando contraste a gris (4.3). */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  h1 {
+    font-size: var(--text-h3);
+    letter-spacing: -0.025em;
+  }
+  h2 {
+    font-size: var(--text-h4);
+  }
+
+  /* Máximo dos pesos por bloque de texto (4.3). */
+  strong,
+  b {
+    font-weight: 600;
+  }
+
+  code,
+  kbd,
+  samp {
+    font-family: var(--font-mono);
+    font-size: var(--text-body-sm);
+  }
+
+  /* Datos exactos en mono con cifras tabulares (4.3). */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
