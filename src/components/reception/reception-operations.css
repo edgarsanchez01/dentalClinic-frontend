@@ -1,0 +1,175 @@
+/* UX-04C / UX-04D: only Inicio and Citas inside the existing RECEPTIONIST shell.
+   Clinical Editorial inherits its palette, IBM Plex and control geometry; no global overrides. */
+.reception-shell .reception-operations {
+  width: 100%; min-width: 0; max-width: 1280px; margin-inline: auto;
+  padding: 32px 32px 48px; color: var(--auth-ink); font-size: 16px; line-height: 1.5;
+}
+.reception-shell .reception-operations h1 { font-size: clamp(28px, 3vw, 36px); font-weight: 500; line-height: 1.15; letter-spacing: -.025em; }
+.reception-shell .reception-operations h2 { color: var(--auth-petrol); font-size: 24px; font-weight: 500; line-height: 1.3; letter-spacing: -.015em; }
+.reception-shell .reception-operations h3 { color: var(--auth-petrol); font-size: 18px; font-weight: 500; line-height: 1.4; }
+.reception-shell .reception-operations p, .reception-shell .reception-operations strong { overflow-wrap: anywhere; }
+.reception-shell .reception-operations .reception-button { white-space: nowrap; }
+.reception-shell .reception-operations :focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 3px; }
+.reception-shell .reception-operations .reception-button:focus-visible { box-shadow: 0 0 0 3px var(--auth-paper); }
+.reception-shell .reception-desk { display: grid; gap: 32px; }
+.reception-shell .reception-journal-cover {
+  display: flex; align-items: center; justify-content: space-between; gap: 24px 40px;
+  padding: 32px; border-radius: var(--auth-radius); background: var(--auth-sage); color: var(--auth-petrol);
+}
+.reception-shell .reception-journal-cover > div { min-width: 0; }
+.reception-shell .reception-journal-cover .reception-cover-message { font-size: 24px; font-weight: 500; line-height: 1.3; }
+.reception-shell .reception-cover-message + p { margin-top: 8px; max-width: 42ch; }
+.reception-shell .reception-cover-day { display: grid; justify-items: start; gap: 8px; max-width: 340px; padding-left: 28px; border-left: 1px solid var(--auth-secondary); }
+.reception-shell .reception-cover-day > p { font-size: 18px; font-weight: 500; }
+.reception-shell .reception-cover-day > span { font-size: 13px; }
+.reception-shell .reception-cover-day .reception-button { margin-top: 12px; }
+.reception-shell .reception-journal-grid { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: 32px; align-items: start; }
+.reception-shell .reception-today-sheet { min-width: 0; padding: 24px; background: var(--auth-paper); border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); }
+.reception-shell .reception-sheet-heading { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; }
+.reception-shell .reception-day-total { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 6px; font-size: 13px; color: var(--auth-petrol); }
+.reception-shell .reception-day-total > strong { font-family: var(--font-mono); font-size: 24px; font-weight: 500; }
+.reception-shell .reception-operation-caption { color: var(--auth-muted); font-size: 13px; line-height: 1.5; }
+.reception-shell .reception-today-sheet > .reception-operation-caption { margin-block: 12px 20px; max-width: 58ch; }
+.reception-shell .reception-day-visits { display: grid; }
+.reception-shell .reception-day-visits > li + li { border-top: 1px solid var(--auth-divider); }
+.reception-shell .reception-sheet-footer { width: 100%; border-top: 1px solid var(--auth-divider); margin-top: 8px; padding-top: 16px; }
+.reception-shell .reception-next-sheet { min-width: 0; padding-top: 8px; }
+.reception-shell .reception-next-sheet > .reception-operation-caption { margin-top: 8px; }
+.reception-shell .reception-next-visit { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 20px; padding-block: 24px; margin-block: 20px 12px; border-block: 1px solid var(--auth-border); }
+.reception-shell .reception-next-visit > time { display: grid; align-content: start; gap: 8px; color: var(--auth-petrol); }
+.reception-shell .reception-next-visit time strong { font-family: var(--font-mono); font-size: 26px; font-weight: 500; line-height: 1.2; }
+.reception-shell .reception-next-visit time span { font-size: 13px; }
+.reception-shell .reception-next-visit h3 { margin-block: 12px 8px; }
+.reception-shell .reception-next-visit h3 a { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 4px; }
+.reception-shell .reception-next-visit p { font-size: 14px; margin-top: 6px; color: var(--auth-muted); }
+.reception-shell .reception-following-visits a { display: grid; gap: 4px; min-height: 44px; padding-block: 14px; border-bottom: 1px solid var(--auth-divider); }
+.reception-shell .reception-following-visits a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.reception-shell .reception-following-visits time { font-family: var(--font-mono); font-size: 12px; color: var(--auth-muted); }
+.reception-shell .reception-following-visits span { color: var(--auth-petrol); font-weight: 500; }
+.reception-shell .reception-quiet-day { display: grid; align-content: center; gap: 12px; min-height: 180px; padding-block: 24px; }
+.reception-shell .reception-quiet-day p { max-width: 55ch; color: var(--auth-muted); }
+.reception-shell .reception-operation-notice { padding: 20px; border-radius: var(--auth-radius); background: var(--auth-paper); border: 1px solid var(--auth-divider); }
+.reception-shell .reception-portfolio-strip { padding: 24px 0; border-block: 1px solid var(--auth-divider); }
+.reception-shell .reception-portfolio-values { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(0, 1fr)); margin-block: 20px 12px; }
+.reception-shell .reception-portfolio-values > section { background: var(--auth-canvas); min-width: 0; padding: 0 24px; border-left: 1px solid var(--auth-divider); }
+.reception-shell .reception-portfolio-values > section:first-child { border: 0; padding-left: 0; }
+.reception-shell .reception-portfolio-values h3 { font-size: 14px; color: var(--auth-muted); }
+.reception-shell .reception-portfolio-values p { margin-top: 8px; font-family: var(--font-mono); font-size: 24px; color: var(--auth-petrol); font-weight: 500; line-height: 1.3; }
+.reception-shell .reception-portfolio-values a { font-size: 14px; }
+.reception-shell .reception-journal-bottom { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); gap: 40px; }
+.reception-shell .reception-directory-link { display: grid; gap: 8px; margin-block: 20px 4px; padding: 20px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); color: var(--auth-petrol); }
+.reception-shell .reception-directory-link span { color: var(--auth-muted); font-size: 14px; }
+.reception-shell .reception-directory-link:hover { background: var(--auth-sage); }
+.reception-shell .reception-desk-notifications > p { margin-top: 16px; color: var(--auth-muted); }
+.reception-shell .reception-desk-notifications li { padding-block: 20px; border-bottom: 1px solid var(--auth-divider); }
+.reception-shell .reception-desk-notifications li h3 { margin-block: 8px; }
+.reception-shell .reception-desk-notifications li p { white-space: pre-wrap; }
+.reception-shell .reception-desk-notifications time { display: block; margin-top: 8px; font-size: 13px; color: var(--auth-muted); }
+
+/* Plain page heading, control desk, then full-width days. Sage is reserved for context. */
+.reception-shell .reception-agenda-page { gap: 24px; }
+.reception-shell .reception-agenda-period { font-size: 16px; }
+.reception-shell .reception-agenda-heading .reception-operation-caption { display: block; margin-top: 8px; }
+.reception-shell .reception-agenda-controls { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: end; gap: 20px 16px; padding-block: 0 24px; border-bottom: 1px solid var(--auth-divider); }
+.reception-shell .reception-agenda-controls [aria-label='Vista'] { border-radius: var(--auth-radius); box-shadow: none; border: 1px solid var(--auth-border); overflow: visible; }
+.reception-shell .reception-agenda-controls [aria-label='Vista'] button:first-child { border-radius: 11px 0 0 11px; }
+.reception-shell .reception-agenda-controls [aria-label='Vista'] button:last-child { border-radius: 0 11px 11px 0; }
+.reception-shell .reception-agenda-controls [aria-label='Vista'] button { min-height: 44px; padding-inline: 18px; font-size: 14px; }
+.reception-shell .reception-agenda-controls [aria-label='Navegación'] { justify-self: center; }
+.reception-shell .reception-agenda-controls [aria-label='Navegación'] button { min-height: 44px; font-size: 14px; background: transparent; }
+.reception-shell .reception-agenda-controls [aria-label='Navegación'] button:hover { background: var(--auth-sage); }
+.reception-shell .reception-agenda-controls > label { display: grid; gap: 6px; align-items: start; font-size: 13px; }
+.reception-shell .reception-agenda-filter-drawer { grid-column: 1 / -1; }
+.reception-shell .reception-agenda-filter-drawer > summary { display: none; min-height: 44px; align-items: center; color: var(--auth-petrol); font-weight: 500; }
+.reception-shell .reception-agenda-filter-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.reception-shell .reception-agenda-filter-fields > label { display: grid; align-items: start; gap: 6px; font-size: 13px; }
+.reception-shell .reception-day-register { min-width: 0; }
+.reception-shell .reception-day-register > h2 { margin-bottom: 20px; }
+.reception-shell .reception-hour-group { margin-top: 20px; }
+.reception-shell .reception-hour-group > h3 { font-family: var(--font-mono); font-size: 14px; margin-bottom: 8px; }
+.reception-shell .reception-hour-group ul { display: grid; gap: 8px; }
+.reception-shell .reception-hour-group .reception-visit { width: 100%; text-align: left; padding: 16px; background: var(--auth-paper); border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); }
+.reception-shell .reception-agenda-loading { padding-block: 24px; }
+.reception-shell .reception-agenda-loading > div { display: grid; gap: 16px; margin-top: 20px; }
+.reception-shell .reception-agenda-loading span { display: block; min-height: 96px; border-radius: var(--auth-radius); background: var(--auth-divider); }
+.reception-shell .reception-agenda-controls input, .reception-shell .reception-agenda-controls select { width: 100%; min-width: 0; min-height: 44px; border: 1px solid var(--auth-border); background: var(--auth-paper); border-radius: var(--auth-radius); font-size: 15px; padding: 8px 12px; }
+.reception-shell .reception-agenda-results { min-width: 0; }
+.reception-shell .reception-register-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; margin-bottom: 20px; }
+.reception-shell .reception-register-heading p { color: var(--auth-muted); font-size: 14px; }
+.reception-shell .reception-week-index { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); padding: 8px; gap: 4px; margin-bottom: 24px; }
+.reception-shell .reception-week-index a { display: grid; justify-items: center; gap: 4px; padding: 12px 4px; border-radius: 6px; color: var(--auth-petrol); }
+.reception-shell .reception-week-index a > span { font-size: 13px; text-transform: capitalize; }
+.reception-shell .reception-week-index a > strong { font-size: 26px; font-weight: 500; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.reception-shell .reception-week-index a[aria-current='date'] { background: var(--auth-petrol); color: var(--auth-paper); }
+.reception-shell .reception-week-index a:hover:not([aria-current]) { background: var(--auth-sage); }
+.reception-shell .reception-register-day { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 24px; padding: 20px 16px; border-top: 1px solid var(--auth-divider); scroll-margin-top: 24px; }
+.reception-shell .reception-register-day[data-today] { background: var(--auth-sage); border-radius: var(--auth-radius); border-top-color: transparent; }
+.reception-shell .reception-register-date button { display: grid; gap: 4px; text-align: left; min-height: 44px; width: 100%; border-radius: 6px; color: var(--auth-petrol); }
+.reception-shell .reception-register-date button:hover { text-decoration: underline; text-underline-offset: 4px; }
+.reception-shell .reception-register-date button > span { font-size: 14px; text-transform: capitalize; }
+.reception-shell .reception-register-date button strong { font-size: 30px; font-weight: 500; line-height: 1.2; }
+.reception-shell .reception-register-date small { font-size: 13px; }
+.reception-shell .reception-today-marker { display: inline-block; font-size: 12px; margin-top: 8px; font-weight: 500; color: var(--auth-petrol); }
+.reception-shell .reception-register-visits { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.reception-shell .reception-register-visits .reception-visit { padding: 16px; background: var(--auth-paper); border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); }
+.reception-shell .reception-register-visits .reception-visit:hover { border-color: var(--auth-petrol); }
+.reception-shell .reception-register-empty { align-self: center; color: var(--auth-muted); font-size: 14px; }
+.reception-shell .reception-register-empty span { display: block; font-size: 13px; margin-top: 4px; }
+.reception-shell [data-today] .reception-register-empty { color: var(--auth-petrol); }
+.reception-shell .reception-quiet-week { padding: 24px; background: var(--auth-paper); border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); margin-bottom: 24px; }
+.reception-shell .reception-quiet-week p { margin-top: 12px; max-width: 65ch; color: var(--auth-muted); }
+.reception-shell .reception-register-footnote { border-top: 1px solid var(--auth-divider); padding-top: 16px; }
+.reception-shell .reception-calendar-event { display: grid; gap: 2px; width: 100%; min-height: 44px; border-radius: 6px; padding: 4px 8px; text-align: left; line-height: 1.25; }
+.reception-shell .reception-calendar-event-time { font-family: var(--font-mono); font-size: 11px; }
+.reception-shell .reception-calendar-event strong { font-size: 14px; font-weight: 500; }
+.reception-shell .reception-month-view > div { gap: 8px; }
+.reception-shell .reception-month-view > div > div { min-width: 0; }
+.reception-shell .reception-month-view > div > div > div { min-height: 128px; padding: 8px; }
+.reception-shell .reception-month-view button { min-width: 0; max-width: 100%; }
+.reception-shell .reception-month-view button[aria-label^='Ver día'] { min-height: 44px; min-width: 44px; font-size: 18px; }
+.reception-shell .reception-agenda-results section[aria-label='Agenda del día'] { padding: 24px 20px; box-shadow: none; }
+.reception-shell .reception-agenda-results section[aria-label='Agenda del día'] button { padding: 16px; }
+.reception-shell .reception-agenda-results section[aria-label='Agenda del día'] button .truncate { white-space: normal; overflow: visible; }
+@media (min-width: 1300px) {
+  .reception-shell .reception-register-visits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reception-shell .reception-register-visits .reception-visit { grid-template-columns: 56px minmax(0, 1fr); gap: 8px 16px; }
+  .reception-shell .reception-register-visits .reception-visit-status { grid-column: 2; }
+}
+@media (max-width: 1100px) {
+  .reception-shell .reception-journal-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .reception-shell .reception-next-sheet { padding: 0 24px 24px; }
+  .reception-shell .reception-agenda-controls { grid-template-columns: minmax(0, 1fr) auto; }
+  .reception-shell .reception-agenda-controls > label { grid-column: 1 / -1; }
+  .reception-shell .reception-cover-day { max-width: 280px; }
+}
+@media (max-width: 767px) {
+  .reception-shell .reception-operations { padding: 24px 16px 40px; }
+  .reception-shell .reception-desk { gap: 24px; }
+  .reception-shell .reception-journal-cover { display: grid; padding: 24px 20px; gap: 24px; }
+  .reception-shell .reception-cover-day { max-width: none; padding: 20px 0 0; border-left: 0; border-top: 1px solid var(--auth-secondary); }
+  .reception-shell .reception-cover-day > p { font-size: 16px; }
+  .reception-shell .reception-cover-day .reception-button { margin-top: 8px; width: 100%; }
+  .reception-shell .reception-operations h2 { font-size: 22px; }
+  .reception-shell .reception-today-sheet { padding: 20px 16px; }
+  .reception-shell .reception-visit { grid-template-columns: 56px minmax(0, 1fr); gap: 8px 16px; }
+  .reception-shell .reception-visit-status { grid-column: 2; }
+  .reception-shell .reception-next-sheet { padding: 0 4px; }
+  .reception-shell .reception-portfolio-values { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .reception-shell .reception-portfolio-values > section { padding: 0; border: 0; }
+  .reception-shell .reception-portfolio-values > section:first-child { grid-column: 1 / -1; }
+  .reception-shell .reception-portfolio-values p { font-size: 22px; }
+  .reception-shell .reception-journal-bottom { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .reception-shell .reception-agenda-heading { align-items: stretch; flex-direction: column; }
+  .reception-shell .reception-agenda-heading .reception-button { width: 100%; }
+  .reception-shell .reception-agenda-controls { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .reception-shell .reception-agenda-filter-drawer { border-block: 1px solid var(--auth-divider); }
+  .reception-shell .reception-agenda-filter-drawer > summary { display: flex; justify-content: space-between; }
+  .reception-shell .reception-agenda-filter-drawer > summary::after { content: '+'; font-size: 20px; }
+  .reception-shell .reception-agenda-filter-drawer[open] > summary::after { content: '−'; }
+  .reception-shell .reception-agenda-filter-fields { grid-template-columns: minmax(0, 1fr); padding-block: 8px 20px; }
+  .reception-shell .reception-agenda-controls [aria-label='Navegación'] { justify-self: start; justify-content: space-between; width: 100%; }
+  .reception-shell .reception-agenda-controls [aria-label='Navegación'] button { padding-inline: 16px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .reception-shell .reception-visit, .reception-shell .reception-week-index a, .reception-shell .reception-directory-link { transition: background-color 140ms ease-out, border-color 140ms ease-out; }
+}

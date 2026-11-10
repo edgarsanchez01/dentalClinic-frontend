@@ -1,0 +1,501 @@
+/**
+ * UX-04F — Recepción · Finanzas.
+ *
+ * Listado y detalle compartidos con DENTIST. Alta, pagos y reportes conservan
+ * sus superficies y capacidades originales. Ambos shells publican `--auth-*`.
+ *
+ * Regla de aislamiento: los selectores fuertes (composición, jerarquía, chips)
+ * conservan `.reception-shell`; la consulta DENTIST se habilita únicamente bajo
+ * `.dentist-shell .reception-finances`, nunca en clínica ni en todo su shell.
+ * Las clases de utilidad sin scope son inertes fuera de este módulo porque solo
+ * existen en el markup financiero. F4 extiende consulta/reportes a OWNER solo
+ * dentro de `.reception-finances`; el wizard de Recepción conserva su scope.
+ */
+
+/* ---- Importes: mono y alineación tabular ---- */
+.reception-finances-amount {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.reception-finances-amount--right { text-align: right; }
+/* F4: local scrolling preserves atomic amount+MXN; never clips page overflow. */
+.financial-money-value { display: block; max-width: 100%; overflow-x: auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.financial-pagination-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.reception-finances-items-quantity { max-width: 100%; overflow-x: auto; }
+.collection-totals > div { min-width: 0; }
+.reception-shell th.reception-finances-amount--right,
+:is(.dentist-shell, .owner-shell) .reception-finances th.reception-finances-amount--right { text-align: right; }
+
+/* ---- Chip de estado: texto + marcador, nunca solo color ---- */
+.reception-finances-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.reception-finances-chip-marker { margin-right: 6px; line-height: 1; font-size: 10px; }
+.reception-shell .reception-finances-chip-pendiente,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-chip-pendiente { background: var(--warning-subtle); color: var(--warning-ink); }
+.reception-shell .reception-finances-chip-parcial,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-chip-parcial { background: var(--info-subtle); color: var(--info-ink); }
+.reception-shell .reception-finances-chip-pagado,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-chip-pagado { background: var(--success-subtle); color: var(--success-ink); }
+.reception-shell .reception-finances-chip-anulado,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-chip-anulado { background: var(--auth-canvas); color: var(--auth-muted); }
+
+/* ---- Listado: barra de herramientas compacta (combobox + aplicar + avanzados) ---- */
+.reception-finances-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+.reception-finances-toolbar > .reception-finances-search { min-width: 18rem; flex: 1 1 24rem; }
+.reception-finances-toolbar-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+/* Los filtros avanzados ocupan la fila completa bajo el combobox y el botón. */
+.reception-finances-toolbar > details.reception-advanced { flex: 1 1 100%; }
+.reception-finances-clear { flex-shrink: 0; }
+/* Filtros: se distinguen de los resultados por su contenedor; no son tarjetas idénticas. */
+.reception-finances-filters {
+  padding: 20px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-finances-search { min-width: 0; }
+
+/* Resultados: aparecen lo más arriba posible tras la barra de herramientas. */
+.reception-finances-results { display: grid; gap: 16px; min-width: 0; }
+
+/* La receta del selector R23 vive ahora en components/ui/ui.css. */
+.reception-finances-selected-clear {
+  margin-left: auto;
+  min-height: 32px;
+  padding: 2px 8px;
+  border: 0;
+  background: none;
+  color: var(--auth-petrol);
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.reception-finances-selected-clear:focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 2px; }
+.reception-finances-pending { color: var(--auth-secondary); font-size: var(--text-body-sm); }
+
+:is(.reception-shell, .dentist-shell, .owner-shell) .reception-finances { gap: 20px; }
+:is(.reception-shell, .dentist-shell, .owner-shell) .reception-finances .reception-page-intro { margin-top: 8px; }
+.reception-patient-empty { color: var(--auth-muted); font-size: var(--text-body-sm); }
+.reception-finances-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 20px;
+  color: var(--auth-muted);
+  font-size: var(--text-body-sm);
+}
+.reception-finances-summary strong { color: var(--auth-ink); font-variant-numeric: tabular-nums; }
+
+/* ---- Listado: celdas de la tabla editorial ---- */
+.reception-shell .reception-finances-cell-link,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-cell-link {
+  color: var(--auth-petrol);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.reception-finances-cell-meta { margin-top: 2px; color: var(--auth-muted); font-size: var(--text-body-sm); }
+.reception-shell .reception-finances-cell-meta a,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-cell-meta a { color: var(--auth-petrol); text-decoration: underline; text-underline-offset: 4px; }
+.reception-shell .reception-finances-balance,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-balance { color: var(--auth-petrol); font-weight: 600; }
+.reception-shell .reception-finances-balance--settled,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-balance--settled { color: var(--auth-muted); font-weight: 500; }
+.reception-finances-date { color: var(--auth-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* ---- Alta: guía por pasos (solo recepción; el resto de roles no la monta) ---- */
+.reception-finances-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.reception-finances-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  color: var(--auth-muted);
+}
+.reception-finances-step-index {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border: 1px solid var(--auth-border);
+  border-radius: 999px;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.reception-finances-step-text { display: grid; min-width: 0; }
+.reception-finances-step-text strong { font-size: 14px; font-weight: 500; }
+.reception-finances-step-text small { font-size: 12px; color: var(--auth-muted); }
+.reception-finances-step[data-state='done'] { border-color: var(--auth-sage); }
+.reception-finances-step[data-state='done'] .reception-finances-step-index {
+  background: var(--auth-sage); border-color: var(--auth-petrol); color: var(--auth-petrol);
+}
+.reception-finances-step[data-state='current'] { border-color: var(--auth-petrol); }
+.reception-finances-step[data-state='current'] .reception-finances-step-index {
+  background: var(--auth-petrol); border-color: var(--auth-petrol); color: var(--auth-paper);
+}
+.reception-finances-step[data-state='current'] .reception-finances-step-text strong { color: var(--auth-petrol); }
+
+.reception-finances-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.reception-finances-back { display: flex; justify-content: flex-start; }
+
+/* Encabezado de la etapa activa: el asistente gobierna el flujo, no solo lo dibuja. */
+.reception-finances-step-heading {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--auth-petrol);
+}
+.reception-finances-step-note { color: var(--auth-muted); max-width: 68ch; font-size: var(--text-body-sm); }
+
+/* Captura de conceptos: cada concepto es un grupo legible, no una fila genérica. */
+.reception-shell .reception-concepts { display: grid; gap: 0; }
+.reception-shell .reception-concept {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--auth-divider);
+}
+.reception-shell .reception-concept-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.reception-shell .reception-concept-index {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-shell .reception-concept-remove {
+  min-height: 44px;
+  padding: 2px 8px;
+  border: 0;
+  background: none;
+  color: var(--auth-petrol);
+  font: inherit;
+  font-size: var(--text-body-sm);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+.reception-shell .reception-concept-remove:hover:not(:disabled) { color: var(--auth-hover); }
+.reception-shell .reception-concept-remove:disabled { color: var(--auth-muted); cursor: not-allowed; text-decoration: none; }
+.reception-shell .reception-concept-remove:focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 2px; }
+.reception-shell .reception-concept-fields { display: grid; gap: 12px; }
+@media (min-width: 640px) {
+  .reception-shell .reception-concept-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .reception-shell .reception-concept-description { grid-column: 1 / -1; }
+}
+@media (min-width: 1024px) {
+  .reception-shell .reception-concept-fields { grid-template-columns: minmax(0, 1fr) 8rem 12rem; }
+  .reception-shell .reception-concept-description { grid-column: 1; }
+}
+.reception-concept-line { color: var(--auth-muted); font-size: var(--text-body-sm); }
+.reception-concept-line .reception-finances-amount { color: var(--auth-ink); }
+
+/* Vista previa: solo cuando existe un importe válido; nunca un recuadro grande vacío. */
+.reception-shell .reception-finances .reception-preview {
+  padding: 14px 16px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-shell .reception-preview-total {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--text-h5);
+  font-weight: 500;
+  color: var(--auth-petrol);
+  font-variant-numeric: tabular-nums;
+}
+.reception-shell .reception-preview-note { margin-top: 4px; max-width: 68ch; color: var(--auth-muted); font-size: var(--text-body-sm); }
+.reception-shell .reception-finances-notes { display: grid; gap: 6px; color: var(--auth-ink); }
+
+/* Contexto compacto del paciente ya verificado, visible en la etapa de conceptos. */
+.reception-finances-context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  padding: 12px 16px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-canvas);
+}
+.reception-finances-context-label {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-finances-context-value { color: var(--auth-petrol); font-weight: 500; overflow-wrap: anywhere; }
+.reception-finances-context-meta { color: var(--auth-muted); font-size: var(--text-body-sm); }
+
+/* ---- Alta: resumen de revisión (paso 3) ---- */
+.reception-finances-review {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-canvas);
+}
+.reception-finances-review > dl { display: grid; gap: 8px; }
+.reception-shell .reception-finances-review > h2 { color: var(--auth-petrol); }
+.reception-finances-review > dl > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; }
+.reception-finances-review dt {
+  min-width: 9rem;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-finances-review dd { margin: 0; min-width: 0; color: var(--auth-ink); overflow-wrap: anywhere; }
+.reception-finances-review-total {
+  padding-top: 10px;
+  border-top: 1px solid var(--auth-divider);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--text-h5);
+  font-weight: 500;
+  color: var(--auth-petrol);
+  font-variant-numeric: tabular-nums;
+}
+.reception-finances-review-items { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.reception-finances-review-items li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 16px;
+  color: var(--auth-ink);
+}
+.reception-finances-review-items .reception-finances-amount { color: var(--auth-ink); }
+
+/* ---- Detalle: cabecera de estado e importes ---- */
+.reception-finances-detail-actions { display: grid; gap: 6px; justify-items: start; }
+.reception-finances-detail-note { color: var(--auth-muted); max-width: 68ch; font-size: var(--text-body-sm); }
+.reception-shell .reception-finances-refresh,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-refresh {
+  min-height: 44px; padding: 8px 4px; color: var(--auth-petrol);
+  font-weight: 500; text-decoration: underline; text-underline-offset: 4px;
+}
+.reception-shell .reception-finances-refresh:focus-visible,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-refresh:focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 2px; }
+.reception-shell .reception-finances-refresh:disabled,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-refresh:disabled { color: var(--auth-muted); }
+.reception-shell .reception-finances-status-line > button,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-status-line > button { margin-left: auto; }
+.reception-shell .reception-finances-payment-fields { display: grid; min-width: 0; gap: 16px; }
+@media (min-width: 900px) {
+  .reception-shell .reception-finances-payment-fields { grid-template-columns: minmax(0, .8fr) minmax(0, 1fr) minmax(0, 1.2fr); align-items: end; }
+}
+.reception-finances-status-line { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.reception-shell .reception-finances-figure,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-figure { display: grid; gap: 2px; min-width: 0; }
+.reception-shell .reception-finances-figure-label,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-figure-label {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-shell .reception-finances-figure-value,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-figure-value {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--auth-petrol);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.reception-shell .reception-finances-figure--secondary .reception-finances-figure-value,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-figure--secondary .reception-finances-figure-value { font-size: 22px; color: var(--auth-ink); }
+.reception-shell .reception-finances-figures,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-figures { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 640px) {
+  .reception-shell .reception-finances-figures,
+  :is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-figures { grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr)); }
+}
+
+/* ---- Detalle: conceptos y movimientos ---- */
+.reception-finances-items { display: grid; gap: 0; margin: 12px 0 0; padding: 0; list-style: none; }
+.reception-finances-items > li {
+  display: grid;
+  gap: 4px 24px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--auth-divider);
+}
+@media (min-width: 640px) {
+  .reception-finances-items > li { grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; }
+  .reception-finances-items > li > .reception-finances-amount { text-align: right; }
+}
+.reception-finances-items-description { color: var(--auth-ink); overflow-wrap: anywhere; white-space: pre-wrap; }
+.reception-finances-items-quantity { color: var(--auth-muted); font-size: var(--text-body-sm); }
+
+.reception-shell .reception-finances-movement,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-movement {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--auth-divider);
+}
+.reception-finances-movements { margin: 12px 0 0; padding: 0; list-style: none; }
+.reception-shell .reception-finances-movement:last-child,
+:is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-movement:last-child { border-bottom: 0; }
+.reception-finances-movement-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+.reception-finances-movement-kind { font-weight: 500; color: var(--auth-ink); }
+.reception-finances-movement-meta { margin-top: 2px; color: var(--auth-muted); font-size: var(--text-body-sm); }
+.reception-finances-movement-reason { margin-top: 6px; color: var(--auth-ink); white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* ---- Detalle: separación entre consulta y registro de pago ---- */
+.reception-finances-payment { border-color: var(--auth-secondary); }
+.reception-finances-payment-lead { margin-top: 8px; max-width: 68ch; color: var(--auth-ink); }
+.reception-finances-payment-balance {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  margin-top: 12px;
+  padding: 10px 14px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-canvas);
+}
+.reception-finances-payment-balance-label {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-finances-payment-balance-value { color: var(--auth-petrol); font-size: var(--text-h5); font-weight: 500; }
+
+/* ---- Reportes: cifras con jerarquía ---- */
+.financial-report-layout { container: financial-report / inline-size; min-width: 0; }
+.financial-report-figures { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; min-width: 0; }
+@container financial-report (min-width: 26rem) {
+  .financial-report-figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@container financial-report (min-width: 64rem) {
+  .financial-report-figures { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .financial-report-figures[data-columns='3'] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+.reception-finances-report-figure { container-type: inline-size; grid-template-columns: minmax(0, 1fr); align-content: start; }
+:is(.reception-shell, .owner-shell) .reception-finances-report-figure .reception-kpi-value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: clamp(20px, 10cqi, 30px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--auth-petrol);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.report-figure-number { min-width: 0; max-width: 100%; overflow-wrap: anywhere; }
+.reception-finances-report-hint { color: var(--auth-muted); font-size: var(--text-body-sm); }
+/* Formularios de reportes: compactos, sin convertirse en tarjetas enormes. */
+.reception-report-filters { display: grid; gap: 12px; min-width: 0; padding: 18px; }
+:is(.reception-shell, .owner-shell) .reception-report-charge-fields { display: grid; min-width: 0; gap: 16px; }
+@media (min-width: 640px) {
+  .reception-report-filters { align-items: end; }
+  :is(.reception-shell, .owner-shell) .reception-report-charge-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :is(.reception-shell, .owner-shell) .reception-report-charge-fields > div:first-child { grid-column: 1 / -1; }
+}
+@media (min-width: 1100px) {
+  :is(.reception-shell, .owner-shell) .reception-report-charge-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  :is(.reception-shell, .owner-shell) .reception-report-charge-fields > div:first-child { grid-column: auto; }
+}
+.reception-finances-period {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-canvas);
+  color: var(--auth-ink);
+  font-size: var(--text-body-sm);
+  font-variant-numeric: tabular-nums;
+}
+.reception-finances-period-label {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 767px) {
+  .reception-finances-steps { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .reception-finances-step { flex-direction: column; align-items: flex-start; gap: 6px; padding: 8px; }
+  .reception-finances-step-text small { display: none; }
+  .reception-finances-step-text strong { font-size: 12px; }
+  .reception-finances-toolbar > .reception-finances-search { min-width: 0; flex-basis: 100%; }
+  .reception-finances-toolbar-actions { flex-basis: 100%; }
+  .reception-finances-filters { padding: 16px; }
+  .reception-finances-selected-clear { margin-left: 0; }
+  .reception-finances-review { padding: 14px; }
+  .reception-finances-review dt { min-width: 0; }
+  .reception-shell .reception-finances-figure-value,
+  :is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-figure-value { font-size: 24px; }
+  .reception-shell .reception-finances-figure--secondary .reception-finances-figure-value,
+  :is(.dentist-shell, .owner-shell) .reception-finances .reception-finances-figure--secondary .reception-finances-figure-value { font-size: 20px; }
+}
+@media (max-width: 359px) {
+  .reception-finances-step-index { width: 24px; height: 24px; }
+}
+
+/* La cabecera permite reflujo del grupo completo, también con sidebar en tablet.
+   No se recortan acciones ni se compensa su anchura con padding por ruta. */
+.reception-finances .reception-page-actions { min-width: 0; max-width: 100%; flex-shrink: 1; }

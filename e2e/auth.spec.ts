@@ -43,18 +43,20 @@ async function mockBackend(page: Page, handlers: Record<string, Handler>): Promi
 
 async function login(page: Page, email: string, password: string): Promise<void> {
   await page.getByLabel('Correo electrónico').fill(email);
-  await page.getByLabel('Contraseña').fill(password);
+  await page.getByLabel('Contraseña', { exact: true }).fill(password);
   await page.getByRole('button', { name: 'Entrar' }).click();
 }
 
 test.describe('Autenticacion (Fase 2)', () => {
-  test('sin sesion, la raiz redirige al login', async ({ page }) => {
+  test('sin sesion, la raíz muestra la landing y las rutas privadas conservan login', async ({ page }) => {
     await mockBackend(page, {
       'POST /api/auth/refresh': (route) => json(route, 401, {}),
     });
 
     await page.goto('/');
-
+    await expect(page.getByRole('heading', { name: /Tu sonrisa,.*nuestra prioridad/ })).toBeVisible();
+    await expect(page).toHaveURL(/\/$/);
+    await page.goto('/appointments?create=1');
     await expect(page.getByRole('heading', { name: 'Iniciar sesión' })).toBeVisible();
     await expect(page).toHaveURL(/\/login$/);
   });
@@ -89,13 +91,15 @@ test.describe('Autenticacion (Fase 2)', () => {
           accessTokenExpiresAt: '2026-01-01T00:15:00Z',
           user: ANA,
         }),
+      'GET /api/auth/me': (route) => json(route, 200, ANA),
     });
 
     await page.goto('/login');
     await login(page, 'ana@clinica.com', 'Clave1234');
 
-    await expect(page.getByRole('heading', { name: 'ana@clinica.com' })).toBeVisible();
-    await expect(page.getByText('Rol: Propietario')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Resumen de la clínica' })).toBeVisible();
+    await page.getByRole('banner').getByText('Cuenta', { exact: true }).click();
+    await expect(page.getByText('ana@clinica.com', { exact: true })).toBeVisible();
     const persisted = await page.evaluate(() => ({ ...localStorage, ...sessionStorage }));
     expect(JSON.stringify(persisted)).not.toContain('access-1');
   });
@@ -108,10 +112,10 @@ test.describe('Autenticacion (Fase 2)', () => {
 
     await page.goto('/');
 
-    await expect(page.getByRole('heading', { name: 'ana@clinica.com' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Resumen de la clínica' })).toBeVisible();
   });
 
-  test('cerrar sesion vuelve al login', async ({ page }) => {
+  test('cerrar sesión vuelve a la landing pública', async ({ page }) => {
     await mockBackend(page, {
       'POST /api/auth/refresh': (route) => json(route, 200, { accessToken: 'access-3' }),
       'GET /api/auth/me': (route) => json(route, 200, ANA),
@@ -119,11 +123,11 @@ test.describe('Autenticacion (Fase 2)', () => {
     });
 
     await page.goto('/');
-    await expect(page.getByRole('heading', { name: 'ana@clinica.com' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Resumen de la clínica' })).toBeVisible();
 
     await page.getByRole('button', { name: 'Cerrar sesión' }).click();
 
-    await expect(page.getByRole('heading', { name: 'Iniciar sesión' })).toBeVisible();
-    await expect(page).toHaveURL(/\/login$/);
+    await expect(page.getByRole('heading', { name: /Tu sonrisa,.*nuestra prioridad/ })).toBeVisible();
+    await expect(page).toHaveURL(/\/$/);
   });
 });

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44"
+  data-family="molar" data-dentition="PERMANENT" fill="none">
+  <title>Corona de molar permanente</title>
+  <!-- Tres cúpulas redondeadas, cuerpo robusto y cuello ancho; surco central mínimo. Sin estados clínicos. -->
+  <path d="M7.4 11.8
+    C7.1 7.2 9.1 4.4 12.8 4.2
+    C15.2 4.1 16.5 6.9 17.8 7.4
+    C19 7.8 20.2 4.8 22 4.6
+    C23.8 4.8 25 7.8 26.2 7.4
+    C27.5 6.9 28.8 4.1 31.2 4.2
+    C34.9 4.4 36.9 7.2 36.6 11.8
+    C37.4 17.8 37.3 25 35.9 31
+    C34.7 35.8 31.7 39 26.3 40.6
+    C24.8 41 23.3 41.1 22 41.1
+    C20.7 41.1 19.2 41 17.7 40.6
+    C12.3 39 9.3 35.8 8.1 31
+    C6.7 25 6.6 17.8 7.4 11.8 Z"
+    fill="var(--tooth-fill, #eef1f3)" stroke="var(--tooth-outline, #3f474b)"
+    stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M22 9.8 V17.5" fill="none" stroke="var(--tooth-groove, #6f767a)"
+    stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+</svg>

@@ -1,0 +1,37 @@
+/* Geometría exclusiva de Pacientes OWNER; identidad y controles compartidos. */
+.owner-patients { min-height: 100%; background: var(--auth-canvas); }
+.owner-patients .reception-page { gap: 20px; }
+.owner-patients-list .reception-list { gap: 4px; }
+.owner-patients-list .reception-patients-row { padding-block: 10px; }
+.patient-record-sections { min-width: 0; }
+.patient-record-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--auth-divider);
+}
+.patient-record-tabs > button {
+  min-height: 44px;
+  padding: 8px 0;
+  border-bottom: 2px solid transparent;
+  color: var(--auth-muted);
+  font-size: var(--text-body-app);
+}
+.patient-record-tabs > [aria-selected='true'] {
+  color: var(--auth-petrol);
+  border-bottom-color: var(--auth-petrol);
+  font-weight: 500;
+}
+.patient-record-tabs > button:hover { color: var(--auth-petrol); }
+.patient-record-sections > [role='tabpanel']:not([hidden]),
+.patient-record-administration { display: grid; min-width: 0; gap: 16px; }
+.patient-record-administration > button { justify-self: start; }
+.owner-patients .reception-patients-edit { min-height: 44px; }
+.owner-patients .reception-patients-summary-group { align-content: start; }
+.owner-patients .reception-patients-summary-row { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+.patient-record-sections > [role='tabpanel'] > :first-child { margin-top: 0; }
+@media (min-width: 1100px) {
+  .owner-patients .reception-patients-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 32px; }
+  .owner-patients .reception-patients-summary-row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+}

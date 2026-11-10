@@ -1,0 +1,57 @@
+/* OWNER / Inicio / Mi actividad clínica only. Shared .oh-* primitives remain unchanged. */
+.owner-personal-home .op-main-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.85fr); grid-template-areas: 'next agenda'; gap: 16px; align-items: start; }
+.owner-personal-home .op-main-grid > [aria-label='Mi agenda de hoy'] { grid-area: agenda; }
+.owner-personal-home .oh-header-context > div:last-child { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+.owner-personal-home .oh-card > .oh-caption { margin-block: 4px 8px; }
+.owner-personal-home .oh-next-visit { margin-top: 12px; }
+.owner-personal-home .oh-next-visit time strong { font-size: 34px; }
+.owner-personal-home .oh-next-visit h3 { font-size: 16px; }
+.owner-personal-home .op-protected-note { padding-top: 8px; border-top: 1px solid var(--auth-divider); }
+.owner-personal-home .dentist-link { font-size: 12px; font-weight: 400; text-underline-offset: 3px; }
+.owner-personal-home .dentist-button { min-height: 44px; padding: 8px 16px; font-size: 12px; }
+.owner-personal-home .dentist-agenda-total { gap: 8px; margin-block: 4px; font-size: 12px; }
+.owner-personal-home .dentist-agenda-total > strong { font-size: 20px; }
+.owner-personal-home .dentist-caption, .owner-personal-home .dentist-readonly-note { font-size: 12px; }
+.owner-personal-home .dentist-empty { padding: 16px 0; border: 0; border-radius: 0; background: transparent; font-size: 13px; }
+.owner-personal-home .dentist-empty h3 { font-size: 16px; }
+.owner-personal-home .dentist-pagination { justify-content: end; gap: 8px 12px; margin-top: 8px; }
+.owner-personal-home .op-timeline { margin-top: 8px; }
+.owner-personal-home .op-timeline > li { display: block; padding: 0; }
+.owner-personal-home .op-visit { display: grid; grid-template-columns: 60px 80px minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding-block: 8px; min-width: 0; }
+.owner-personal-home .op-visit > time { display: grid; align-content: start; font-family: var(--font-mono); font-size: 11px; font-variant-numeric: tabular-nums; color: var(--auth-petrol); }
+.owner-personal-home .op-visit > time strong { font-size: 13px; font-weight: 500; }
+.owner-personal-home .op-visit > time span { color: var(--auth-muted); }
+.owner-personal-home .op-visit-person { display: grid; gap: 2px; min-width: 0; }
+.owner-personal-home .op-visit-person strong { font-size: 13px; font-weight: 500; color: var(--auth-petrol); }
+.owner-personal-home .op-visit-person span { font-size: 12px; color: var(--auth-muted); }
+.owner-personal-home .op-visit[data-status='CANCELLED'] .op-visit-person strong { text-decoration: line-through; }
+.owner-personal-home .op-visit-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0 16px; }
+.owner-personal-home .op-notifications-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+.owner-personal-home .op-notifications-list > li { min-width: 0; }
+.owner-personal-home .op-notice-body { color: var(--auth-muted); font-size: 12px; white-space: pre-wrap; margin-block: 2px 4px; }
+.owner-personal-home .op-notice-meta { display: flex; flex-wrap: wrap; gap: 2px 10px; color: var(--auth-muted); font-size: 12px; }
+@media (max-width: 1199px) {
+  .owner-personal-home .op-main-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'next' 'agenda'; }
+  .owner-personal-home .oh-header-context { justify-content: start; }
+}
+@media (max-width: 899px) {
+  .owner-personal-home .op-visit { grid-template-columns: 60px 80px minmax(0, 1fr); }
+  .owner-personal-home .op-visit-actions { grid-column: 3; }
+  .owner-personal-home .op-notifications-list { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 767px) {
+  .owner-personal-home .oh-header-context { grid-template-columns: minmax(0, 1fr); }
+  .owner-personal-home .oh-header-context > div { text-align: left; }
+  .owner-personal-home .oh-header-context .reception-button { justify-self: start; }
+  .owner-personal-home .op-visit { grid-template-columns: 48px minmax(0, 1fr) auto; gap: 2px 12px; }
+  .owner-personal-home .op-visit > time { grid-column: 1; grid-row: 1 / 3; align-self: start; padding-top: 4px; }
+  .owner-personal-home .op-visit > time span { font-size: 10px; white-space: nowrap; }
+  .owner-personal-home .op-visit-person { grid-column: 2; grid-row: 1; }
+  .owner-personal-home .op-visit .oh-status { grid-column: 3; grid-row: 1; align-self: start; font-size: 10px; padding-inline: 4px; }
+  .owner-personal-home .op-visit-actions { grid-column: 2 / -1; }
+}
+@media (max-width: 359px) {
+  .owner-personal-home .op-visit { grid-template-columns: 44px minmax(0, 1fr); }
+  .owner-personal-home .op-visit .oh-status { grid-column: 2; grid-row: 2; }
+  .owner-personal-home .op-visit-actions { grid-column: 2; }
+}

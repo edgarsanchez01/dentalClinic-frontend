@@ -1,0 +1,205 @@
+/* UX-05N: continuous warm outlines and +12% anatomy within the same interactive map.
+ * Shared UX-05J geometry/interaction and clinical semantics remain independent of role. */
+.dc-dental-chart { min-width: 0; container: dental-chart / inline-size; color: var(--foreground); }
+.dc-dental-anatomy {
+  container: dental-map / inline-size;
+  min-width: 0;
+  --dental-selection-ink: #193f43;
+  --dental-selection-fill: #d7e9e3;
+  --dental-unregistered-ink: #8a7f6e;
+  --dental-fdi-ink: #4d5254;
+}
+.dc-dental-orientation { display: flex; justify-content: space-between; gap: 16px; color: var(--foreground-secondary); font-size: 12px; }
+
+/* The base is marfil; recorded conditions keep the existing fill/ink tokens. */
+.dc-dental-piece .dc-tooth-symbol {
+  position: relative;
+  z-index: 1;
+  width: 46px;
+  height: 46px;
+  flex: none;
+  overflow: visible;
+  background: none;
+  transform: rotate(var(--tooth-lean, 0deg));
+  transform-origin: 50% 50%;
+}
+.dc-tooth-symbol { --tooth-fill: #f8f3ea; --tooth-outline: #8a7f6e; --tooth-groove: #8a7b66; }
+.dc-crown-outline { fill: none; stroke: var(--tooth-outline); stroke-width: 0.8; stroke-linecap: round; stroke-linejoin: round; }
+.dc-tooth-symbol:not(.dc-tooth-unrecorded) { --tooth-outline: currentColor; }
+/* Clinical colour and glyphs take precedence over enamel shading, never the reverse. */
+.dc-tooth-symbol:not(.dc-tooth-unrecorded) [data-layer='volume'] { opacity: 0.3; }
+.dc-tooth-symbol:not(.dc-tooth-unrecorded) [data-layer='detail'] { opacity: 0.6; }
+
+.dc-tooth-symbol[data-condition='HEALTHY'] { --tooth-fill: var(--condition-healthy-subtle); }
+.dc-tooth-symbol[data-condition='CARIES'] { --tooth-fill: var(--condition-caries-subtle); }
+.dc-tooth-symbol[data-condition='FRACTURED'] { --tooth-fill: var(--condition-fractured-subtle); }
+.dc-tooth-symbol[data-condition='RESTORED'] { --tooth-fill: var(--condition-restored-subtle); }
+.dc-tooth-symbol[data-condition='ROOT_CANAL'] { --tooth-fill: var(--condition-root-canal-subtle); }
+.dc-tooth-symbol[data-condition='CROWN'] { --tooth-fill: var(--condition-crown-subtle); }
+.dc-tooth-symbol[data-condition='IMPLANT'] { --tooth-fill: var(--condition-implant-subtle); }
+.dc-tooth-symbol[data-condition='MISSING'] { --tooth-fill: var(--condition-missing-subtle); }
+.dc-tooth-symbol[data-condition='EXTRACTED'] { --tooth-fill: var(--condition-extracted-subtle); }
+.dc-tooth-symbol[data-condition='SEALED'] { --tooth-fill: var(--condition-sealed-subtle); }
+.dc-tooth-symbol[data-condition='OTHER'] { --tooth-fill: var(--condition-other-subtle); }
+
+/* No data is not healthy: ivory anatomy; the accessible label and detail state registration. */
+.dc-tooth-unrecorded { color: var(--dental-unregistered-ink); --tooth-outline: var(--dental-unregistered-ink); }
+
+/* Conditions stay legible through distinct glyphs, never colour alone. */
+.dc-condition-mark { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.dc-condition-dot { fill: currentColor; stroke: var(--surface-paper); stroke-width: 1.6; }
+
+/* UX-05J map: 16 × 44px = 704px per permanent arch, 10 × 56px for temporary pieces.
+ * The upper row is rotated in the SVG so both arches face the centre; labels stay upright. */
+.dc-full-arcades { position: relative; width: 704px; max-width: 100%; height: 238px; margin: 8px auto; }
+.dc-dental-anatomy .dc-dental-piece {
+  position: absolute;
+  left: auto;
+  top: auto;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--foreground);
+  cursor: pointer;
+  overflow: visible;
+  -webkit-tap-highlight-color: transparent;
+}
+.dc-fdi {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  min-width: 22px;
+  padding: 2px 4px;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--dental-fdi-ink);
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.dc-dental-piece[data-arch='upper'] .dc-fdi { bottom: calc(100% + 8px); }
+.dc-dental-piece[data-arch='lower'] .dc-fdi { top: calc(100% + 8px); }
+
+@media (hover: hover) {
+  .dc-dental-anatomy .dc-dental-piece:hover { background: var(--surface-sunken); border-color: var(--border-strong); }
+}
+/* Selection follows the visible crown, without colouring anatomy or moving the FDI. */
+.dc-dental-anatomy .dc-dental-piece[aria-pressed='true'] {
+  z-index: 3;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+.dc-dental-piece[aria-pressed='true']::before,
+.dc-dental-piece[aria-pressed='true']::after {
+  content: '';
+  position: absolute;
+  left: var(--tooth-selection-x);
+  z-index: 0;
+  pointer-events: none;
+}
+.dc-dental-piece[aria-pressed='true']::before {
+  top: var(--tooth-selection-y);
+  width: calc(var(--tooth-selection-width) + 8px);
+  height: calc(var(--tooth-selection-height) + 6px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--dental-selection-fill);
+}
+.dc-dental-piece[aria-pressed='true']::after {
+  top: var(--tooth-selection-line-y);
+  width: 14px;
+  height: 2px;
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: var(--dental-selection-ink);
+}
+/* Keyboard focus remains a separate, high-contrast outline, selected or not. */
+.dc-dental-anatomy .dc-dental-piece:focus-visible { z-index: 4; outline: 2px solid var(--dental-selection-ink); outline-offset: 2px; }
+.dc-dental-unknown {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  min-width: 16px;
+  height: 16px;
+  padding-inline: 3px;
+  border: 1px solid var(--border-strong);
+  border-radius: 9999px;
+  background: var(--surface-paper);
+  color: var(--foreground);
+  font: 600 10px/1 var(--font-mono);
+}
+
+/* Arch labels use the gap between the two rows; they never sit over a crown or an FDI. */
+.dc-arch-name {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 0;
+  color: var(--foreground-subtle);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.dc-arch-upper { top: 42%; }
+.dc-arch-lower { top: 50.5%; }
+
+.dc-quadrant-controls { display: none; padding-block: 12px; }
+.dc-quadrant-controls label { display: block; font-size: 14px; margin-bottom: 6px; }
+.dc-quadrant-controls select { width: 100%; min-height: 44px; border: 1px solid var(--border-strong); border-radius: 12px; background: var(--surface-paper); color: var(--foreground); padding: 8px 12px; }
+.dc-quadrant-controls p, .dc-selected-tooth { font-size: 14px; margin-block: 10px; }
+.dc-dental-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; align-items: start; }
+.dc-dental-detail { min-width: 0; scroll-margin-block: 80px; }
+.dc-dental-detail > section { border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: var(--surface-paper); }
+.dc-dental-chart :is(button, input, select, summary) { min-height: 44px; }
+.dc-dental-chart :is(button, input, select, textarea, summary, h3, h4) { scroll-margin-block: 88px; }
+.dc-dental-detail .dc-surface-fields { grid-template-columns: minmax(0, 1fr); }
+.dc-dental-detail .dc-piece-editor form { gap: 16px; }
+.dc-dental-detail .dc-piece-editor summary { cursor: pointer; padding-block: 10px; }
+.dc-dental-detail .dc-treatment-links legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.dc-dental-chart .dc-tooth-empty { padding: 20px; border: 1px dashed var(--border-strong); border-radius: 12px; font-size: 14px; color: var(--foreground-secondary); }
+.dc-dental-chart .dc-chart-map { min-width: 0; }
+.dc-dental-chart .dc-chart-map table { min-width: 0; table-layout: fixed; }
+.dc-dental-chart .dc-chart-map :is(td, th) { overflow-wrap: anywhere; }
+.dc-dental-hint { font-size: 13px; color: var(--foreground-secondary); margin-top: 8px; }
+
+/* Lateral editor only when 704px of map and a readable 188px detail column both fit. */
+@container dental-chart (min-width: 908px) {
+  .dc-dental-chart[data-layout='expanded'] .dc-dental-layout { grid-template-columns: minmax(704px, 1fr) minmax(188px, 320px); gap: 16px; }
+}
+
+/* Below 704px one quadrant at a time: native select + 4-column grid of 48×64 targets.
+ * FDI stays outside the crown, above for the upper arch and below for the lower arch. */
+@container dental-map (max-width: 703px) {
+  .dc-quadrant-controls { display: block; }
+  .dc-full-arcades { width: 100%; height: auto; display: grid; grid-template-columns: repeat(4, minmax(48px, 1fr)); grid-auto-rows: minmax(64px, auto); gap: 8px; padding: 4px 0 8px; }
+  .dc-dental-anatomy .dc-dental-piece { position: relative; left: auto !important; top: auto !important; transform: none; justify-self: center; width: 48px; height: 64px; min-height: 64px; display: flex; flex-direction: column; justify-content: center; gap: 1px; }
+  .dc-dental-piece .dc-tooth-symbol { width: 40px; height: 40px; transform: rotate(var(--tooth-lean, 0deg)); }
+  .dc-fdi { position: static; transform: none; padding: 0; min-width: 0; background: transparent; }
+  .dc-dental-piece[data-arch='upper'] .dc-fdi { order: -1; }
+  .dc-dental-piece[data-arch='lower'] .dc-fdi { order: 1; }
+  .dc-dental-anatomy .dc-dental-piece[data-quadrant-active='false'], .dc-arch-name { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dc-dental-piece { transition: background-color 140ms, border-color 140ms, box-shadow 140ms; }
+}

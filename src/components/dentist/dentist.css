@@ -1,0 +1,376 @@
+/**
+ * UX-05A — Experiencia del Dentista (identidad Clinical Editorial).
+ *
+ * Todo el archivo está acotado a `.dentist-shell`, la clase que AppShell aplica
+ * únicamente cuando el rol es DENTIST. No comparte selectores con `.patient-shell`,
+ * `.reception-shell` ni con el shell sin tema de OWNER, de modo que el rediseño del
+ * Inicio no altera esas interfaces.
+ *
+ * Paleta y alias compatibles: styles/clinical-editorial.css, importado por auth.css.
+ * Las recetas de este archivo mantienen su alcance; no redefinen tokens globales.
+ */
+
+/* ------------
+ * 1. Tokens
+ * ---------- */
+.dentist-shell ::selection { background: var(--auth-sage); color: var(--auth-petrol); }
+.dentist-shell :focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 2px; }
+.dentist-shell button, .dentist-shell summary { cursor: pointer; }
+.dentist-shell button:disabled, .dentist-shell [aria-disabled='true'] { cursor: not-allowed; }
+
+/* ------------
+ * 2. Cabecera del shell
+ * ---------- */
+.dentist-shell > header { padding: 10px 24px; box-shadow: inset 0 -3px 0 0 var(--auth-sage); }
+.dentist-shell > header > a { color: var(--auth-petrol); font-size: 22px; letter-spacing: -0.03em; }
+.dentist-shell > header details[open] > div {
+  border: 1px solid var(--auth-divider);
+  box-shadow: var(--shadow-floating);
+}
+.dentist-shell > header details[open] > div > a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 8px;
+  border-radius: 8px;
+  color: var(--auth-petrol);
+}
+.dentist-shell > header details[open] > div > a:hover { background: var(--auth-canvas); }
+
+/* Menú de navegación móvil: sale del <dialog> a pantalla completa. */
+.dentist-shell dialog[aria-label='Menú de navegación'] {
+  background: var(--auth-canvas);
+  padding: 20px;
+}
+.dentist-shell dialog[aria-label='Menú de navegación'] button { border-color: var(--auth-divider); }
+.dentist-shell dialog[aria-label='Menú de navegación'] span { color: var(--auth-petrol); }
+
+/* ------------
+ * 3. Navegación (sidebar, móvil y barra inferior)
+ * ---------- */
+.dentist-shell > div > aside > div > span { color: var(--auth-petrol); }
+
+.dentist-shell nav[aria-label='Navegación de escritorio'],
+.dentist-shell nav[aria-label='Navegación móvil'] { gap: 18px; }
+
+.dentist-shell nav[aria-label='Navegación de escritorio'] p,
+.dentist-shell nav[aria-label='Navegación móvil'] p { color: var(--auth-secondary); }
+
+.dentist-shell nav[aria-label='Navegación de escritorio'] a,
+.dentist-shell nav[aria-label='Navegación móvil'] a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  border-radius: 10px;
+}
+
+.dentist-shell nav[aria-label='Navegación de escritorio'] [aria-current='page'],
+.dentist-shell nav[aria-label='Navegación móvil'] [aria-current='page'],
+.dentist-shell nav[aria-label='Navegación rápida'] [aria-current='page'] {
+  background: var(--auth-sage);
+  color: var(--auth-petrol);
+  font-weight: 600;
+  box-shadow: none;
+}
+.dentist-shell nav[aria-label='Navegación de escritorio'] a:not([aria-current='page']):hover,
+.dentist-shell nav[aria-label='Navegación móvil'] a:not([aria-current='page']):hover {
+  background: color-mix(in oklab, var(--auth-sage) 45%, white);
+  color: var(--auth-petrol);
+}
+
+.dentist-shell nav[aria-label='Navegación rápida'] {
+  background: var(--auth-paper);
+  box-shadow: 0 -1px 0 0 var(--auth-divider);
+  padding-top: 8px;
+}
+.dentist-shell nav[aria-label='Navegación rápida'] a { border-radius: 10px; }
+
+/* ------------
+ * 4. Tipografía de página dentro del shell
+ * ---------- */
+.dentist-shell main h1 { color: var(--auth-petrol); }
+.dentist-shell main p a, .dentist-shell main dd a { text-underline-offset: 4px; }
+
+/* =============================================================================
+ * 5. Inicio del Dentista (UX-05A)
+ * ========================================================================== */
+
+.dentist-home {
+  display: grid;
+  gap: 32px;
+  width: 100%;
+  min-width: 0;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding: 32px 32px 48px;
+  color: var(--auth-ink);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* 5.1 Cabecera neutra: orientación, no tarjeta (§22.2) */
+.dentist-page-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 32px;
+}
+.dentist-page-heading-copy { min-width: 0; }
+.dentist-page-title {
+  font-size: clamp(28px, 3vw, 36px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--auth-petrol);
+}
+.dentist-page-intro { margin-top: 12px; max-width: 66ch; color: var(--auth-muted); }
+.dentist-page-context {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  color: var(--auth-muted);
+  font-size: var(--text-body-sm);
+}
+.dentist-page-context span { overflow-wrap: anywhere; }
+.dentist-page-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; flex-shrink: 0; }
+.dentist-page-heading h1 { color: var(--auth-petrol); }
+
+/* 5.2 Botones y enlaces */
+.dentist-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 12px 22px;
+  border: 1px solid var(--auth-petrol);
+  border-radius: var(--auth-radius);
+  background: var(--auth-petrol);
+  color: var(--auth-paper);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.dentist-button:hover:not(:disabled) { background: var(--auth-hover); }
+.dentist-button-secondary { background: var(--auth-paper); color: var(--auth-petrol); border-color: var(--auth-border); }
+.dentist-button-secondary:hover:not(:disabled) { background: var(--auth-canvas); }
+.dentist-button:disabled { background: var(--auth-canvas); border-color: var(--auth-border); color: var(--auth-muted); cursor: not-allowed; }
+.dentist-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 8px;
+  color: var(--auth-petrol);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-align: left;
+}
+.dentist-link:hover { color: var(--auth-hover); }
+
+/* 5.3 Composición del Inicio: destacado + agenda juntos, notificaciones aparte */
+.dentist-home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: 32px;
+  align-items: start;
+}
+.dentist-highlight { min-width: 0; }
+.dentist-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.dentist-pagination .dentist-button { min-height: 44px; padding: 8px 16px; font-size: 14px; }
+
+/* 5.3b Secciones */
+.dentist-section { display: grid; gap: 16px; min-width: 0; }
+.dentist-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 20px;
+}
+.dentist-section-heading h2 {
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--auth-petrol);
+}
+.dentist-section-heading p { color: var(--auth-muted); max-width: 68ch; }
+.dentist-section-heading a { color: var(--auth-petrol); font-weight: 500; text-decoration: underline; text-underline-offset: 4px; }
+
+/* 5.4 Destacado salvia: siguiente paciente (§22.3) */
+.dentist-featured {
+  display: grid;
+  gap: 16px;
+  padding: 28px 32px;
+  border-radius: var(--auth-radius);
+  background: var(--auth-sage);
+  color: var(--auth-petrol);
+}
+.dentist-featured-eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--auth-petrol);
+}
+.dentist-featured h2 { font-size: 22px; font-weight: 500; letter-spacing: -0.015em; }
+.dentist-featured-body {
+  display: grid;
+  grid-template-columns: minmax(96px, auto) minmax(0, 1fr);
+  gap: 16px 28px;
+  align-items: start;
+}
+.dentist-featured-time {
+  display: grid;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--auth-petrol);
+}
+.dentist-featured-time strong { font-size: 34px; font-weight: 500; line-height: 1.1; }
+.dentist-featured-time span { font-size: 13px; color: var(--auth-petrol); }
+.dentist-featured-person { display: grid; gap: 6px; min-width: 0; }
+.dentist-featured-person h3 { font-size: 20px; font-weight: 500; line-height: 1.25; overflow-wrap: anywhere; color: var(--auth-petrol); }
+.dentist-featured-person p { font-size: 14px; color: var(--auth-petrol); overflow-wrap: anywhere; }
+.dentist-featured-actions { display: flex; flex-wrap: wrap; gap: 8px 20px; }
+.dentist-featured .dentist-link { color: var(--auth-petrol); }
+.dentist-featured-note { font-size: 13px; color: var(--auth-petrol); max-width: 62ch; }
+
+/* 5.5 Estados de cita: color + texto, nunca solo color */
+.dentist-status {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  align-self: start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.dentist-status-scheduled { background: var(--auth-paper); color: var(--auth-petrol); }
+.dentist-featured .dentist-status-scheduled { background: var(--auth-paper); color: var(--auth-petrol); }
+.dentist-status-completed { background: var(--success-subtle); color: var(--success-ink); }
+.dentist-status-cancelled { background: var(--auth-canvas); color: var(--auth-muted); }
+.dentist-status-noshow { background: var(--danger-subtle); color: var(--danger-ink); }
+
+/* 5.6 Agenda del día: filas con divisores, no tarjetas idénticas */
+.dentist-agenda-total {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--auth-petrol);
+}
+.dentist-agenda-total > strong { font-family: var(--font-mono); font-size: 24px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.dentist-caption { color: var(--auth-muted); font-size: 13px; line-height: 1.5; max-width: 62ch; }
+.dentist-agenda-list { display: grid; min-width: 0; }
+.dentist-agenda-list > li + li { border-top: 1px solid var(--auth-divider); }
+.dentist-visit {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 16px;
+  min-width: 0;
+  padding: 20px 0;
+  color: var(--auth-ink);
+  text-decoration: none;
+  border-radius: 6px;
+}
+a.dentist-visit:hover { background: var(--auth-canvas); }
+.dentist-visit-time { display: grid; gap: 4px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.dentist-visit-time > strong { font-size: 18px; font-weight: 500; color: var(--auth-petrol); }
+.dentist-visit-time > span { font-size: 13px; color: var(--auth-muted); }
+.dentist-visit-person { display: grid; gap: 4px; min-width: 0; }
+.dentist-visit-person > strong { font-size: 17px; font-weight: 500; line-height: 1.3; color: var(--auth-petrol); overflow-wrap: anywhere; }
+.dentist-visit-person > span { font-size: 14px; color: var(--auth-muted); overflow-wrap: anywhere; }
+.dentist-visit[data-status='CANCELLED'] .dentist-visit-person > strong { text-decoration: line-through; }
+.dentist-visit-actions { display: flex; flex-wrap: wrap; gap: 0 16px; margin-top: 4px; }
+
+/* 5.7 Vacío, carga y error */
+.dentist-empty {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  padding: 28px 24px;
+  border: 1px dashed var(--auth-border);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.dentist-empty h3 { font-size: 18px; font-weight: 500; color: var(--auth-petrol); }
+.dentist-empty p { color: var(--auth-muted); max-width: 62ch; }
+.dentist-skeleton { display: grid; gap: 12px; padding: 8px 0; }
+.dentist-skeleton span { display: block; height: 18px; border-radius: var(--radius-xs); background: var(--surface-sunken, var(--auth-divider)); }
+.dentist-skeleton span:first-child { height: 26px; width: 60%; }
+.dentist-skeleton span:last-child { width: 82%; }
+.dentist-readonly-note { color: var(--auth-muted); font-size: var(--text-body-sm); }
+
+/* 5.8 Notificaciones secundarias (espejo del paciente/recepción) */
+.dentist-notifications { display: grid; gap: 10px; }
+.dentist-notification {
+  padding: 20px 22px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.dentist-notification[data-unread='true'] { box-shadow: inset 3px 0 0 0 var(--auth-petrol); }
+.dentist-notification-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--auth-muted);
+}
+.dentist-notification[data-unread='true'] .dentist-notification-labels > span:first-child {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--auth-sage);
+  color: var(--auth-petrol);
+}
+.dentist-notification h3 { margin-top: 8px; font-size: 17px; font-weight: 500; color: var(--auth-ink); overflow-wrap: anywhere; }
+.dentist-notification p { margin-top: 6px; color: var(--auth-muted); white-space: pre-wrap; overflow-wrap: anywhere; }
+.dentist-notification time { display: block; margin-top: 10px; font-size: 13px; color: var(--auth-muted); }
+
+/* 5.9 Contraseña embebida dentro del shell del dentista */
+.dentist-shell .auth-embedded .auth-content { width: 100%; max-width: 560px; padding: 0; }
+.dentist-shell .auth-embedded .auth-heading h1 { font-weight: 500; }
+.dentist-shell .auth-embedded .auth-footer { margin-top: 24px; }
+
+/* ------------
+ * 6. Responsive
+ * ---------- */
+@media (max-width: 1023px) {
+  .dentist-home { padding: 28px 24px 44px; }
+  .dentist-home-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+}
+@media (max-width: 767px) {
+  .dentist-shell > header { padding: 10px 16px; gap: 8px; }
+  .dentist-home { padding: 24px 16px 40px; gap: 24px; }
+  .dentist-page-heading { align-items: flex-start; }
+  .dentist-page-actions { width: 100%; }
+  .dentist-page-actions > a, .dentist-page-actions > button { flex: 1 1 auto; justify-content: center; }
+  .dentist-featured { padding: 22px 20px; }
+  .dentist-featured-body { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .dentist-featured-time strong { font-size: 30px; }
+  .dentist-section-heading h2 { font-size: 20px; }
+  .dentist-visit { grid-template-columns: 56px minmax(0, 1fr); gap: 8px 16px; }
+  .dentist-visit-status { grid-column: 2; }
+  .dentist-notification { padding: 18px 16px; }
+}
+
+/* ------------
+ * 7. Movimiento discreto (respeta reduced-motion)
+ * ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .dentist-visit, .dentist-shell nav[aria-label] a { transition: background-color 140ms ease-out, border-color 140ms ease-out, color 140ms ease-out; }
+}

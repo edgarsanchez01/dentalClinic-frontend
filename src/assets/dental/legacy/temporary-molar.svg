@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44"
+  data-family="molar" data-dentition="TEMPORARY" fill="none">
+  <title>Corona de molar temporal</title>
+  <!-- Muy bulboso y bajo, con cúpulas suaves y cuello marcadamente estrecho. Sin estados clínicos. -->
+  <path d="M7.8 12
+    C7.4 8.2 9.2 5.6 12.8 5
+    C15 4.6 16.8 6 17.8 8.2
+    C18.6 9.8 19.4 10.4 20.3 9
+    C21 7.8 21.4 6.8 22 6.8
+    C22.6 6.8 23 7.8 23.7 9
+    C24.6 10.4 25.4 9.8 26.2 8.2
+    C27.2 6 29 4.6 31.2 5
+    C34.8 5.6 36.6 8.2 36.2 12
+    C36.7 17.4 36.2 23.4 34.8 28.2
+    C33.5 32.6 30.6 35.4 26.6 36.2
+    C25.2 36.5 23.6 36.5 22 36.5
+    C20.4 36.5 18.8 36.5 17.4 36.2
+    C13.4 35.4 10.5 32.6 9.2 28.2
+    C7.8 23.4 7.3 17.4 7.8 12 Z"
+    fill="var(--tooth-fill, #eef1f3)" stroke="var(--tooth-outline, #3f474b)"
+    stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M22 11.8 V18" fill="none" stroke="var(--tooth-groove, #6f767a)"
+    stroke-width="1" stroke-linecap="round" opacity="0.3"/>
+</svg>

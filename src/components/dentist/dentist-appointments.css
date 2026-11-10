@@ -1,0 +1,304 @@
+/* UX-05B. Scope is the appointment surface, never the DENTIST home or other roles. */
+.dentist-shell .dc-appointments {
+  width: 100%; min-width: 0; max-width: 1280px; margin-inline: auto;
+  padding: 32px 32px 48px; color: var(--auth-ink); font-size: 16px; line-height: 1.5;
+}
+.dentist-shell .dc-appointments [hidden] { display: none !important; }
+.dentist-shell .dc-appointments button, .dentist-shell .dc-appointments summary { min-height: 44px; }
+.dentist-shell .dc-appointments button { min-width: 44px; }
+.dentist-shell .dc-appointments :focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 3px; }
+.dentist-shell .dc-appointments h1 { font-size: clamp(28px, 3vw, 36px); font-weight: 500; line-height: 1.15; letter-spacing: -.025em; }
+.dentist-shell .dc-appointments h2 { color: var(--auth-petrol); font-size: 24px; font-weight: 500; line-height: 1.3; margin-bottom: 12px; }
+.dentist-shell .dc-appointments h3 { color: var(--auth-petrol); font-size: 18px; font-weight: 500; }
+.dentist-shell .dc-appointments p, .dentist-shell .dc-appointments dd { overflow-wrap: anywhere; }
+.dentist-shell .dc-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
+.dentist-shell .dc-heading > div { min-width: 0; }
+.dentist-shell .dc-heading p { margin-top: 10px; color: var(--auth-petrol); font-size: 18px; }
+.dentist-shell .dc-heading small { display: block; font-size: 13px; color: var(--auth-muted); margin-top: 8px; }
+.dentist-shell .dc-header-actions { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+.dentist-shell .dc-primary, .dentist-shell .dc-secondary, .dentist-shell .dc-danger {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 20px;
+  border-radius: var(--auth-radius); border: 1px solid var(--auth-petrol); background: var(--auth-petrol); color: var(--auth-paper); font-size: 15px; font-weight: 500;
+}
+.dentist-shell .dc-secondary { background: var(--auth-paper); color: var(--auth-petrol); border-color: var(--auth-border); }
+.dentist-shell .dc-danger { background: var(--danger-subtle); color: var(--danger-ink); border-color: var(--danger-ink); }
+.dentist-shell .dc-primary:hover { background: var(--auth-hover); }
+.dentist-shell .dc-secondary:hover { background: var(--auth-canvas); }
+.dentist-shell .dc-appointments button:disabled { opacity: .65; cursor: not-allowed; }
+.dentist-shell .dc-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--auth-petrol); text-decoration: underline; text-underline-offset: 4px; padding-block: 8px; }
+.dentist-shell .dc-caption { color: var(--auth-muted); font-size: 13px; margin-block: 8px 16px; max-width: 75ch; }
+.dentist-shell .dc-empty { padding-block: 24px; color: var(--auth-muted); max-width: 65ch; }
+.dentist-shell .dc-section-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; }
+.dentist-shell .dc-section-heading > span { font-size: 13px; color: var(--auth-muted); }
+.dentist-shell .dc-toolbar { display: grid; grid-template-columns: auto 1fr; align-items: end; gap: 16px 24px; border-block: 1px solid var(--auth-divider); padding-block: 20px; }
+.dentist-shell .dc-toolbar > [aria-label='Navegación'] { justify-self: end; }
+.dentist-shell .dc-toolbar button { min-height: 44px; }
+.dentist-shell .dc-toolbar > label { display: grid; gap: 6px; font-size: 13px; align-items: start; min-width: 0; }
+.dentist-shell .dc-toolbar input, .dentist-shell .dc-toolbar select, .dentist-shell .dc-field input, .dentist-shell .dc-field select { min-height: 44px; min-width: 0; width: 100%; background: var(--auth-paper); border: 1px solid var(--auth-border); border-radius: var(--auth-radius); padding: 8px 12px; color: var(--auth-ink); }
+.dentist-shell .dc-toolbar > label[hidden] { display: none; }
+.dentist-shell .dc-toolbar > label:nth-last-child(1) { justify-self: end; width: min(100%, 280px); }
+.dentist-shell .dc-agenda-visit { display: grid; grid-template-columns: 128px minmax(0, 1fr) auto; align-items: start; gap: 12px 20px; text-align: left; width: 100%; min-width: 0; padding: 20px 12px; border-radius: 6px; }
+.dentist-shell .dc-agenda-visit:hover { background: var(--auth-paper); }
+.dentist-shell .dc-agenda-visit time { font-family: var(--font-mono); font-size: 14px; font-variant-numeric: tabular-nums; color: var(--auth-petrol); }
+.dentist-shell .dc-agenda-person { display: grid; min-width: 0; gap: 4px; }
+.dentist-shell .dc-agenda-person strong { font-weight: 500; color: var(--auth-petrol); overflow-wrap: anywhere; }
+.dentist-shell .dc-agenda-person > span { color: var(--auth-muted); font-size: 14px; overflow-wrap: anywhere; }
+.dentist-shell .dc-agenda-visit[data-status='CANCELLED'] .dc-agenda-person strong { text-decoration: line-through; }
+.dentist-shell .dc-day-timeline > li + li { border: 0; }
+.dentist-shell .dc-day-timeline { display: grid; gap: 12px; border: 0; }
+.dentist-shell .dc-calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.dentist-shell .dc-calendar-day { min-width: 0; background: var(--auth-paper); border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); padding: 8px; }
+.dentist-shell .dc-calendar-day[data-today] { border-color: var(--auth-petrol); }
+.dentist-shell .dc-calendar-date { min-height: 44px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; padding: 4px 8px; margin-bottom: 8px; border-radius: 6px; color: var(--auth-petrol); }
+.dentist-shell .dc-calendar-date strong { font-size: 22px; font-weight: 500; }
+.dentist-shell .dc-calendar-date span, .dentist-shell .dc-calendar-date small { font-size: 12px; }
+.dentist-shell [data-today] > .dc-calendar-date { background: var(--auth-sage); }
+.dentist-shell .dc-agenda-visit-compact { display: flex; flex-direction: column; gap: 6px; padding: 10px 6px; background: var(--auth-canvas); margin-block: 6px; }
+.dentist-shell .dc-agenda-visit-compact .dc-agenda-person > span { font-size: 12px; }
+.dentist-shell .dc-agenda-visit-compact time { font-size: 12px; }
+.dentist-shell .dc-agenda-visit-compact .dentist-status { font-size: 12px; white-space: normal; }
+.dentist-shell .dc-schedule-context { margin-bottom: 20px; color: var(--auth-muted); font-size: 13px; }
+.dentist-shell .dc-schedule-context summary { min-height: 44px; padding-block: 10px; }
+.dentist-shell .dc-calendar-month .dc-calendar-day { min-height: 100px; }
+.dentist-shell .dc-calendar-grid { align-items: start; }
+.dentist-shell .dc-calendar-month .dc-calendar-grid { align-items: stretch; }
+.dentist-shell .dc-calendar-month .dc-agenda-visit-compact { padding: 6px 4px; gap: 2px; }
+.dentist-shell .dc-calendar-month .dentist-status { white-space: normal; overflow-wrap: anywhere; max-width: 100%; padding: 2px 3px; font-size: 12px; }
+.dentist-shell .dc-appointments .dentist-status-scheduled { background: var(--auth-sage); }
+.dentist-shell .dc-calendar-month .dc-agenda-person strong { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dentist-shell .dc-calendar-month .dc-agenda-person { width: 100%; }
+.dentist-shell .dc-calendar-month .dc-agenda-person > span { display: none; }
+.dentist-shell .dc-more { min-height: 44px; font-size: 13px; text-decoration: underline; text-underline-offset: 3px; color: var(--auth-petrol); }
+.dentist-shell .dc-weekday { color: var(--auth-muted); font-size: 13px; padding-inline: 8px; }
+.dentist-shell .dc-month-count { display: none; }
+/* Reuse the existing booking's behavior, with local geometry only. */
+.dentist-shell .dc-appointments .reception-booking { margin-top: 24px; padding: 24px; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); }
+.dentist-shell .dc-appointments .reception-booking input, .dentist-shell .dc-appointments .reception-booking select { min-height: 48px; border-color: var(--auth-border); }
+.dentist-shell .dc-appointments .reception-step { border: 0; padding: 24px 0 0; background: none; }
+.dentist-shell .dc-appointments .reception-stepper { gap: 16px; }
+.dentist-shell .dc-appointments .reception-stepper-step { border-radius: 0; background: none; border-width: 0 0 1px; padding: 16px 0; }
+.dentist-shell .dc-appointments .reception-step-head > span { display: none; }
+.dentist-shell .dc-appointments .reception-review { padding: 20px 0; background: none; border-block: 1px solid var(--auth-divider); border-radius: 0; gap: 16px; }
+.dentist-shell .dc-tabs { display: flex; flex-wrap: wrap; gap: 4px 20px; border-bottom: 1px solid var(--auth-border); margin-bottom: 28px; }
+.dentist-shell .dc-tabs button { min-height: 48px; padding: 12px 0; color: var(--auth-muted); border-bottom: 2px solid transparent; }
+.dentist-shell .dc-tabs [aria-selected='true'] { color: var(--auth-petrol); border-bottom-color: var(--auth-petrol); font-weight: 500; }
+.dentist-shell .dc-summary { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+.dentist-shell .dc-summary > section { min-width: 0; }
+.dentist-shell .dc-safety { background: var(--auth-sage); padding: 24px; border-radius: var(--auth-radius); }
+.dentist-shell .dc-safety h2 { font-size: 22px; }
+.dentist-shell .dc-safety dd { white-space: pre-wrap; margin-top: 4px; }
+.dentist-shell .dc-safety dl > div + div { margin-top: 16px; }
+.dentist-shell .dc-safety dt { font-size: 13px; font-weight: 500; }
+.dentist-shell .dc-safety .dc-caption { color: var(--auth-petrol); }
+.dentist-shell .dc-facts { display: grid; gap: 20px; margin-block: 20px; }
+.dentist-shell .dc-facts dt { font-size: 13px; color: var(--auth-muted); }
+.dentist-shell .dc-facts dd { margin-top: 4px; white-space: pre-wrap; }
+.dentist-shell .dc-secondary-actions, .dentist-shell .dc-summary-finance, .dentist-shell .dc-reschedule { margin-top: 28px; border-top: 1px solid var(--auth-divider); padding-top: 20px; }
+.dentist-shell .dc-summary-finance summary { min-height: 44px; padding-block: 8px; cursor: pointer; color: var(--auth-petrol); }
+.dentist-shell .dc-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 16px; }
+.dentist-shell .dc-field { display: grid; gap: 8px; max-width: 360px; margin-block: 20px; }
+.dentist-shell .dc-flow-heading { padding-block: 24px; border-block: 1px solid var(--auth-divider); margin-bottom: 28px; }
+.dentist-shell .dc-flow-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 12px; }
+.dentist-shell .dc-flow-steps button { display: flex; gap: 8px; align-items: baseline; text-align: left; font-size: 13px; min-height: 44px; color: var(--auth-muted); }
+.dentist-shell .dc-flow-steps span { font-family: var(--font-mono); }
+.dentist-shell .dc-flow-steps [aria-current='step'] button { color: var(--auth-petrol); font-weight: 500; border-bottom: 2px solid var(--auth-petrol); }
+.dentist-shell .dc-flow-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; padding-top: 24px; margin-top: 24px; border-top: 1px solid var(--auth-divider); }
+.dentist-shell .dc-flow-footer .dc-actions { margin: 0; }
+.dentist-shell .dc-draft-warning, .dentist-shell .dc-error, .dentist-shell .dc-success { margin-block: 20px; padding: 16px 20px; border-radius: var(--auth-radius); }
+.dentist-shell .dc-draft-warning { background: var(--warning-subtle); color: var(--warning-ink); }
+.dentist-shell .dc-error { background: var(--danger-subtle); color: var(--danger-ink); }
+.dentist-shell .dc-success { background: var(--success-subtle); color: var(--success-ink); }
+.dentist-shell .dc-draft-warning label { display: flex; align-items: flex-start; gap: 12px; padding-block: 12px; }
+.dentist-shell .dc-draft-warning input { margin-top: 6px; accent-color: var(--auth-petrol); }
+.dentist-shell .dc-appointment-detail > section { min-width: 0; }
+.dentist-shell .dc-appointment-detail > section > .rounded-card { padding: 20px 0; border-radius: 0; background: none; box-shadow: none; border-bottom: 1px solid var(--auth-divider); margin-block: 20px; }
+.dentist-shell .dc-appointment-detail [aria-label='Registros de esta atención'] { padding-block: 24px; border-block: 1px solid var(--auth-divider); margin-block: 20px; }
+.dentist-shell .dc-appointment-detail [aria-label='Registros de esta atención'] li { border-top: 1px solid var(--auth-divider); padding-top: 12px; }
+.dentist-shell .dc-appointment-detail textarea { min-height: 120px; border: 1px solid var(--auth-border); }
+.dentist-shell .dc-event-list li { padding-block: 12px; border-bottom: 1px solid var(--auth-divider); font-size: 14px; }
+.dentist-shell .dc-clinical-reminder { padding: 16px 20px; margin-block: 16px; background: var(--auth-sage); color: var(--auth-petrol); border-radius: var(--auth-radius); font-size: 14px; }
+.dentist-shell .dc-clinical-reminder summary { min-height: 44px; padding-block: 10px; cursor: pointer; }
+.dentist-shell .dc-finance { margin-block: 24px; }
+.dentist-shell .dc-charge { padding-block: 20px; border-block: 1px solid var(--auth-divider); }
+.dentist-shell .dc-charge .dc-facts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.dentist-shell .dc-charge dd { font-family: var(--font-mono); font-size: 15px; }
+.dentist-shell .dc-care-progress { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; border-block: 1px solid var(--auth-divider); padding-block: 16px; margin-bottom: 16px; }
+.dentist-shell .dc-care-progress li { min-width: 0; color: var(--auth-muted); }
+.dentist-shell .dc-care-progress strong { display: block; font-size: 14px; font-weight: 500; }
+.dentist-shell .dc-care-progress span { font-size: 13px; }
+.dentist-shell .dc-care-progress [aria-current] { color: var(--auth-petrol); }
+.dentist-shell .dc-workspace-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 300px); gap: 32px; align-items: start; margin-top: 24px; }
+.dentist-shell .dc-workspace-tools, .dentist-shell .dc-workspace-context { min-width: 0; }
+.dentist-shell .dc-workspace-tools .rounded-card { padding: 20px 0; border-radius: 0; background: none; box-shadow: none; border-bottom: 1px solid var(--auth-divider); }
+.dentist-shell .dc-workspace-context .dc-safety { padding: 20px; }
+.dentist-shell .dc-workspace-context .dc-safety h2, .dentist-shell .dc-next-step h2 { font-size: 20px; }
+.dentist-shell .dc-next-step { border-top: 1px solid var(--auth-divider); padding-top: 20px; margin-top: 12px; font-size: 14px; }
+.dentist-shell .dc-mobile-context { display: none; }
+.dentist-shell .dc-payment-options { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-block: 28px; }
+.dentist-shell .dc-payment-options legend { margin-bottom: 12px; color: var(--auth-petrol); font-weight: 500; }
+.dentist-shell .dc-payment-options label, .dentist-shell .dc-charge-consent { display: flex; align-items: center; gap: 12px; min-height: 44px; padding-block: 10px; }
+.dentist-shell .dc-payment-options input, .dentist-shell .dc-charge-consent input { flex-shrink: 0; width: 20px; height: 20px; accent-color: var(--auth-petrol); }
+.dentist-shell .dc-error-text { color: var(--danger-ink); font-size: 13px; }
+@media (max-width: 1100px) {
+  /* Tablet month is an occupancy overview, not unreadable fragments of seven visit cards. */
+  .dentist-shell .dc-calendar-month .dc-calendar-day { padding: 4px; }
+  .dentist-shell .dc-calendar-month .dc-calendar-day > ol,
+  .dentist-shell .dc-calendar-month .dc-more { display: none; }
+  .dentist-shell .dc-calendar-month .dc-month-count { display: block; width: 100%; color: var(--auth-petrol); font-size: 13px; text-decoration: underline; overflow-wrap: normal; border-radius: 4px; background: var(--auth-sage); }
+  .dentist-shell .dc-calendar-month .dc-calendar-date { padding-inline: 4px; }
+  .dentist-shell .dc-workspace-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .dentist-shell .dc-mobile-context { display: block; position: sticky; top: 0; z-index: 10; background: var(--auth-sage); color: var(--auth-petrol); border-radius: var(--auth-radius); padding: 12px 16px; margin-top: 20px; font-size: 14px; overflow-wrap: anywhere; }
+  .dentist-shell .dc-mobile-context summary { padding-block: 8px; }
+  .dentist-shell .dc-mobile-context summary span { display: block; text-decoration: underline; text-underline-offset: 3px; font-size: 13px; }
+  .dentist-shell .dc-mobile-context > p { margin-block: 12px; }
+  .dentist-shell .dc-workspace-context .dc-safety { display: none; }
+  .dentist-shell .dc-workspace-context .dc-safety dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .dentist-shell .dc-workspace-context .dc-safety dl > div + div { margin: 0; }
+}
+@media (max-width: 1279px) {
+  .dentist-shell .dc-calendar-week .dc-calendar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dentist-shell .dc-calendar-week .dc-agenda-visit-compact { display: grid; grid-template-columns: minmax(0, 1fr) auto; }
+  .dentist-shell .dc-calendar-week .dc-agenda-visit-compact time { grid-column: 1 / -1; }
+  .dentist-shell .dc-header-actions { flex-direction: column; align-items: flex-start; }
+}
+@media (max-width: 767px) {
+  .dentist-shell .dc-appointments { padding: 24px 16px 40px; }
+  .dentist-shell .dc-heading { flex-direction: column; gap: 16px; }
+  .dentist-shell .dc-heading > button, .dentist-shell .dc-header-actions { width: 100%; }
+  .dentist-shell .dc-header-actions { flex-direction: row; flex-wrap: wrap; justify-content: space-between; }
+  .dentist-shell .dc-summary { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .dentist-shell .dc-safety { padding: 20px; }
+  .dentist-shell .dc-toolbar { grid-template-columns: minmax(0, 1fr); }
+  .dentist-shell .dc-toolbar > label:nth-last-child(1) { justify-self: stretch; width: 100%; }
+  .dentist-shell .dc-toolbar > [aria-label='Navegación'] { justify-self: stretch; justify-content: space-between; }
+  .dentist-shell .dc-agenda-visit { grid-template-columns: minmax(0, 1fr) auto; padding: 16px 0; gap: 8px; }
+  .dentist-shell .dc-agenda-visit:not(.reception-visit) time { grid-column: 1 / -1; }
+  .dentist-shell .dc-agenda-person strong { font-size: 17px; }
+  .dentist-shell .dc-tabs { gap: 4px 16px; }
+  .dentist-shell .dc-tabs button { font-size: 14px; }
+  .dentist-shell .dc-flow-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 12px; }
+  .dentist-shell .dc-care-progress { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .dentist-shell .dc-workspace-context .dc-safety dl { grid-template-columns: minmax(0, 1fr); }
+  .dentist-shell .dc-flow-footer { align-items: stretch; flex-direction: column; }
+  .dentist-shell .dc-flow-footer .dc-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+  .dentist-shell .dc-charge .dc-facts { grid-template-columns: minmax(0, 1fr); }
+  .dentist-shell .dc-appointments .reception-booking { padding: 20px 16px; }
+  .dentist-shell .dc-appointments .reception-stepper { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .dentist-shell .dc-appointments .reception-stepper-step { display: grid; gap: 8px; align-content: start; }
+  .dentist-shell .dc-appointments .reception-stepper-text small { display: none; }
+  .dentist-shell .dc-appointments .reception-stepper-text strong { font-size: 12px; }
+  .dentist-shell .dc-appointments .reception-step-nav button { width: 100%; }
+}
+/* UX-05D: one workspace level, a restrained context strip and persisted activity. */
+.dentist-shell .dc-clinical-workspace { padding-top: 16px; }
+.dentist-shell .dc-clinical-workspace .dc-heading { margin-bottom: 16px; gap: 16px; }
+.dentist-shell .dc-clinical-workspace .dc-heading h1 { font-size: 28px; }
+.dentist-shell .dc-clinical-workspace .dc-heading p { margin-top: 4px; font-size: 16px; }
+.dentist-shell .dc-clinical-workspace .dc-header-actions { flex-wrap: wrap; flex-shrink: 1; flex-direction: row; align-items: center; }
+.dentist-shell .dc-patient-context { display: flex; justify-content: space-between; align-items: start; gap: 12px 24px; padding: 12px 16px; border-radius: var(--auth-radius); background: var(--auth-paper); font-size: 14px; }
+.dentist-shell .dc-patient-context > div { min-width: 0; }
+.dentist-shell .dc-patient-context p { margin-top: 4px; white-space: pre-wrap; }
+.dentist-shell .dc-patient-context .dc-caption { margin-block: 4px 0; }
+.dentist-shell .dc-patient-context > .dc-link { flex-shrink: 0; }
+.dentist-shell .dc-tool-navigation { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 16px; }
+.dentist-shell .dc-tool-navigation > [aria-pressed='true'] { background: var(--auth-sage); border-color: var(--auth-petrol); }
+.dentist-shell .dc-secondary-tools summary, .dentist-shell .dc-activity summary { cursor: pointer; padding-block: 10px; color: var(--auth-petrol); font-size: 14px; }
+.dentist-shell .dc-secondary-tools .dc-link { margin-right: 16px; }
+.dentist-shell .dc-clinical-workspace .dc-workspace-grid { gap: 24px; margin-top: 20px; }
+.dentist-shell .dc-clinical-workspace .dc-workspace-tools > section { min-width: 0; max-width: 840px; }
+.dentist-shell .dc-clinical-workspace .dc-workspace-tools .rounded-card { margin: 0; padding: 0; border: 0; }
+.dentist-shell .dc-clinical-workspace .dc-workspace-tools textarea { min-height: 88px; }
+.dentist-shell .dc-clinical-workspace .dc-workspace-tools h3 { font-size: 20px; }
+.dentist-shell .dc-clinical-workspace .dc-workspace-context { padding-top: 4px; }
+.dentist-shell .dc-clinical-workspace .dc-workspace-context h2 { font-size: 18px; margin-bottom: 12px; }
+.dentist-shell .dc-activity-counts { display: grid; gap: 8px; font-size: 14px; }
+.dentist-shell .dc-activity-counts > div { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.dentist-shell .dc-activity-counts dd { font-variant-numeric: tabular-nums; font-weight: 500; }
+.dentist-shell .dc-activity details { border-top: 1px solid var(--auth-divider); }
+.dentist-shell dialog.dc-completion { width: min(560px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; overflow-y: auto; padding: 24px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); color: var(--auth-ink); }
+.dentist-shell dialog.dc-completion::backdrop { background: rgb(0 0 0 / .35); }
+.dentist-shell .dc-completion .dc-activity { margin-block: 12px; }
+.dentist-shell .dc-completion .dc-flow-footer { margin-top: 16px; padding-top: 16px; }
+@media (max-width: 767px) {
+  .dentist-shell .dc-patient-context { flex-direction: column; gap: 0; }
+  .dentist-shell .dc-clinical-workspace .dc-heading { gap: 12px; }
+  .dentist-shell .dc-clinical-workspace .dc-header-actions { gap: 8px 12px; }
+  .dentist-shell .dc-tool-navigation > .dc-secondary { flex: 1 1 auto; padding: 8px 12px; }
+  .dentist-shell dialog.dc-completion { padding: 20px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dentist-shell .dc-appointments button { transition: background-color 140ms, color 140ms; }
+}
+
+/* UX-05E: balanced work surfaces, no permanent activity sidebar. */
+.dentist-shell .dc-unified-console .dc-heading { align-items: start; }
+.dentist-shell .dc-unified-console .dc-heading h1 { font-size: 28px; }
+.dentist-shell .dc-unified-console .dc-patient-context { border-block: 1px solid var(--auth-divider); border-radius: 0; background: none; padding: 12px 0; margin-bottom: 20px; }
+.dentist-shell .dc-console-work { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+.dentist-shell .dc-console-work > section { min-width: 0; }
+.dentist-shell .dc-console-work .rounded-card { border-radius: 0; padding: 0; background: none; box-shadow: none; --tw-ring-shadow: 0 0 #0000; }
+.dentist-shell .dc-console-work h3, .dentist-shell .dc-console-treatments h3 { font-size: 20px; }
+.dentist-shell .dc-console-note { padding: 20px; background: var(--auth-paper); border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); }
+.dentist-shell .dc-console-note textarea { min-height: 120px; background: var(--auth-paper); font-size: 16px; }
+.dentist-shell .dc-editor-state { font-size: 13px; color: var(--warning-ink); margin-block: 4px 8px; }
+.dentist-shell .dc-console-treatments { margin-top: 24px; padding-block: 20px; border-top: 1px solid var(--auth-divider); }
+.dentist-shell .dc-compact-treatments { display: flex; flex-direction: column; border: 0; border-radius: 0; padding: 0; background: none; box-shadow: none; --tw-ring-shadow: 0 0 #0000; }
+.dentist-shell .dc-compact-treatments > ol { order: 2; margin-top: 12px; gap: 0; }
+.dentist-shell .dc-compact-treatments > ol > li { padding: 12px 0; border-radius: 0; background: none; border-top: 1px solid var(--auth-divider); }
+.dentist-shell .dc-compact-treatments > form { order: 1; margin-top: 16px; background: var(--auth-paper); }
+.dentist-shell .dc-compact-treatments > .dc-link { order: 3; align-self: start; }
+.dentist-shell .dc-compact-treatments article > div:first-child > div:first-child { flex: 1; }
+.dentist-shell .dc-compact-treatments article .dc-caption { margin-block: 4px; }
+.dentist-shell .dc-context-access { display: flex; flex-wrap: wrap; gap: 8px 28px; border-block: 1px solid var(--auth-divider); padding-block: 4px; }
+.dentist-shell .dc-context-access [aria-expanded='true'] { font-weight: 500; text-decoration-thickness: 2px; }
+.dentist-shell .dc-unified-console .dc-console-work { margin-top: 20px; }
+.dentist-shell .dc-context-panel { padding: 24px 0; max-width: 900px; }
+.dentist-shell .dc-context-panel h2 { font-size: 22px; }
+.dentist-shell .dc-context-panel .dc-activity-counts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 32px; }
+.dentist-shell .dc-console-privacy { color: var(--auth-muted); font-size: 12px; margin-top: 16px; }
+.dentist-shell .dc-destination-options { font-size: 13px; }
+.dentist-shell .dc-compact-destination { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+.dentist-shell .dc-compact-destination > p { font-size: 13px; }
+.dentist-shell .dc-destination-options summary { display: inline-flex; align-items: center; color: var(--auth-petrol); text-decoration: underline; cursor: pointer; }
+.dentist-shell .dc-dental-heading { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; }
+.dentist-shell .dc-dental-heading h3 { margin-right: auto; }
+.dentist-shell .dc-dental-heading .dc-caption { margin: 0; font-size: 12px; }
+.dentist-shell .dc-dental-heading .dc-link { font-size: 14px; }
+.dentist-shell .dc-console-odontogram > div > .dc-caption { margin: 4px 0; }
+.dentist-shell .dc-piece-picker, .dentist-shell .dc-surface-selector { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; font-size: 14px; margin-top: 8px; }
+.dentist-shell .dc-piece-picker select, .dentist-shell .dc-surface-selector select { width: 100%; min-width: 0; min-height: 44px; padding: 8px 12px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); }
+.dentist-shell .dc-surface-selector { grid-template-columns: minmax(0, 1fr); }
+.dentist-shell .dc-unified-console[data-dental-focused] .dc-console-work { grid-template-columns: minmax(0, 1fr); }
+.dentist-shell .dc-unified-console[data-dental-focused] .dc-console-dental { grid-row: auto; }
+.dentist-shell .dc-chart-map { min-width: 0; }
+.dentist-shell .dc-piece-editor { min-width: 0; border: 1px solid var(--auth-divider); padding: 20px; background: var(--auth-paper); border-radius: var(--auth-radius); }
+.dentist-shell .dc-piece-editor h3 { font-size: 22px; }
+.dentist-shell .dc-piece-editor form { gap: 16px; }
+.dentist-shell .dc-piece-editor .dc-surface-fields { grid-template-columns: minmax(0, 1fr); }
+.dentist-shell .dc-piece-editor .dc-surface-fields input { min-height: 44px; }
+.dentist-shell .dc-piece-editor textarea { min-height: 88px; }
+.dentist-shell .dc-piece-editor summary, .dentist-shell .dc-chart-map summary { padding-block: 10px; cursor: pointer; font-size: 14px; color: var(--auth-petrol); }
+.dentist-shell .dc-treatment-links fieldset { background: none; padding: 0; }
+.dentist-shell .dc-treatment-links legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.dentist-shell .dc-tooth-history { border-top: 1px solid var(--auth-divider); margin-top: 20px; }
+.dentist-shell .dc-tooth-empty { padding: 28px 20px; border: 1px dashed var(--auth-border); border-radius: var(--auth-radius); font-size: 14px; color: var(--auth-muted); }
+.dentist-shell .dc-tooth-empty h4 { color: var(--auth-petrol); font-size: 18px; margin-bottom: 8px; }
+.dentist-shell .dc-chart-map table { min-width: 0; table-layout: fixed; }
+.dentist-shell .dc-chart-map td, .dentist-shell .dc-chart-map th { overflow-wrap: anywhere; }
+.dentist-shell .dc-local-discard h2 { font-size: 22px; }
+@media (max-width: 1099px) {
+  .dentist-shell .dc-console-work { grid-template-columns: minmax(0, 1fr); }
+  .dentist-shell .dc-console-note { grid-row: 1; }
+  .dentist-shell .dc-console-dental { grid-row: 2; }
+}
+@media (max-width: 767px) {
+  .dentist-shell .dc-console-work { gap: 20px; }
+  .dentist-shell .dc-console-note { padding: 16px; }
+  .dentist-shell .dc-console-note textarea { min-height: 140px; }
+  .dentist-shell .dc-context-access { display: grid; gap: 0; }
+  .dentist-shell .dc-context-panel .dc-activity-counts { grid-template-columns: minmax(0, 1fr); }
+  .dentist-shell .dc-compact-treatments[data-expanded='true'] > ol > li:nth-child(n+2) { display: list-item; }
+  .dentist-shell .dc-chart-map table, .dentist-shell .dc-chart-map tbody, .dentist-shell .dc-chart-map tr, .dentist-shell .dc-chart-map td { display: block; width: 100%; }
+  .dentist-shell .dc-chart-map thead { display: none; }
+  .dentist-shell .dc-chart-map td { padding-block: 6px; }
+}

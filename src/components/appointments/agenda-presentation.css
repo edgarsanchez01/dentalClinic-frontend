@@ -1,0 +1,32 @@
+/* Adaptadores de controles de selección al registro aprobado de Recepción.
+   No cambia sus enlaces, sus tarjetas ni el formulario de referencia. */
+.agenda-navigation { display: grid; gap: 12px; min-width: 0; }
+.reception-shell .agenda-choice { display: inline-flex; justify-self: start; align-items: stretch; min-width: 0; max-width: 100%; padding: 0; gap: 0; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); }
+.reception-shell .agenda-choice > .agenda-choice-option { display: inline-flex; align-items: center; justify-content: center; min-width: 0; min-height: 44px; padding: 8px 18px; border-radius: 0; background: transparent; color: var(--auth-petrol); font-size: 14px; font-weight: 400; text-align: center; text-decoration: none; }
+.reception-shell .agenda-choice > .agenda-choice-option:first-child { border-radius: 11px 0 0 11px; }
+.reception-shell .agenda-choice > .agenda-choice-option:last-child { border-radius: 0 11px 11px 0; }
+.reception-shell .agenda-choice > :is([aria-current='page'], [aria-pressed='true']) { background: var(--auth-petrol); color: var(--auth-paper); }
+.reception-shell .agenda-choice > .agenda-choice-option:hover:not([aria-current='page']):not([aria-pressed='true']) { background: var(--auth-sage); }
+.reception-shell .agenda-choice > .agenda-choice-option:focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 3px; }
+.reception-shell .reception-week-index button { display: grid; justify-items: center; gap: 4px; min-width: 0; padding: 12px 4px; border-radius: 6px; color: var(--auth-petrol); }
+.reception-shell .reception-week-index button > span { font-size: 13px; text-transform: capitalize; }
+.reception-shell .reception-week-index button > strong { font-size: 26px; font-weight: 500; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.reception-shell .reception-week-index button[aria-pressed='true'] { background: var(--auth-petrol); color: var(--auth-paper); }
+.reception-shell .reception-week-index button[aria-current='date']:not([aria-pressed='true']) { outline: 1px solid var(--auth-petrol); }
+.reception-shell .reception-week-index button:hover:not([aria-pressed='true']) { background: var(--auth-sage); }
+.reception-agenda-filter-fields > label[hidden] { display: none !important; }
+.reception-shell .reception-register-visits button.reception-visit { width: 100%; text-align: left; }
+.reception-register-day > div:has(.reception-register-visits) { min-width: 0; }
+.reception-shell .appointment-month-overview > div { padding: 0; }
+.appointment-month-overview > div > button { display: grid; align-content: start; gap: 8px; width: 100%; min-height: 128px; padding: 8px; color: var(--auth-petrol); text-align: left; border-radius: inherit; }
+.appointment-month-overview button[aria-pressed='true'] { background: var(--auth-sage); box-shadow: inset 0 0 0 2px var(--auth-petrol); }
+.appointment-month-overview button[aria-current='date'] strong { text-decoration: underline; text-underline-offset: 4px; }
+.appointment-month-overview button > span { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px; font-size: 13px; }
+.appointment-month-overview button strong { font-size: 18px; font-weight: 500; }
+@media (max-width: 767px) {
+  .reception-shell .reception-register-day.appointment-day-detail,
+  .reception-shell .reception-week-register[data-week-selection='true'] .reception-register-day { grid-template-columns: minmax(0, 1fr); }
+  .reception-shell .reception-week-index:has(button) { overflow-x: auto; }
+  .reception-shell .reception-week-index button { min-width: 44px; padding: 8px 2px; }
+  .reception-shell .reception-week-index button > span { font-size: 12px; }
+}

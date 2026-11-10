@@ -1,148 +1,116 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import { safeReturnTo } from '../../app/deepLinks';
 
-import { authApi } from '../../api/auth';
-import { ApiError } from '../../api/http';
-import { compact } from '../../api/onboarding';
-import { AuthCard, Field, FormAlert, SubmitButton } from './ui';
+import { useAuthStore } from '../../app/authStore';
+import { AuthLayout } from './AuthLayout';
+import { AuthFeedback, AuthFormField, PasswordField, AuthSubmitButton } from './AuthForm';
+import { PASSWORD_HINT, passwordError } from './authValidation';
+import { useAuthForm } from './useAuthForm';
 
 /**
  * Registro publico de pacientes (RF-IA-05/06, PRD §6.5.1). El endpoint nunca recibe `role`: la
- * cuenta nace como `PATIENT`. No abre sesion; al crearse, el paciente entra por /login.
+ * cuenta nace como PATIENT y abre sesión. RequireGuest navega solo tras resolver /me.
  */
 export function RegisterPage() {
+  const register = useAuthStore(state => state.register);
+  const location = useLocation();
+  const returnState = { from: safeReturnTo((location.state as { from?: unknown } | null)?.from) };
   const [form, setForm] = useState({
     email: '',
     password: '',
     confirmation: '',
     firstName: '',
     lastName: '',
-    phone: '',
-    birthDate: '',
   });
-  const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState(false);
-  const [pending, setPending] = useState(false);
+  const { error, errors, pending, submit } = useAuthForm();
 
   const set = (key: keyof typeof form) => (value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
-    if (form.password !== form.confirmation) {
-      setError('Las contraseñas no coinciden.');
-      return;
-    }
-    setPending(true);
-    try {
-      await authApi.register(
-        compact({
+    const passwordIssue = passwordError(form.password);
+    await submit(event, async () => {
+      await register(
+        {
           email: form.email.trim(),
           password: form.password,
           firstName: form.firstName.trim(),
           lastName: form.lastName.trim(),
-          phone: form.phone.trim(),
-          birthDate: form.birthDate,
-        }),
+        },
       );
-      setDone(true);
-    } catch (cause) {
-      setError(cause instanceof ApiError ? cause.message : 'No se pudo crear la cuenta.');
-    } finally {
-      setPending(false);
-    }
-  }
-
-  if (done) {
-    return (
-      <AuthCard
-        title="Cuenta creada"
-        intro="Tu cuenta de paciente ya está lista."
-        footer={
-          <Link className="text-ink underline underline-offset-2" to="/login">
-            Iniciar sesión
-          </Link>
-        }
-      >
-        <FormAlert tone="success">
-          Ya puedes acceder con tu correo y contraseña.
-        </FormAlert>
-      </AuthCard>
-    );
+    }, {
+      ...(passwordIssue ? { password: passwordIssue } : {}),
+      ...(form.password !== form.confirmation ? { confirmation: 'Las contraseñas no coinciden.' } : {}),
+    });
   }
 
   return (
-    <AuthCard
+    <AuthLayout wide
       title="Crear cuenta de paciente"
-      intro="Regístrate para gestionar tus datos y tus citas."
+      intro="Tu primer paso para gestionar tus citas en DentalClinic."
       footer={
-        <span className="text-ink-muted">
+        <p>
           ¿Ya tienes cuenta?{' '}
-          <Link className="text-ink underline underline-offset-2" to="/login">
+          <Link to="/login" state={returnState}>
             Inicia sesión
           </Link>
-        </span>
+        </p>
       }
     >
-      <form className="grid gap-4" onSubmit={handleSubmit} noValidate>
-        {error ? <FormAlert>{error}</FormAlert> : null}
-        <Field
+      <form className="auth-form" onSubmit={handleSubmit} noValidate aria-busy={pending}>
+        <AuthFeedback errors={errors}>{error}</AuthFeedback>
+        {pending ? <p className="auth-status" role="status">Creando tu cuenta e iniciando sesión…</p> : null}
+        <AuthFormField
           id="email"
           label="Correo electrónico"
           type="email"
           value={form.email}
           onChange={set('email')}
           autoComplete="email"
+          maxLength={320}
+          error={errors.email}
         />
-        <Field
+        <PasswordField
           id="password"
           label="Contraseña"
-          type="password"
           value={form.password}
           onChange={set('password')}
           autoComplete="new-password"
+          hint={PASSWORD_HINT}
+          error={errors.password}
         />
-        <Field
+        <PasswordField
           id="confirmation"
           label="Repite la contraseña"
-          type="password"
           value={form.confirmation}
           onChange={set('confirmation')}
           autoComplete="new-password"
+          error={errors.confirmation}
         />
-        <Field
+        <div className="auth-name-row">
+        <AuthFormField
           id="firstName"
           label="Nombre"
           value={form.firstName}
           onChange={set('firstName')}
           autoComplete="given-name"
+          maxLength={100}
+          error={errors.firstName}
         />
-        <Field
+        <AuthFormField
           id="lastName"
           label="Apellidos"
           value={form.lastName}
           onChange={set('lastName')}
           autoComplete="family-name"
+          maxLength={100}
+          error={errors.lastName}
         />
-        <Field
-          id="phone"
-          label="Teléfono (opcional)"
-          required={false}
-          value={form.phone}
-          onChange={set('phone')}
-          autoComplete="tel"
-        />
-        <Field
-          id="birthDate"
-          label="Fecha de nacimiento (opcional)"
-          type="date"
-          required={false}
-          value={form.birthDate}
-          onChange={set('birthDate')}
-        />
-        <SubmitButton pending={pending}>Crear cuenta</SubmitButton>
+        </div>
+        <p className="auth-next"><strong>Después del registro</strong><br />Entrarás directamente a tu cuenta. Completa tus datos y el cuestionario médico; después podrás reservar desde tu inicio.</p>
+        <AuthSubmitButton pending={pending}>Crear cuenta</AuthSubmitButton>
       </form>
-    </AuthCard>
+    </AuthLayout>
   );
 }

@@ -1,0 +1,89 @@
+/* Own management only; consultation/calendar and all other roles stay unchanged. */
+.dentist-shell #professional-schedule-tools .schedule-management-heading {
+  display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between;
+  gap: 16px 24px; margin-bottom: 20px; min-width: 0;
+}
+.dentist-shell #professional-schedule-tools .schedule-management-heading > div { flex: 1 1 240px; min-width: 0; }
+.dentist-shell #professional-schedule-tools .schedule-management-heading h3 { color: var(--auth-petrol); font-size: 18px; font-weight: 500; }
+.dentist-shell #professional-schedule-tools .schedule-management-heading p { margin-top: 6px; color: var(--auth-muted); font-size: 14px; max-width: 62ch; }
+.dentist-shell #professional-schedule-tools .schedule-management-heading > button { flex-shrink: 0; }
+.dentist-shell #professional-schedule-tools .schedule-week-editor form > fieldset { min-width: 0; }
+.dentist-shell #professional-schedule-tools .schedule-week-editor form > fieldset .mt-3 > .flex { flex-wrap: wrap; }
+.dentist-shell #professional-schedule-tools .schedule-week-editor input[type='time'] { max-width: 100%; min-width: 0; }
+.dentist-shell #professional-schedule-tools .schedule-timeoff-row { flex-wrap: wrap; }
+.dentist-shell #professional-schedule-tools .schedule-timeoff-row > span { min-width: 0; overflow-wrap: anywhere; }
+
+/* F7: reflujo de los editores legacy al activar tokens, solo en gestión global OWNER. */
+.schedule-owner-management .reception-card,
+.schedule-owner-management form > fieldset { min-width: 0; }
+.schedule-owner-management form fieldset .mt-3 > .flex { flex-wrap: wrap; }
+.schedule-owner-management input[type='time'] { max-width: 100%; min-width: 0; }
+.schedule-owner-management li.flex { flex-wrap: wrap; overflow-wrap: anywhere; }
+
+/* OWNER global: contexto → semana principal blanca → complementos.
+   Receta de superficie de Recepción, sin calendario sustitutorio ni tarjetas por día. */
+.schedule-owner-management .reception-page { gap: 24px; }
+.schedule-owner-management nav[aria-label='Apartados de horarios'] { margin-block: 0; }
+.schedule-owner-management .reception-card {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.schedule-owner-management .reception-card.schedule-week-primary {
+  padding: 24px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.schedule-owner-management .schedule-management-editors { gap: 24px 32px; }
+.schedule-owner-management .schedule-management-group > .ce-section h2 {
+  color: var(--auth-petrol);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -.015em;
+}
+.schedule-owner-management .schedule-management-group > .ce-section p { margin-top: 6px; color: var(--auth-muted); }
+.schedule-owner-management .schedule-professional-panels { gap: 24px 32px; }
+.schedule-owner-management .schedule-professional-panels h3 { color: var(--auth-petrol); font-size: 18px; font-weight: 500; }
+.schedule-owner-management .schedule-week-primary .reception-section-heading h2,
+.schedule-owner-management .schedule-week-primary > h3 { font-size: 24px; font-weight: 500; line-height: 1.25; }
+.clinical-editorial .schedule-week-primary input[type='time'] { width: 112px; flex: 0 1 112px; min-height: 44px; padding: 8px; font-size: 14px; }
+.schedule-owner-management #schedule-clinic .reception-card:not(.schedule-week-primary) h2 { font-size: 18px; }
+.schedule-owner-management #schedule-professionals > .schedule-management-editors > .reception-card > .reception-section-heading { margin-bottom: 20px; }
+.schedule-owner-management form.bg-sunken {
+  max-width: none;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+.schedule-owner-management form > fieldset.bg-sunken {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--auth-divider);
+  border-radius: 0;
+  background: transparent;
+}
+.schedule-owner-management form > fieldset.bg-sunken:last-of-type { border-bottom: 0; }
+.schedule-owner-management form > fieldset.bg-sunken > .flex > label:first-child { flex: 0 0 100%; }
+.schedule-owner-management #schedule-availability {
+  padding-top: 24px;
+  border-top: 1px solid var(--auth-border);
+}
+.schedule-owner-management #schedule-availability form { max-width: none; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.schedule-owner-management #schedule-availability form > div { min-width: 0; }
+.schedule-owner-management #schedule-availability button[type='submit'] { height: auto; align-self: end; }
+@media (max-width: 767px) {
+  .schedule-owner-management .reception-card.schedule-week-primary { padding: 20px 16px; }
+  .schedule-owner-management #schedule-availability form { grid-template-columns: minmax(0, 1fr); }
+}
+@media (min-width: 1200px) {
+  .schedule-owner-management #schedule-clinic > .schedule-management-editors,
+  .schedule-owner-management .schedule-professional-panels { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .schedule-owner-management #schedule-clinic > .schedule-management-editors > :first-child,
+  .schedule-owner-management .schedule-professional-panels > :first-child { grid-column: 1 / -1; }
+  .schedule-owner-management form > fieldset.bg-sunken { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; gap: 16px; }
+  .schedule-owner-management form > fieldset.bg-sunken > .mt-3 { margin-top: 0; }
+  .schedule-owner-management form > fieldset.bg-sunken > .flex > label:first-child { flex-basis: 80px; }
+  .schedule-owner-management #schedule-availability form { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, .8fr) auto; }
+}

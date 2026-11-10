@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44"
+  data-family="incisor" data-dentition="PERMANENT" fill="none">
+  <title>Corona de incisivo permanente</title>
+  <!-- UX-05L: corona ancha de borde incisal natural y cuello estrecho. La geometria base
+       vive en #pi-crown; luz, sombra y brillo se aplican en capas separadas. Sin estados clinicos. -->
+  <defs>
+    <path id="pi-crown" data-outline="crown"
+      d="M 11.1 4.8
+        C 12.2 3.3 13.6 2.8 15.4 2.9
+        C 17.6 3.0 19.9 3.2 22 3.2
+        C 24.1 3.2 26.4 3.0 28.6 2.9
+        C 30.4 2.8 31.8 3.3 32.9 4.8
+        C 34.3 5.8 34.5 6.8 34.2 8.4
+        C 33.6 13.0 33.0 18.0 32.2 22.8
+        C 31.6 26.8 30.8 30.6 29.8 33.6
+        C 28.9 36.2 27.1 37.6 24.8 38.1
+        C 23.9 38.3 22.9 38.4 22 38.4
+        C 21.1 38.4 20.1 38.3 19.2 38.1
+        C 16.9 37.6 15.1 36.2 14.2 33.6
+        C 13.2 30.6 12.4 26.8 11.8 22.8
+        C 11.0 18.0 10.4 13.0 9.8 8.4
+        C 9.5 6.8 9.7 5.8 11.1 4.8 Z"/>
+    <clipPath id="pi-clip"><use href="#pi-crown"/></clipPath>
+    <linearGradient id="pi-lit" x1="0" y1="0" x2="1" y2=".08">
+      <stop offset="0" stop-color="#8f7d64" stop-opacity=".20"/>
+      <stop offset=".14" stop-color="#ffffff" stop-opacity=".32"/>
+      <stop offset=".34" stop-color="#ffffff" stop-opacity=".05"/>
+      <stop offset=".58" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset=".80" stop-color="#a38f75" stop-opacity=".10"/>
+      <stop offset="1" stop-color="#7c684f" stop-opacity=".26"/>
+    </linearGradient>
+    <linearGradient id="pi-depth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".20"/>
+      <stop offset=".42" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset=".76" stop-color="#a38f75" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#6d5d48" stop-opacity=".22"/>
+    </linearGradient>
+    <radialGradient id="pi-cervical" cx=".5" cy="1.02" r=".72">
+      <stop offset="0" stop-color="#6d5d48" stop-opacity=".20"/>
+      <stop offset=".55" stop-color="#6d5d48" stop-opacity=".06"/>
+      <stop offset="1" stop-color="#6d5d48" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="pi-sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".55"/>
+      <stop offset=".55" stop-color="#ffffff" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <g data-layer="geometry">
+    <use href="#pi-crown" fill="var(--tooth-fill, #f8f3ea)"/>
+  </g>
+
+  <g data-layer="volume" clip-path="url(#pi-clip)">
+    <use href="#pi-crown" fill="url(#pi-lit)"/>
+    <use href="#pi-crown" fill="url(#pi-depth)"/>
+    <use href="#pi-crown" fill="url(#pi-cervical)"/>
+    <path d="M 14.8 7.0 C 14.4 10.8 14.4 14.8 14.9 18.8 C 15.8 18.4 16.6 17.7 17.1 16.6 C 16.6 13.8 16.4 10.9 16.5 7.8 Z"
+      fill="url(#pi-sheen)"/>
+    <path d="M 14.2 4.6 C 16.6 4.0 19.2 4.2 21.4 4.7" fill="none" stroke="#ffffff"
+      stroke-opacity=".34" stroke-width=".8" stroke-linecap="round"/>
+  </g>
+
+  <g data-layer="detail" clip-path="url(#pi-clip)">
+    <path d="M 12.6 5.7 C 16.0 5.0 19.0 5.3 22 5.4 C 25.0 5.3 28.0 5.0 31.4 5.7"
+      fill="none" stroke="var(--tooth-groove, #8a7b66)" stroke-opacity=".22" stroke-width=".7"
+      stroke-linecap="round"/>
+    <path d="M 18.5 5.8 C 18.3 7.4 18.3 8.9 18.5 10.3 M 25.5 5.8 C 25.7 7.4 25.7 8.9 25.5 10.3"
+      fill="none" stroke="var(--tooth-groove, #8a7b66)" stroke-opacity=".12" stroke-width=".55"
+      stroke-linecap="round"/>
+    <path d="M 15.6 34.4 C 18.0 35.8 20.0 36.3 22 36.3 C 24.0 36.3 26.0 35.8 28.4 34.4"
+      fill="none" stroke="var(--tooth-groove, #8a7b66)" stroke-opacity=".18" stroke-width=".6"
+      stroke-linecap="round"/>
+  </g>
+
+  <use href="#pi-crown" fill="none" stroke="var(--tooth-outline, #8a7f6e)" stroke-width=".8"
+    stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

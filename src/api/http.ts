@@ -21,6 +21,7 @@ export interface ApiErrorBody {
   path: string;
   timestamp: string;
   fieldErrors?: Record<string, string>;
+  code?: string;
 }
 
 export class ApiError extends Error {
@@ -48,6 +49,14 @@ export const tokenStore = {
 };
 
 let unauthenticatedHandler: (() => void) | null = null;
+let sessionRequests = new AbortController();
+
+/** Invalida tambien respuestas tardias de transportes que ignoran abort. */
+export function cancelSessionRequests(): void {
+  sessionRequests.abort();
+  sessionRequests = new AbortController();
+  refreshInFlight = null;
+}
 
 /** La capa de sesion registra aqui como reaccionar cuando el refresh falla. */
 export function setUnauthenticatedHandler(handler: () => void): void {
@@ -73,28 +82,42 @@ async function parseError(response: Response, path: string): Promise<ApiError> {
 }
 
 export interface RequestOptions {
+  /** Optativo para recuperacion financiera: sin cache HTTP ni reenvio de POST tras refresh. */
+  cache?: RequestCache;
+  retryAfterRefresh?: boolean;
+  /** Límite de transporte optativo; abortar nunca demuestra rollback del servidor. */
+  signal?: AbortSignal;
   method?: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
   body?: unknown;
   /** Si es `false`, no adjunta el access token ni intenta refresh (endpoints publicos). */
   auth?: boolean;
   headers?: Record<string, string>;
+  /** Adaptadores optativos para valores decimales exactos; no alteran autenticación ni reintentos. */
+  parseResponse?: (text: string) => unknown;
+  serializeBody?: (body: unknown) => string;
 }
 
 export async function apiFetch<T>(
   path: string,
-  { method = 'GET', body, auth = true, headers }: RequestOptions = {},
+  { method = 'GET', body, auth = true, headers, parseResponse, serializeBody, signal, cache, retryAfterRefresh }: RequestOptions = {},
 ): Promise<T> {
-  const opts: { method: "GET"|"POST"|"PATCH"|"PUT"|"DELETE"; auth: boolean; body?: unknown; headers?: Record<string,string> } = { method, auth };
+  const opts: RequestOptions & { method: NonNullable<RequestOptions['method']>; auth: boolean } = { method, auth };
   if (body !== undefined) opts.body = body;
   if (headers) opts.headers = headers;
-  return execute<T>(path, opts, true);
+  if (parseResponse) opts.parseResponse = parseResponse;
+  if (serializeBody) opts.serializeBody = serializeBody;
+  if (cache !== undefined) opts.cache = cache;
+  if (retryAfterRefresh !== undefined) opts.retryAfterRefresh = retryAfterRefresh;
+  return execute<T>(path, opts, true, signal ? AbortSignal.any([sessionRequests.signal, signal]) : sessionRequests.signal);
 }
 
 async function execute<T>(
   path: string,
-  options: { method: 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE'; auth: boolean; body?: unknown; headers?: Record<string, string> },
+  options: RequestOptions & { method: NonNullable<RequestOptions['method']>; auth: boolean },
   allowRefresh: boolean,
+  signal: AbortSignal,
 ): Promise<T> {
+  signal.throwIfAborted();
   const headers: Record<string, string> = { Accept: 'application/json' };
   if (options.headers) {
     Object.assign(headers, options.headers);
@@ -113,20 +136,32 @@ async function execute<T>(
   }
 
   const init: RequestInit = {
+    signal,
     method: options.method,
     headers,
     credentials: 'include',
   };
+  if (options.cache !== undefined) init.cache = options.cache;
   if (options.body !== undefined) {
-    init.body = JSON.stringify(options.body);
+    init.body = options.serializeBody ? options.serializeBody(options.body) : JSON.stringify(options.body);
   }
 
   const response = await fetch(`${apiConfig.baseUrl}${path}`, init);
+  signal.throwIfAborted();
 
-  if (response.status === 401 && options.auth && allowRefresh) {
-    const refreshed = await refreshSession();
-    if (refreshed) {
-      return execute<T>(path, options, false);
+  if (response.status === 401 && options.auth) {
+    if (allowRefresh) {
+      let refreshed = false;
+      try {
+        refreshed = await refreshSession();
+      } catch {
+        // Un fallo de renovacion invalida la sesion, no deja su cache visible.
+      }
+      signal.throwIfAborted();
+      if (refreshed) {
+        if (options.retryAfterRefresh !== false) return execute<T>(path, options, false, signal);
+        throw await parseError(response, path); // El usuario consulta/reanuda; nunca reenviar el POST financiero.
+      }
     }
     notifyUnauthenticated();
   }
@@ -138,7 +173,8 @@ async function execute<T>(
     return undefined as T;
   }
   const text = await response.text();
-  return (text.length === 0 ? undefined : JSON.parse(text)) as T;
+  signal.throwIfAborted();
+  return (text.length === 0 ? undefined : options.parseResponse ? options.parseResponse(text) : JSON.parse(text)) as T;
 }
 
 let refreshInFlight: Promise<boolean> | null = null;
@@ -150,24 +186,29 @@ let refreshInFlight: Promise<boolean> | null = null;
  */
 export function refreshSession(): Promise<boolean> {
   if (!refreshInFlight) {
-    refreshInFlight = performRefresh().finally(() => {
-      refreshInFlight = null;
+    const pending = performRefresh(sessionRequests.signal).finally(() => {
+      if (refreshInFlight === pending) refreshInFlight = null;
     });
+    refreshInFlight = pending;
   }
   return refreshInFlight;
 }
 
-async function performRefresh(): Promise<boolean> {
+async function performRefresh(signal: AbortSignal): Promise<boolean> {
   const csrf = readCookie(CSRF_COOKIE);
   const response = await fetch(`${apiConfig.baseUrl}/api/auth/refresh`, {
+    signal,
     method: 'POST',
     credentials: 'include',
     headers: csrf ? { [CSRF_HEADER]: csrf } : {},
   });
+  signal.throwIfAborted();
   if (!response.ok) {
+    if (response.status !== 401 && response.status !== 403) throw await parseError(response, '/api/auth/refresh');
     return false;
   }
   const data = (await response.json()) as { accessToken: string };
+  signal.throwIfAborted();
   tokenStore.set(data.accessToken);
   return true;
 }

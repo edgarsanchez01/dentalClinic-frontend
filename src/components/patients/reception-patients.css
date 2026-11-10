@@ -1,0 +1,202 @@
+/**
+ * UX-04E — Recepción · Pacientes.
+ *
+ * Listado compartido por RECEPTIONIST y DENTIST; alta y ficha administrativa
+ * exclusivas de RECEPTIONIST. Los selectores `reception-patients-*` se limitan
+ * al marcado de estos componentes. Ambos shells ya exponen los mismos tokens
+ * `--auth-*`: no hace falta aplicar `.reception-shell` al odontólogo ni ampliar
+ * estilos globales, clínicos o del odontograma.
+ */
+
+/* ---- Listado: filtros y recuento en una sola barra ---- */
+.reception-patients-search { min-width: 16rem; flex: 1 1 20rem; }
+.reception-patients-aside {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+.reception-patients-divider {
+  width: 1px;
+  min-height: 40px;
+  flex-shrink: 0;
+  background: var(--auth-divider);
+}
+.reception-patients-count { color: var(--auth-muted); font-size: var(--text-body-sm); font-variant-numeric: tabular-nums; }
+.reception-patients-updating { color: var(--auth-secondary); }
+.reception-patients-clear {
+  min-height: 44px;
+  padding: 8px 16px;
+  font-size: var(--text-body-sm);
+}
+
+/* ---- Listado: carga por esqueleto con la forma de una fila ---- */
+.reception-patients-skeleton { display: grid; gap: 8px; }
+.reception-patients-skeleton-row {
+  height: 64px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+  position: relative;
+  overflow: hidden;
+}
+.reception-patients-skeleton-row::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--auth-sage) 30%, white), transparent);
+  transform: translateX(-100%);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .reception-patients-skeleton-row::after { animation: reception-patients-sweep 1.4s ease-out infinite; }
+}
+@keyframes reception-patients-sweep { to { transform: translateX(100%); } }
+
+/* ---- Listado: fila de paciente ----
+ * Densidad moderada: la fila se mantiene legible pero pesa menos que una
+ * tarjeta. Los datos secundarios van en pares etiqueta/valor alineados en
+ * columnas para que la vista se escanee en vertical, no en zigzag.
+ */
+.reception-patients-item { min-width: 0; }
+.reception-patients-row { padding: 13px 18px; gap: 8px 20px; }
+.reception-patients-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 28px;
+  margin-top: 4px;
+}
+.reception-patients-fact { min-width: 0; display: flex; gap: 6px; align-items: baseline; }
+.reception-patients-fact-label {
+  flex-shrink: 0;
+  font-size: var(--text-caption);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-patients-fact-value {
+  min-width: 0;
+  color: var(--auth-muted);
+  font-size: var(--text-body-sm);
+  overflow-wrap: anywhere;
+}
+.reception-patients-row .reception-list-row-side { display: flex; align-items: center; gap: 12px; }
+.reception-patients-row .reception-list-row-side .reception-link { white-space: nowrap; }
+/* Chips de estado: definidos aquí (no en reception.css) para no alterar otros módulos. */
+.reception-chip-activo { background: var(--success-subtle); color: var(--success-ink); }
+.reception-chip-inactivo { background: var(--auth-canvas); color: var(--auth-muted); }
+@media (max-width: 767px) {
+  .reception-patients-row { padding: 14px 16px; }
+  .reception-patients-facts { flex-direction: column; gap: 2px; }
+}
+
+/* ---- Alta: formularios con grupos lógicos ---- */
+.reception-patients-form { display: grid; gap: 20px; }
+.reception-patients-form > h2 {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--auth-petrol);
+}
+.reception-patients-fieldset {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+}
+.reception-patients-fieldset > legend {
+  padding: 0 0 10px;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-patients-fieldset-grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 768px) {
+  .reception-patients-fieldset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reception-patients-fieldset-grid > .reception-patients-span { grid-column: 1 / -1; }
+}
+.reception-patients-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--auth-divider);
+}
+.reception-patients-required { color: var(--auth-secondary); font-weight: 400; }
+
+/* ---- Ficha: meta de identidad ---- */
+.reception-patients-identity { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+.reception-patients-back { display: inline-flex; }
+.reception-patients-edit { min-height: 40px; padding: 6px 16px; }
+
+/* ---- Ficha: modo consulta ----
+ * Sin gran tarjeta blanca: cada grupo es una banda con título de sección y
+ * filas etiqueta/valor separadas por una línea fina. La jerarquía la sostiene
+ * la tipografía y el espaciado, no los contenedores.
+ */
+.reception-patients-summary { display: grid; gap: 28px; }
+.reception-patients-summary-group { display: grid; gap: 10px; min-width: 0; }
+.reception-patients-summary-group > h2 {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-patients-summary-list { display: grid; border-top: 1px solid var(--auth-divider); }
+.reception-patients-summary-row {
+  display: grid;
+  gap: 4px 24px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--auth-divider);
+}
+.reception-patients-summary-row > dt {
+  font-size: var(--text-body-sm);
+  color: var(--auth-muted);
+}
+.reception-patients-summary-row > dd {
+  min-width: 0;
+  color: var(--auth-ink);
+  overflow-wrap: anywhere;
+}
+.reception-patients-summary-note {
+  padding: 12px 0 0;
+  max-width: 72ch;
+  color: var(--auth-ink);
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+.reception-patients-empty-value { color: var(--auth-muted); font-style: italic; }
+@media (min-width: 640px) {
+  .reception-patients-summary-row { grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr); align-items: baseline; }
+}
+
+/* ---- Ficha: acciones relacionadas ---- */
+.reception-patients-related {
+  display: grid;
+  gap: 10px;
+  padding-top: 20px;
+  border-top: 1px solid var(--auth-divider);
+}
+.reception-patients-related > h2 {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-patients-related .mt-4 { margin-top: 0; }
+
+@media (max-width: 767px) {
+  .reception-patients-search { min-width: 0; }
+  .reception-patients-aside {
+    width: 100%;
+    margin-left: 0;
+    justify-content: space-between;
+  }
+  .reception-patients-divider { display: none; }
+  .reception-patients-actions > .reception-button { flex: 1 1 auto; }
+}

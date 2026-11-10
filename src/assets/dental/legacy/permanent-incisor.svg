@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44"
+  data-family="incisor" data-dentition="PERMANENT" fill="none">
+  <title>Corona de incisivo permanente</title>
+  <!-- Borde incisal ancho arriba; cuerpo alargado y cuello estrecho. Sin estados clínicos. -->
+  <path d="M8.8 5.2
+    C8.8 3.4 10.3 2.4 12.6 2.6
+    C15.8 2.9 19 2.4 22 2.4
+    C25 2.4 28.2 2.9 31.4 2.6
+    C33.7 2.4 35.2 3.4 35.2 5.2
+    C34.6 11.4 34.2 18.6 33.6 25.6
+    C33.1 31.8 31.4 36 27.9 38.6
+    C26.4 39.7 24.4 40.2 22 40.2
+    C19.6 40.2 17.6 39.7 16.1 38.6
+    C12.6 36 10.9 31.8 10.4 25.6
+    C9.8 18.6 9.4 11.4 8.8 5.2 Z"
+    fill="var(--tooth-fill, #eef1f3)" stroke="var(--tooth-outline, #3f474b)"
+    stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,11 @@
+/* Solo reserva de Recepción. La agenda y las recetas OWNER/DENTIST no cambian. */
+.reception-booking--flat .reception-step {
+  border: 0;
+  padding: var(--space-4) 0 0;
+  background: none;
+}
+.reception-booking--flat .reception-stepper-step {
+  border-width: 0 0 1px;
+  border-radius: 0;
+  background: none;
+}

@@ -1,0 +1,82 @@
+/* Recetas neutrales opt-in: ninguna se activa sobre wrappers heredados o todo OWNER. */
+.clinical-editorial .ce-page { width: 100%; min-width: 0; margin-inline: auto; padding: 36px 32px 48px; }
+.clinical-editorial .ce-page--standard { max-width: 1120px; }
+.clinical-editorial .ce-page--wide { max-width: 1280px; }
+.clinical-editorial .ce-page--clinical { max-width: 64rem; }
+.clinical-editorial .ce-page--form { max-width: calc(560px + 64px); }
+.clinical-editorial .ce-page-heading, .clinical-editorial .ce-section-heading { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 32px; }
+.clinical-editorial .ce-page-copy { min-width: 0; }
+.clinical-editorial .ce-page-heading > .ce-actions { min-width: 0; max-width: 100%; }
+.clinical-editorial .ce-page-title { font-size: clamp(28px, 3vw, 36px); font-weight: 500; line-height: 1.12; letter-spacing: -.03em; color: var(--auth-petrol); }
+.clinical-editorial .ce-page-intro, .clinical-editorial .ce-page-context { margin-top: 12px; max-width: 66ch; color: var(--auth-muted); }
+.clinical-editorial .ce-actions, .clinical-editorial .ce-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.clinical-editorial .ce-section { min-width: 0; }
+.clinical-editorial .ce-section-heading h2 { color: var(--auth-petrol); font-size: 20px; font-weight: 500; letter-spacing: -.015em; }
+.clinical-editorial .ce-section-heading p { margin-top: 6px; color: var(--auth-muted); max-width: 68ch; }
+.clinical-editorial .ce-surface--paper, .clinical-editorial .ce-surface--context { padding: 24px; border-radius: var(--auth-radius); }
+.clinical-editorial .ce-surface--paper { background: var(--auth-paper); border: 1px solid var(--auth-divider); }
+.clinical-editorial .ce-surface--context { background: var(--auth-sage); color: var(--auth-petrol); }
+.clinical-editorial .ce-empty { min-width: 0; padding: 24px; }
+.clinical-editorial .ce-note { color: var(--auth-muted); }
+.clinical-editorial .ce-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--auth-petrol); text-decoration: underline; text-underline-offset: 4px; }
+/* Recetas nativas para próximos consumidores; no controlan validación ni datos. */
+.clinical-editorial .ce-control,
+.clinical-editorial .ce-admin-form :where(input:not([type='checkbox']):not([type='radio']), select, textarea) { width: 100%; min-width: 0; max-width: 100%; min-height: 50px; padding: 12px 14px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); color: var(--auth-ink); font-size: 16px; line-height: 1.5; }
+.clinical-editorial .ce-admin-form :where(input, select, textarea) { box-shadow: none; }
+.clinical-editorial .ce-admin-form :where(input, select, textarea):focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 2px; }
+.clinical-editorial .ce-admin-form label { color: var(--auth-ink); }
+.clinical-editorial .ce-admin-form h2 { color: var(--auth-petrol); font-size: 20px; font-weight: 500; letter-spacing: -.015em; }
+.clinical-editorial .ce-admin-form :where(button[type='submit']) { min-height: 50px; padding: 12px 22px; border: 1px solid var(--auth-petrol); font-size: 16px; font-weight: 500; }
+.clinical-editorial .ce-admin-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.clinical-editorial .ce-admin-actions > button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); color: var(--auth-petrol); font-size: 14px; }
+.clinical-editorial .clinic-settings-form { container-type: inline-size; }
+@container (min-width: 560px) {
+  .clinic-field-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.clinical-editorial .ce-checkbox-label { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
+.clinical-editorial .ce-checkbox { width: 20px; height: 20px; accent-color: var(--auth-petrol); }
+.clinical-editorial .ce-table-region { min-width: 0; max-width: 100%; overflow-x: auto; }
+.clinical-editorial .ce-control:focus-visible, .clinical-editorial .ce-checkbox:focus-visible, .clinical-editorial .ce-link:focus-visible, .clinical-editorial .ce-table-region:focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 2px; }
+@media (max-width: 767px) {
+  .clinical-editorial .ce-page:not(.ce-page--form) { padding: 24px 16px 40px; }
+  .clinical-editorial .ce-page-heading { align-items: flex-start; }
+  .clinical-editorial .ce-page-heading > .ce-actions { width: 100%; }
+  .clinical-editorial .ce-page-heading > .ce-actions > :is(a, button) { flex: 1 1 auto; }
+  .clinical-editorial .ce-surface--paper { padding: 20px 16px; }
+}
+@media (max-width: 639px) {
+  .clinical-editorial .ce-page--form { padding: 24px 16px 48px; }
+}
+
+/* R23 extracted literally. Explicit control classes opt in without retheming the page. */
+.ce-combobox-root { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.ce-combobox-label { font-size: var(--text-body-sm); font-weight: 500; color: var(--auth-ink); }
+.ce-combobox { position: relative; display: grid; gap: 6px; min-width: 0; }
+.ce-combobox-field { position: relative; display: flex; min-width: 0; }
+.ce-combobox-input { width: 100%; min-width: 0; min-height: 44px; padding: 10px 84px 10px 14px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); color: var(--auth-ink); font: inherit; }
+.ce-combobox-input:focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 1px; }
+.ce-combobox-input[aria-expanded='true'] { border-color: var(--auth-petrol); }
+.ce-combobox-toggle { position: absolute; inset-block: 0; inset-inline-end: 0; display: inline-flex; align-items: center; padding-inline: 12px; border: 0; background: none; color: var(--auth-petrol); font: inherit; font-size: var(--text-body-sm); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.ce-combobox-toggle:focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: -2px; }
+.ce-combobox-panel { position: absolute; z-index: 30; inset-inline: 0; top: 100%; margin-top: 4px; max-height: min(22rem, var(--combobox-popup-space, 22rem)); overflow-y: auto; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); box-shadow: 0 12px 28px -16px rgb(25 63 67 / 45%); }
+.ce-combobox-list { display: grid; margin: 0; padding: 4px 0; list-style: none; }
+.ce-combobox-option { display: grid; gap: 2px; padding: 9px 14px; border-inline-start: 1px solid transparent; cursor: pointer; }
+.ce-combobox-option:hover, .ce-combobox-option.is-active { background: var(--auth-canvas); outline: 2px solid var(--auth-petrol); outline-offset: -2px; }
+.ce-combobox-option[aria-selected='true'] { border-inline-start-color: var(--auth-petrol); background: color-mix(in oklab, var(--auth-sage) 30%, var(--auth-paper)); }
+.ce-combobox-option-name { font-weight: 500; color: var(--auth-petrol); overflow-wrap: anywhere; }
+.ce-combobox-option-meta { font-size: var(--text-body-sm); color: var(--auth-muted); overflow-wrap: anywhere; }
+.ce-combobox-more { display: block; width: 100%; min-height: 44px; text-align: left; padding: 10px 14px; border-top: 1px solid var(--auth-divider); color: var(--auth-petrol); font-size: var(--text-body-sm); font-weight: 500; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.ce-combobox-more:hover { background: var(--auth-canvas); }
+.ce-combobox-more:focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: -2px; }
+.ce-combobox-input::placeholder { color: var(--auth-muted); opacity: 1; }
+.ce-combobox-status { padding: 0 14px 8px; color: var(--auth-muted); font-size: var(--text-body-sm); }
+.ce-combobox-status:empty { padding: 0; }
+.ce-combobox-status p { margin-top: 6px; }
+.ce-combobox-status > div { display: grid; gap: 8px; justify-items: start; padding-top: 6px; }
+.ce-combobox-hint { color: var(--auth-muted); font-size: var(--text-body-sm); }
+.ce-patient-selected { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; padding: 10px 14px; border: 1px solid var(--auth-sage); border-radius: var(--auth-radius); background: color-mix(in oklab, var(--auth-sage) 26%, var(--auth-paper)); }
+.ce-patient-selected-label { font-size: var(--text-caption); font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--auth-secondary); }
+.ce-patient-selected-value { color: var(--auth-petrol); font-weight: 500; overflow-wrap: anywhere; }
+@media (max-width: 767px) {
+  .ce-combobox-panel { max-height: min(18rem, var(--combobox-popup-space, 18rem)); }
+}

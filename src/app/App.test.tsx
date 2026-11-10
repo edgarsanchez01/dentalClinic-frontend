@@ -1,9 +1,9 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { tokenStore } from '../api/http';
 import { useAuthStore } from './authStore';
-import { App } from './App';
+import { renderApp } from '../test/renderApp';
 
 interface StubResponse {
   status: number;
@@ -23,6 +23,7 @@ function stubResponse({ status, body }: StubResponse): Response {
 function mockFetch(routes: Record<string, StubResponse>): void {
   vi.stubGlobal('fetch', (input: RequestInfo | URL) => {
     const url = typeof input === 'string' ? input : input.toString();
+    if (url.includes('/api/notifications/unread-count')) return Promise.resolve(stubResponse({ status: 200, body: { unread: 0 } }));
     const match = Object.keys(routes).find((path) => url.includes(path));
     if (!match) {
       return Promise.reject(new Error(`Sin stub para ${url}`));
@@ -57,15 +58,30 @@ afterEach(() => {
 });
 
 describe('Arranque y restauracion de sesion', () => {
-  it('sin sesion valida muestra el login', async () => {
+  it('StrictMode restaura una sola vez para no consumir dos veces el refresh rotativo', async () => {
+    let refreshes = 0;
+    vi.stubGlobal('fetch', async (input: RequestInfo | URL) => {
+      const path = String(input);
+      if (path.includes('/api/auth/refresh')) { refreshes++; return stubResponse({ status: 200, body: { accessToken: 'single-refresh' } }); }
+      if (path.includes('/api/auth/me')) return stubResponse({ status: 200, body: ANA });
+      if (path.includes('/api/onboarding/status')) return stubResponse(ONBOARDING_COMPLETE);
+      if (path.includes('/api/notifications/unread-count')) return stubResponse({ status: 200, body: { unread: 0 } });
+      return stubResponse({ status: 200, body: { status: 'UP' } });
+    });
+    renderApp({ strict: true });
+    expect(await screen.findByRole('heading', { name: 'Resumen de la clínica' })).toBeInTheDocument();
+    expect(refreshes).toBe(1);
+  });
+  it('sin sesion valida muestra la landing pública', async () => {
     mockFetch({
       '/api/auth/refresh': { status: 401 },
       '/api/onboarding/status': ONBOARDING_COMPLETE,
     });
 
-    render(<App />);
+    renderApp();
 
-    expect(await screen.findByRole('heading', { name: 'Iniciar sesión' })).toBeInTheDocument();
+    await waitFor(() => expect(useAuthStore.getState().status).toBe('anonymous'));
+    expect(screen.getByRole('heading', { name: /Tu sonrisa,.*nuestra prioridad/ })).toBeInTheDocument();
   });
 
   it('con refresh valido hidrata el perfil desde /me', async () => {
@@ -76,14 +92,15 @@ describe('Arranque y restauracion de sesion', () => {
       '/actuator/health': { status: 200, body: { status: 'UP' } },
     });
 
-    render(<App />);
+    renderApp();
 
-    expect(await screen.findByRole('heading', { name: 'ana@clinica.com' })).toBeInTheDocument();
-    expect(screen.getByText('Rol: Propietario')).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Resumen de la clínica' })).toBeInTheDocument();
+    expect(useAuthStore.getState().user).toEqual(ANA);
     expect(tokenStore.get()).toBe('access-1');
   });
 
   it('el login fallido muestra el mensaje neutro del backend', async () => {
+    window.history.pushState({}, '', '/login');
     mockFetch({
       '/api/auth/refresh': { status: 401 },
       '/api/onboarding/status': ONBOARDING_COMPLETE,
@@ -93,7 +110,7 @@ describe('Arranque y restauracion de sesion', () => {
       },
     });
 
-    render(<App />);
+    renderApp();
     await screen.findByRole('heading', { name: 'Iniciar sesión' });
 
     fireEvent.change(screen.getByLabelText('Correo electrónico'), {
@@ -108,6 +125,7 @@ describe('Arranque y restauracion de sesion', () => {
 
 describe('Login correcto', () => {
   it('guarda el token en memoria y entra a la home', async () => {
+    window.history.pushState({}, '', '/login');
     mockFetch({
       '/api/auth/refresh': { status: 401 },
       '/api/onboarding/status': ONBOARDING_COMPLETE,
@@ -120,10 +138,11 @@ describe('Login correcto', () => {
           user: ANA,
         },
       },
+      '/api/auth/me': { status: 200, body: ANA },
       '/actuator/health': { status: 200, body: { status: 'UP' } },
     });
 
-    render(<App />);
+    renderApp();
     await screen.findByRole('heading', { name: 'Iniciar sesión' });
 
     fireEvent.change(screen.getByLabelText('Correo electrónico'), {
@@ -132,7 +151,7 @@ describe('Login correcto', () => {
     fireEvent.change(screen.getByLabelText('Contraseña'), { target: { value: 'Clave1234' } });
     fireEvent.click(screen.getByRole('button', { name: 'Entrar' }));
 
-    expect(await screen.findByRole('heading', { name: 'ana@clinica.com' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Resumen de la clínica' })).toBeInTheDocument();
     await waitFor(() => expect(tokenStore.get()).toBe('access-2'));
   });
 });

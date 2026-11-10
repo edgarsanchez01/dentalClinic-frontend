@@ -115,6 +115,32 @@
   --danger-ink: #a02c2c;
   --muted: #eef0f3;
 
+  /* -- Condiciones del odontograma (14.3). El color ES decorativo: el significado
+   * siempre va en texto, aria-label y leyenda; jamas solo color. Rampa neutra
+   * fria, misma familia luminica que los estados semanticos. */
+  --condition-healthy-subtle: #e9ebee;
+  --condition-healthy-ink: #3d444f;
+  --condition-caries-subtle: #f9e3e4;
+  --condition-caries-ink: #982428;
+  --condition-fractured-subtle: #f9ecdf;
+  --condition-fractured-ink: #8a4b17;
+  --condition-restored-subtle: #e4ebf6;
+  --condition-restored-ink: #264a7c;
+  --condition-root-canal-subtle: #ede7f5;
+  --condition-root-canal-ink: #4d3d80;
+  --condition-crown-subtle: #f7f0d8;
+  --condition-crown-ink: #6f5714;
+  --condition-implant-subtle: #e5ecf0;
+  --condition-implant-ink: #2e5368;
+  --condition-missing-subtle: #ececef;
+  --condition-missing-ink: #575c68;
+  --condition-extracted-subtle: #dcdde1;
+  --condition-extracted-ink: #2f3238;
+  --condition-sealed-subtle: #e0efe7;
+  --condition-sealed-ink: #1f6b47;
+  --condition-other-subtle: #eceef2;
+  --condition-other-ink: #454c5a;
+
   /* -- Escala tipográfica (4.2). Pesos 400/500/600, los únicos. */
   --text-display: 4.5rem; /* 72px — solo xl+ */
   --text-h1: 3rem; /* 48px */
@@ -194,6 +220,29 @@
   --color-danger-subtle: var(--danger-subtle);
   --color-danger-ink: var(--danger-ink);
   --color-muted-fill: var(--muted);
+
+  --color-condition-healthy: var(--condition-healthy-subtle);
+  --color-condition-healthy-ink: var(--condition-healthy-ink);
+  --color-condition-caries: var(--condition-caries-subtle);
+  --color-condition-caries-ink: var(--condition-caries-ink);
+  --color-condition-fractured: var(--condition-fractured-subtle);
+  --color-condition-fractured-ink: var(--condition-fractured-ink);
+  --color-condition-restored: var(--condition-restored-subtle);
+  --color-condition-restored-ink: var(--condition-restored-ink);
+  --color-condition-root-canal: var(--condition-root-canal-subtle);
+  --color-condition-root-canal-ink: var(--condition-root-canal-ink);
+  --color-condition-crown: var(--condition-crown-subtle);
+  --color-condition-crown-ink: var(--condition-crown-ink);
+  --color-condition-implant: var(--condition-implant-subtle);
+  --color-condition-implant-ink: var(--condition-implant-ink);
+  --color-condition-missing: var(--condition-missing-subtle);
+  --color-condition-missing-ink: var(--condition-missing-ink);
+  --color-condition-extracted: var(--condition-extracted-subtle);
+  --color-condition-extracted-ink: var(--condition-extracted-ink);
+  --color-condition-sealed: var(--condition-sealed-subtle);
+  --color-condition-sealed-ink: var(--condition-sealed-ink);
+  --color-condition-other: var(--condition-other-subtle);
+  --color-condition-other-ink: var(--condition-other-ink);
 }
 
 /* --------------------------------------------------------------------------

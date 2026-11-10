@@ -1,0 +1,172 @@
+/* Approved hybrid composition. Every rule is local to OWNER / Inicio / Clínica. */
+.owner-workspace .owner-home-hybrid {
+  width: 100%; min-width: 0; max-width: 1280px; margin-inline: auto;
+  padding: 20px 32px 32px; display: grid; gap: 16px;
+  color: var(--auth-ink); font-size: 14px; line-height: 1.5;
+}
+.owner-home-hybrid *, .owner-home-hybrid *::before { box-sizing: border-box; }
+.owner-home-hybrid :is(p, h2, h3, a, dd, dt) { overflow-wrap: anywhere; }
+.owner-home-hybrid :focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 3px; }
+.owner-home-hybrid .reception-page-heading { align-items: start; gap: 12px 20px; }
+.owner-home-hybrid .reception-page-title { font-size: 30px; line-height: 1.15; }
+.owner-home-hybrid .reception-page-intro { margin-top: 6px; font-size: 14px; }
+.owner-home-hybrid .reception-page-actions { flex: 1 1 280px; justify-content: end; }
+.owner-home-hybrid .oh-header-context { display: flex; flex-wrap: wrap; justify-content: end; align-items: center; gap: 12px 20px; }
+.owner-home-hybrid .oh-header-context > div { text-align: right; font-size: 12px; color: var(--auth-muted); }
+.owner-home-hybrid .oh-header-context > div > span { display: block; margin-top: 2px; }
+.owner-home-hybrid .reception-button { min-height: 44px; padding: 10px 20px; font-size: 14px; }
+.owner-home-hybrid .reception-button:focus-visible { box-shadow: 0 0 0 3px var(--auth-paper); }
+.owner-home-hybrid .oh-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.owner-home-hybrid .oh-metric { display: flex; flex-direction: column; min-width: 0; padding: 12px 16px 8px; border: 1px solid transparent; border-radius: var(--auth-radius); background: color-mix(in srgb, var(--auth-sage) 30%, var(--auth-paper)); }
+.owner-home-hybrid .oh-metric-wallet { background: color-mix(in srgb, var(--warning-subtle) 65%, var(--auth-paper)); }
+.owner-home-hybrid .oh-metric-reviews { background: color-mix(in srgb, var(--warning-subtle) 35%, var(--auth-paper)); }
+.owner-home-hybrid .oh-metric-top { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.owner-home-hybrid .oh-metric-top > div { min-width: 0; flex: 1; }
+.owner-home-hybrid .oh-metric h2 { color: var(--auth-petrol); font-size: 13px; font-weight: 500; line-height: 1.3; }
+.owner-home-hybrid .oh-icon { display: grid; place-items: center; width: 40px; height: 40px; flex-shrink: 0; border-radius: 12px; background: color-mix(in srgb, var(--auth-sage) 60%, var(--auth-paper)); color: var(--auth-petrol); }
+.owner-home-hybrid .oh-icon svg { width: 24px; height: 24px; }
+.owner-home-hybrid .oh-metric-wallet .oh-icon, .owner-home-hybrid .oh-metric-reviews .oh-icon { background: var(--warning-subtle); color: var(--warning-ink); }
+.owner-home-hybrid .oh-value { margin-top: 4px; font-family: var(--font-mono); color: var(--auth-petrol); font-size: 22px; line-height: 1.3; font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: -.025em; }
+.owner-home-hybrid .oh-metric-calendar .oh-value { font-size: 28px; }
+.owner-home-hybrid .oh-value-unavailable { font-family: var(--font-sans); font-size: 14px; letter-spacing: 0; }
+.owner-home-hybrid .oh-metric-hint { margin-top: 6px; color: var(--auth-muted); font-size: 12px; }
+.owner-home-hybrid .oh-metric-access { display: inline-flex; align-items: center; min-height: 44px; margin-top: auto; color: var(--auth-petrol); font-size: 12px; text-decoration: underline; text-underline-offset: 3px; }
+.owner-home-hybrid .oh-main-grid { display: grid; grid-template-columns: minmax(0, 1.85fr) minmax(0, 1fr); grid-template-areas: 'agenda next' 'agenda finance'; gap: 16px; align-items: start; }
+.owner-home-hybrid .oh-card { min-width: 0; padding: 16px; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); }
+.owner-home-hybrid .oh-today { grid-area: agenda; align-self: stretch; }
+.owner-home-hybrid .oh-next { grid-area: next; background: color-mix(in srgb, var(--auth-sage) 28%, var(--auth-paper)); }
+.owner-home-hybrid .oh-finance { grid-area: finance; }
+.owner-home-hybrid .oh-section-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 12px; }
+.owner-home-hybrid .oh-section-heading h2 { font-size: 18px; line-height: 1.3; font-weight: 500; letter-spacing: -.015em; color: var(--auth-petrol); }
+.owner-home-hybrid .oh-today .oh-section-heading h2 { font-size: 22px; }
+.owner-home-hybrid .oh-link { display: inline-flex; align-items: center; min-height: 44px; color: var(--auth-petrol); text-decoration: underline; text-underline-offset: 3px; font-size: 12px; }
+.owner-home-hybrid :is(a, button):hover { color: var(--auth-hover); }
+.owner-home-hybrid .reception-button:hover { color: var(--auth-paper); }
+.owner-home-hybrid .oh-caption { color: var(--auth-muted); font-size: 12px; }
+.owner-home-hybrid .oh-empty { display: grid; gap: 8px; padding-block: 24px; color: var(--auth-muted); }
+.owner-home-hybrid .oh-empty h3 { font-size: 16px; color: var(--auth-petrol); font-weight: 500; }
+.owner-home-hybrid .oh-timeline { margin-top: 12px; padding-left: 16px; }
+.owner-home-hybrid .oh-timeline > li { position: relative; display: grid; grid-template-columns: 88px 82px minmax(90px, 1.2fr) minmax(70px, 1fr) minmax(65px, .85fr); gap: 4px 12px; align-items: center; padding-block: 5px; min-height: 55px; border-bottom: 1px solid var(--auth-divider); }
+.owner-home-hybrid .oh-timeline > li::before { content: ''; position: absolute; left: -15px; top: 27px; width: 7px; height: 7px; border-radius: 50%; background: var(--auth-petrol); outline: 3px solid var(--auth-paper); }
+.owner-home-hybrid .oh-timeline > li::after { content: ''; position: absolute; left: -12px; top: 35px; bottom: -23px; width: 1px; background: var(--auth-divider); }
+.owner-home-hybrid .oh-timeline > li:last-child::after { display: none; }
+.owner-home-hybrid .oh-timeline > li > time { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 11px; white-space: nowrap; }
+.owner-home-hybrid .oh-status { display: inline-flex; justify-self: start; align-self: start; max-width: 100%; border-radius: 6px; padding: 3px 7px; font-size: 11px; line-height: 1.4; font-weight: 500; }
+.owner-home-hybrid .oh-timeline .oh-status { align-self: center; }
+.owner-home-hybrid .oh-status[data-status='SCHEDULED'] { background: var(--auth-sage); color: var(--auth-petrol); }
+.owner-home-hybrid .oh-status[data-status='CANCELLED'] { background: var(--auth-canvas); color: var(--auth-muted); text-decoration: none; }
+.owner-home-hybrid .oh-visit-person a { display: inline-flex; align-items: center; min-height: 44px; color: var(--auth-petrol); font-size: 13px; font-weight: 500; }
+.owner-home-hybrid .oh-visit-person a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.owner-home-hybrid li[data-status='CANCELLED'] .oh-visit-person a { text-decoration: line-through; }
+.owner-home-hybrid .oh-visit-service, .owner-home-hybrid .oh-visit-professional { color: var(--auth-muted); font-size: 12px; }
+.owner-home-hybrid .oh-next-visit { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; margin-top: 8px; }
+.owner-home-hybrid .oh-next-visit > time { display: grid; align-content: start; gap: 4px; font-family: var(--font-mono); color: var(--auth-petrol); font-variant-numeric: tabular-nums; }
+.owner-home-hybrid .oh-next-visit time strong { font-size: 32px; font-weight: 500; line-height: 1.2; }
+.owner-home-hybrid .oh-next-visit time span { font-size: 11px; }
+.owner-home-hybrid .oh-next-visit h3 { color: var(--auth-petrol); font-size: 14px; font-weight: 500; }
+.owner-home-hybrid .oh-next-visit p { color: var(--auth-muted); font-size: 12px; margin-block: 4px 8px; }
+.owner-home-hybrid .oh-next > .oh-caption { margin-top: 6px; }
+.owner-home-hybrid .oh-next-actions { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 4px; }
+.owner-home-hybrid .oh-money-list { margin-top: 8px; }
+.owner-home-hybrid .oh-finance .oh-section-heading h2 { font-size: 16px; }
+.owner-home-hybrid .oh-money-list > div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; padding-block: 8px; border-bottom: 1px solid var(--auth-divider); }
+.owner-home-hybrid .oh-money-list > div:last-child { border-bottom: 0; font-weight: 500; color: var(--auth-petrol); }
+.owner-home-hybrid .oh-money-list dt { color: var(--auth-muted); font-size: 12px; }
+.owner-home-hybrid .oh-money-list dd { font-family: var(--font-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+.owner-home-hybrid .oh-definitions { margin-top: 4px; font-size: 12px; color: var(--auth-muted); }
+.owner-home-hybrid .oh-definitions summary { display: flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.owner-home-hybrid .oh-definitions p { padding-bottom: 8px; }
+.owner-home-hybrid .oh-bottom-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1.2fr) minmax(0, .85fr); gap: 16px; align-items: start; }
+.owner-home-hybrid .oh-bottom-grid .oh-card { padding: 16px; }
+.owner-home-hybrid .oh-bottom-grid h2 { font-size: 16px; }
+.owner-home-hybrid .oh-upcoming-list li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 12px; padding-block: 8px; border-bottom: 1px solid var(--auth-divider); }
+.owner-home-hybrid .oh-upcoming-list li:last-child { border-bottom: 0; }
+.owner-home-hybrid .oh-upcoming-list time { display: grid; align-content: start; justify-items: center; color: var(--auth-petrol); }
+.owner-home-hybrid .oh-upcoming-list time strong { font-size: 22px; line-height: 1.2; font-weight: 500; }
+.owner-home-hybrid .oh-upcoming-list time span { font-size: 11px; text-transform: uppercase; }
+.owner-home-hybrid .oh-upcoming-list a { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; font-weight: 500; color: var(--auth-petrol); }
+.owner-home-hybrid .oh-upcoming-list p { color: var(--auth-muted); font-size: 12px; }
+.owner-home-hybrid .oh-slot { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.owner-home-hybrid .oh-notifications li { position: relative; padding: 12px 0 12px 16px; border-bottom: 1px solid var(--auth-divider); }
+.owner-home-hybrid .oh-notifications li:last-child { border-bottom: 0; }
+.owner-home-hybrid .oh-notifications li::before { content: ''; position: absolute; top: 18px; left: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--auth-muted); }
+.owner-home-hybrid .oh-notifications li[data-unread='true']::before { background: var(--auth-petrol); }
+.owner-home-hybrid .oh-notifications h3 { font-size: 13px; font-weight: 500; color: var(--auth-petrol); }
+.owner-home-hybrid .oh-notification-body { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 12px; color: var(--auth-muted); margin-block: 2px; }
+.owner-home-hybrid .oh-team-summary { display: flex; align-items: start; gap: 12px; margin-top: 16px; }
+.owner-home-hybrid .oh-team-summary p { color: var(--auth-muted); font-size: 13px; }
+.owner-home-hybrid .oh-tools { display: flex; flex-wrap: wrap; gap: 4px 20px; border-top: 1px solid var(--auth-divider); padding-top: 8px; }
+.owner-home-hybrid .oh-tools a { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--auth-petrol); text-decoration: underline; text-underline-offset: 3px; }
+.owner-home-hybrid .oh-loading { display: grid; gap: 8px; padding-block: 8px; }
+.owner-home-hybrid .oh-loading > span[aria-hidden] { display: block; height: 16px; border-radius: 6px; background: var(--auth-divider); }
+.owner-home-hybrid .oh-loading > span[aria-hidden]:last-child { width: 65%; }
+.owner-home-hybrid .oh-feedback { color: var(--danger-ink); font-size: 12px; padding-block: 8px; }
+@media (max-width: 1199px) {
+  .owner-home-hybrid .oh-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .owner-home-hybrid .oh-main-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'next' 'agenda' 'finance'; }
+  .owner-home-hybrid .oh-bottom-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .owner-home-hybrid .oh-team { grid-column: 1 / -1; }
+  .owner-home-hybrid .oh-header-context { justify-content: start; }
+  .owner-home-hybrid .oh-header-context > div { text-align: left; }
+  .owner-home-hybrid .reception-page-actions { justify-content: start; }
+}
+@media (max-width: 899px) {
+  .owner-workspace .owner-home-hybrid { padding-inline: 20px; }
+  .owner-home-hybrid .oh-main-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'next' 'agenda' 'finance'; }
+  .owner-home-hybrid .oh-bottom-grid { grid-template-columns: minmax(0, 1fr); }
+  .owner-home-hybrid .oh-team { grid-column: auto; }
+  .owner-home-hybrid .oh-timeline > li { grid-template-columns: 88px 82px minmax(0, 1fr); }
+  .owner-home-hybrid .oh-timeline > li > time { grid-row: 1 / 4; align-self: start; padding-top: 12px; }
+  .owner-home-hybrid .oh-timeline .oh-status { grid-column: 2; grid-row: 1; }
+  .owner-home-hybrid .oh-visit-person { grid-column: 3; grid-row: 1; }
+  .owner-home-hybrid .oh-visit-service { grid-column: 3; }
+  .owner-home-hybrid .oh-visit-professional { grid-column: 3; }
+  .owner-home-hybrid .oh-metric-top { gap: 8px; }
+  .owner-home-hybrid .oh-icon { width: 32px; height: 32px; }
+  .owner-home-hybrid .oh-value { font-size: 18px; }
+}
+@media (max-width: 767px) {
+  .owner-workspace .owner-home-hybrid { padding: 20px 16px 32px; gap: 16px; }
+  .owner-home-hybrid .reception-page-title { font-size: 26px; }
+  .owner-home-hybrid .reception-page-intro { display: none; }
+  .owner-home-hybrid .reception-page-actions, .owner-home-hybrid .oh-header-context { width: 100%; }
+  .owner-home-hybrid .oh-header-context { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+  .owner-home-hybrid .oh-header-context > div { font-size: 12px; }
+  .owner-home-hybrid .oh-clinic-name { display: none; }
+  .owner-home-hybrid .oh-header-context .reception-button { padding-inline: 14px; }
+  .owner-home-hybrid .oh-metrics { gap: 10px; }
+  .owner-home-hybrid .oh-metric { padding: 12px; }
+  .owner-home-hybrid .oh-metric-top { flex-wrap: wrap; gap: 8px; }
+  .owner-home-hybrid .oh-metric-top > div { flex-basis: 80px; }
+  .owner-home-hybrid .oh-metric h2 { font-size: 12px; }
+  .owner-home-hybrid .oh-metric-hint { display: none; }
+  .owner-home-hybrid .oh-metric-access { font-size: 11px; padding-top: 4px; }
+  .owner-home-hybrid .oh-metric .oh-value { font-size: 19px; }
+  .owner-home-hybrid .oh-metric-calendar .oh-value { font-size: 24px; }
+  .owner-home-hybrid .oh-metric .oh-value-unavailable { font-size: 13px; }
+  .owner-home-hybrid .oh-card { padding: 16px; }
+  .owner-home-hybrid .oh-today .oh-section-heading h2 { font-size: 20px; }
+  .owner-home-hybrid .oh-timeline { padding-left: 12px; }
+  .owner-home-hybrid .oh-timeline > li { grid-template-columns: 48px minmax(0, 1fr) auto; gap: 2px 12px; padding-block: 12px; }
+  .owner-home-hybrid .oh-timeline > li::before { left: -12px; top: 30px; }
+  .owner-home-hybrid .oh-timeline > li::after { left: -9px; top: 38px; }
+  .owner-home-hybrid .oh-timeline > li > time { grid-column: 1; grid-row: 1 / 4; align-self: start; padding-top: 12px; font-size: 12px; }
+  .owner-home-hybrid .oh-timeline > li > time span { display: block; white-space: normal; font-size: 10px; }
+  .owner-home-hybrid .oh-timeline .oh-status { grid-column: 3; grid-row: 1; align-self: center; font-size: 10px; padding-inline: 4px; }
+  .owner-home-hybrid .oh-visit-person { grid-column: 2; grid-row: 1; }
+  .owner-home-hybrid .oh-visit-person a { font-size: 13px; }
+  .owner-home-hybrid .oh-visit-service, .owner-home-hybrid .oh-visit-professional { grid-column: 2 / -1; }
+  .owner-home-hybrid .oh-bottom-grid .oh-card { padding: 16px; }
+}
+@media (max-width: 359px) {
+  .owner-home-hybrid .oh-header-context { grid-template-columns: minmax(0, 1fr); }
+  .owner-home-hybrid .oh-header-context .reception-button { justify-self: end; }
+  .owner-home-hybrid .oh-metric { padding: 10px; }
+  .owner-home-hybrid .oh-metric .oh-value { font-size: 16px; }
+  .owner-home-hybrid .oh-metric-calendar .oh-value { font-size: 22px; }
+  .owner-home-hybrid .oh-timeline > li { grid-template-columns: 44px minmax(0, 1fr); }
+  .owner-home-hybrid .oh-timeline .oh-status { grid-column: 2; grid-row: auto; }
+  .owner-home-hybrid .oh-visit-service, .owner-home-hybrid .oh-visit-professional { grid-column: 2; }
+  .owner-home-hybrid .oh-upcoming-list li { grid-template-columns: 24px minmax(0, 1fr); }
+  .owner-home-hybrid .oh-upcoming-list .oh-status { grid-column: 2; }
+}

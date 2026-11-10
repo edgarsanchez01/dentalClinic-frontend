@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44"
+  data-family="molar" data-dentition="TEMPORARY" fill="none">
+  <title>Corona de molar temporal</title>
+  <!-- UX-05L: corona baja, muy ancha y bulbosa, con cuatro cupulas suaves y cuello marcado.
+       Proporciones propias de la denticion temporal. Sin estados clinicos. -->
+  <defs>
+    <path id="tm-crown" data-outline="crown"
+      d="M 8.6 13.4
+        C 8.0 10.0 9.0 6.8 11.5 6.4
+        C 12.8 6.6 14.1 7.4 15.2 8.5
+        C 16.3 9.9 17.7 6.5 19.0 6.5
+        C 20.4 6.5 21.6 7.9 22.6 9.3
+        C 23.7 10.7 25.0 6.5 26.2 6.5
+        C 27.6 6.5 28.8 7.7 29.8 9.0
+        C 30.9 10.3 32.1 6.8 33.3 6.8
+        C 35.0 6.9 35.9 9.9 36.0 13.6
+        C 36.9 18.2 36.7 23.2 35.4 27.6
+        C 34.2 31.7 31.5 34.4 27.2 35.7
+        C 25.5 36.2 23.8 36.4 22.0 36.4
+        C 20.2 36.4 18.5 36.2 16.8 35.7
+        C 12.5 34.4 9.8 31.7 8.6 27.6
+        C 7.3 23.2 7.1 18.2 8.6 13.4 Z"/>
+    <clipPath id="tm-clip"><use href="#tm-crown"/></clipPath>
+    <linearGradient id="tm-lit" x1="0" y1="0" x2="1" y2=".08">
+      <stop offset="0" stop-color="#8f7d64" stop-opacity=".22"/>
+      <stop offset=".15" stop-color="#ffffff" stop-opacity=".32"/>
+      <stop offset=".36" stop-color="#ffffff" stop-opacity=".06"/>
+      <stop offset=".58" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset=".80" stop-color="#a38f75" stop-opacity=".11"/>
+      <stop offset="1" stop-color="#7c684f" stop-opacity=".28"/>
+    </linearGradient>
+    <linearGradient id="tm-depth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".24"/>
+      <stop offset=".38" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset=".74" stop-color="#a38f75" stop-opacity=".09"/>
+      <stop offset="1" stop-color="#6d5d48" stop-opacity=".26"/>
+    </linearGradient>
+    <radialGradient id="tm-cervical" cx=".5" cy="1.02" r=".72">
+      <stop offset="0" stop-color="#6d5d48" stop-opacity=".24"/>
+      <stop offset=".55" stop-color="#6d5d48" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#6d5d48" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="tm-sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".55"/>
+      <stop offset=".55" stop-color="#ffffff" stop-opacity=".16"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <g data-layer="geometry">
+    <use href="#tm-crown" fill="var(--tooth-fill, #f8f3ea)"/>
+  </g>
+
+  <g data-layer="volume" clip-path="url(#tm-clip)">
+    <use href="#tm-crown" fill="url(#tm-lit)"/>
+    <use href="#tm-crown" fill="url(#tm-depth)"/>
+    <use href="#tm-crown" fill="url(#tm-cervical)"/>
+    <path d="M 12.6 8.4 C 11.9 11.8 11.8 15.4 12.3 18.8 C 13.3 18.4 14.1 17.6 14.6 16.4 C 14.1 13.8 13.9 11.2 14.1 8.2 Z"
+      fill="url(#tm-sheen)"/>
+    <path d="M 28.2 8.3 C 27.7 10.7 27.7 13.1 28.1 15.5 C 28.9 15.1 29.6 14.4 30.0 13.5 C 29.5 11.7 29.3 9.8 29.4 8.1 Z"
+      fill="url(#tm-sheen)" opacity=".7"/>
+    <path d="M 10.6 7.3 C 11.8 6.7 12.8 6.9 13.8 7.9 M 18.8 6.7 C 19.8 6.4 20.7 6.7 21.4 7.4 M 32.8 7.7 C 33.9 7.2 34.8 7.7 35.4 8.7"
+      fill="none" stroke="#ffffff" stroke-opacity=".32" stroke-width=".75" stroke-linecap="round"/>
+  </g>
+
+  <g data-layer="detail" clip-path="url(#tm-clip)">
+    <path d="M 22.0 10.8 C 21.8 12.8 22.2 14.8 22.0 16.8" fill="none"
+      stroke="var(--tooth-groove, #8a7b66)" stroke-opacity=".22" stroke-width=".7"
+      stroke-linecap="round"/>
+    <path d="M 22.0 13.6 C 20.5 12.5 19.2 11.6 17.8 11.0 M 22.0 13.6 C 23.5 12.5 24.8 11.6 26.2 11.0"
+      fill="none" stroke="var(--tooth-groove, #8a7b66)" stroke-opacity=".15" stroke-width=".6"
+      stroke-linecap="round"/>
+    <path d="M 15.8 33.0 C 17.9 34.2 20.0 34.7 22 34.7 C 24.0 34.7 26.1 34.2 28.2 33.0"
+      fill="none" stroke="var(--tooth-groove, #8a7b66)" stroke-opacity=".18" stroke-width=".6"
+      stroke-linecap="round"/>
+  </g>
+
+  <use href="#tm-crown" fill="none" stroke="var(--tooth-outline, #8a7f6e)" stroke-width=".8"
+    stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

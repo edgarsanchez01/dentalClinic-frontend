@@ -1,4 +1,5 @@
-import { apiFetch, tokenStore } from './http';
+import { apiFetch } from './http';
+import type { MedicalOnboarding } from './medicalIntake';
 
 export type Role = 'OWNER' | 'DENTIST' | 'RECEPTIONIST' | 'PATIENT';
 
@@ -13,6 +14,7 @@ export interface UserDto {
   patientId?: number;
   /** Solo aparece si el usuario tiene un `Dentist` asociado (A-12); gate de acciones de trayectoria. */
   dentistId?: number | undefined;
+  medicalOnboarding?: MedicalOnboarding;
 }
 
 /** Alta publica de paciente (`POST /api/auth/register`). El rol nunca viaja en el cuerpo. */
@@ -40,8 +42,8 @@ export interface TokensResponse {
 
 /**
  * Endpoints del modulo de identidad (Architecture.md 14). Ninguna funcion persiste
- * el access token: lo guarda `tokenStore` en memoria. `login` y `refresh` son los
- * unicos que lo actualizan.
+ * el access token: el store de sesion lo acepta en memoria tras comprobar que el
+ * intento de login sigue vigente; `refresh` lo renueva en el cliente HTTP.
  */
 export const authApi = {
   async login(email: string, password: string): Promise<LoginResponse> {
@@ -50,7 +52,6 @@ export const authApi = {
       auth: false,
       body: { email, password },
     });
-    tokenStore.set(response.accessToken);
     return response;
   },
 
@@ -64,11 +65,11 @@ export const authApi = {
   },
 
   /**
-   * Registro publico (RF-IA-05/06): crea `User(PATIENT)` + `Patient` en una transaccion. No abre
-   * sesion; el paciente entra por /login de forma explicita.
+   * Registro público: crea User(PATIENT) + Patient + sesión en una transacción.
+   * Access solo en memoria; refresh solo en cookie HttpOnly, igual que login.
    */
-  register(input: RegisterInput): Promise<UserDto> {
-    return apiFetch<UserDto>('/api/auth/register', {
+  register(input: RegisterInput): Promise<LoginResponse> {
+    return apiFetch<LoginResponse>('/api/auth/register', {
       method: 'POST',
       auth: false,
       body: input,

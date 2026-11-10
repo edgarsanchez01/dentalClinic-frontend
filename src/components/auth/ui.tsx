@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+export { Field } from '../ui/FormControls';
 
 /** Tarjeta centrada de los flujos de identidad (login, activación, recuperación). */
 export function AuthCard({
@@ -6,15 +7,18 @@ export function AuthCard({
   intro,
   children,
   footer,
+  embedded = false,
 }: {
   title: string;
   intro?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
+  embedded?: boolean;
 }) {
+  const Container = embedded ? 'section' : 'main';
   return (
-    <div className="grid min-h-dvh place-items-center bg-canvas px-5 py-10">
-      <main className="w-full max-w-[26rem]">
+    <div className={`grid ${embedded ? '' : 'min-h-dvh'} place-items-center bg-canvas px-5 py-10`}>
+      <Container className="w-full max-w-[26rem]">
         <h1 className="text-[length:var(--text-h3)] tracking-[-0.02em] text-ink">{title}</h1>
         {intro ? (
           <p className="mt-2 text-[length:var(--text-body-app)] leading-[1.43] text-ink-secondary">
@@ -29,56 +33,7 @@ export function AuthCard({
         {footer ? (
           <div className="mt-4 text-[length:var(--text-body-app)] text-ink-secondary">{footer}</div>
         ) : null}
-      </main>
-    </div>
-  );
-}
-
-export function Field({
-  id,
-  label,
-  type = 'text',
-  value,
-  onChange,
-  autoComplete,
-  error,
-  required = true,
-}: {
-  id: string;
-  label: string;
-  type?: string;
-  value: string;
-  onChange: (value: string) => void;
-  autoComplete?: string;
-  error?: string;
-  required?: boolean;
-}) {
-  const describedBy = error ? `${id}-error` : undefined;
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="block text-[length:var(--text-body-sm)] font-medium text-ink"
-      >
-        {label}
-      </label>
-      <input
-        id={id}
-        name={id}
-        type={type}
-        value={value}
-        required={required}
-        autoComplete={autoComplete}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={describedBy}
-        onChange={(event) => onChange(event.target.value)}
-        className="mt-1.5 w-full rounded-control bg-input-fill px-3 py-2 text-[length:var(--text-body-app)] text-ink ring-1 ring-hairline outline-none focus-visible:ring-2 focus-visible:ring-primary"
-      />
-      {error ? (
-        <p id={`${id}-error`} className="mt-1.5 text-[length:var(--text-caption)] text-danger-ink">
-          {error}
-        </p>
-      ) : null}
+      </Container>
     </div>
   );
 }
@@ -94,7 +49,7 @@ export function SubmitButton({
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-control bg-primary px-4 py-2 text-[length:var(--text-body-app)] font-medium text-primary-ink ring-1 ring-primary outline-none transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
+      className="w-full rounded-control bg-primary px-4 py-2 text-[length:var(--text-body-app)] font-medium text-paper ring-1 ring-primary outline-none transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
     >
       {pending ? 'Enviando…' : children}
     </button>
@@ -107,7 +62,7 @@ export function FormAlert({ tone = 'danger', children }: { tone?: 'danger' | 'su
       ? 'bg-danger-subtle text-danger-ink'
       : 'bg-success-subtle text-success-ink';
   return (
-    <p role="alert" className={`rounded-xs px-3 py-2 text-[length:var(--text-body-sm)] ${classes}`}>
+    <p role="alert" className={`min-w-0 max-w-full rounded-xs px-3 py-2 text-[length:var(--text-body-sm)] [overflow-wrap:anywhere] ${classes}`}>
       {children}
     </p>
   );

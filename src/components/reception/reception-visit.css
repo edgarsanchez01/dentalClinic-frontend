@@ -1,0 +1,51 @@
+/* Receta de ReceptionVisit: Recepción conserva sus selectores y valores.
+   DENTIST la adopta solo para filas diarias; los eventos compactos no cambian. */
+.reception-shell .reception-visit,
+.dentist-shell .dc-day .reception-visit { container-type: inline-size; display: grid; grid-template-columns: 60px minmax(0, 1fr) auto; align-items: start; gap: 16px; min-width: 0; padding: 20px 0; text-decoration: none; border-radius: 6px; color: var(--auth-ink); }
+.reception-shell .reception-visit:hover,
+.dentist-shell .dc-day .reception-visit:hover { background: var(--auth-canvas); }
+.reception-shell .reception-visit-time,
+.dentist-shell .dc-day .reception-visit-time { display: grid; gap: 4px; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.reception-shell .reception-visit-time > strong,
+.dentist-shell .dc-day .reception-visit-time > strong { font-size: 18px; font-weight: 500; color: var(--auth-petrol); }
+.reception-shell .reception-visit-time > span,
+.dentist-shell .dc-day .reception-visit-time > span { font-size: 13px; color: var(--auth-muted); }
+.reception-shell .reception-visit-person,
+.dentist-shell .dc-day .reception-visit-person { display: grid; gap: 4px; min-width: 0; }
+.reception-shell .reception-visit-person > strong,
+.dentist-shell .dc-day .reception-visit-person > strong { font-size: 17px; font-weight: 500; line-height: 1.3; color: var(--auth-petrol); }
+.reception-shell .reception-visit-person > span,
+.dentist-shell .dc-day .reception-visit-person > span { font-size: 14px; }
+.reception-shell .reception-visit-professional,
+.dentist-shell .dc-day .reception-visit-professional { color: var(--auth-muted); }
+.reception-shell .reception-visit-status,
+.dentist-shell .dc-day .reception-visit-status { display: inline-flex; align-items: center; justify-self: start; align-self: start; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 500; background: var(--auth-sage); color: var(--auth-petrol); white-space: nowrap; }
+.reception-shell .reception-visit .reception-visit-status,
+.dentist-shell .dc-day .reception-visit .reception-visit-status { opacity: 1; text-decoration: none; }
+.reception-shell .reception-visit[data-status='COMPLETED'] .reception-visit-status,
+.dentist-shell .dc-day .reception-visit[data-status='COMPLETED'] .reception-visit-status { background: var(--success-subtle); color: var(--success-ink); }
+.reception-shell .reception-visit[data-status='CANCELLED'] .reception-visit-status,
+.dentist-shell .dc-day .reception-visit[data-status='CANCELLED'] .reception-visit-status { background: var(--auth-canvas); color: var(--auth-muted); }
+.reception-shell .reception-visit[data-status='CANCELLED'] .reception-visit-person > strong,
+.dentist-shell .dc-day .reception-visit[data-status='CANCELLED'] .reception-visit-person > strong { text-decoration: line-through; }
+.reception-shell .reception-visit[data-status='NO_SHOW'] .reception-visit-status,
+.dentist-shell .dc-day .reception-visit[data-status='NO_SHOW'] .reception-visit-status { background: var(--danger-subtle); color: var(--danger-ink); }
+
+.dentist-shell .dc-day .reception-visit { width: 100%; padding: 16px; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); text-align: left; }
+.dentist-shell .dc-day .reception-visit time { font-size: inherit; }
+.dentist-shell .dc-day .reception-visit-person { overflow-wrap: anywhere; }
+@media (max-width: 767px) {
+  .dentist-shell .dc-day .reception-visit { grid-template-columns: 56px minmax(0, 1fr); gap: 8px 16px; }
+  .dentist-shell .dc-day .reception-visit-status { grid-column: 2; }
+}
+/* Reflujo del contenido, no del viewport: una tarjeta estrecha no reserva una
+   tercera columna para el estado. La variante agrupada OWNER tiene su receta. */
+@container (max-width: 480px) {
+  .reception-visit:not(.owner-start-visit) > .reception-visit-person { grid-column: 2 / -1; }
+  .reception-visit:not(.owner-start-visit) > .reception-visit-status { grid-column: 2 / -1; }
+}
+@container (max-width: 300px) {
+  .reception-visit:not(.owner-start-visit) > .reception-visit-time { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+  .reception-visit:not(.owner-start-visit) > .reception-visit-person,
+  .reception-visit:not(.owner-start-visit) > .reception-visit-status { grid-column: 1 / -1; }
+}

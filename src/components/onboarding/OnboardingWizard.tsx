@@ -407,7 +407,7 @@ export function OnboardingWizard() {
               <button
                 type="button"
                 onClick={next}
-                className="rounded-control bg-primary px-5 py-2 text-[length:var(--text-body-app)] font-medium text-primary-ink outline-none transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary"
+                className="rounded-control bg-primary px-5 py-2 text-[length:var(--text-body-app)] font-medium text-paper outline-none transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary"
               >
                 Continuar
               </button>
@@ -416,7 +416,7 @@ export function OnboardingWizard() {
                 type="button"
                 onClick={submit}
                 disabled={submitting}
-                className="rounded-control bg-primary px-5 py-2 text-[length:var(--text-body-app)] font-medium text-primary-ink outline-none transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-control bg-primary px-5 py-2 text-[length:var(--text-body-app)] font-medium text-paper outline-none transition-colors hover:bg-primary-hover focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {submitting ? 'Creando…' : 'Crear clínica'}
               </button>

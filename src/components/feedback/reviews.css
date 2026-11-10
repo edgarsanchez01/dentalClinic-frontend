@@ -1,0 +1,35 @@
+/* F3: the existing editorial review recipe, scoped to the shared module. */
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 0; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary > div { display: grid; align-content: start; gap: 8px; min-width: 0; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary > div + div { padding-left: 24px; border-left: 1px solid var(--auth-divider); }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary dt { color: var(--auth-muted); font-size: 14px; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary dd { margin: 0; color: var(--auth-petrol); font-size: 36px; font-weight: 500; line-height: 1.2; font-variant-numeric: tabular-nums; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary .reviews-unrated { font-size: 20px; line-height: 1.5; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-list { margin: 0; padding: 0; list-style: none; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-list > li { padding: 24px; min-width: 0; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-list > li + li { border-top: 1px solid var(--auth-divider); }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-entry { display: grid; gap: 16px; min-width: 0; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-entry-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-rating { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; color: var(--auth-petrol); font-size: 14px; font-weight: 500; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-stars { display: inline-flex; flex-shrink: 0; gap: 2px; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-stars svg { width: 18px; height: 18px; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-date { color: var(--auth-muted); font-size: 13px; line-height: 1.5; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-comment { max-width: 70ch; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--auth-ink); font-size: 16px; line-height: 1.6; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-comment--empty { color: var(--auth-muted); font-size: 14px; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; }
+:is(.dentist-shell, .owner-shell) .reviews-page .reviews-pagination-status { color: var(--auth-muted); font-size: 14px; font-variant-numeric: tabular-nums; }
+:is(.dentist-shell, .owner-shell) .reviews-page :focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 3px; }
+:is(.dentist-shell, .owner-shell) .reviews-page ::selection { background: var(--auth-sage); color: var(--auth-petrol); }
+@media (max-width: 767px) {
+  :is(.dentist-shell, .owner-shell) .reviews-page .reviews-list > li { padding: 20px 16px; }
+  :is(.dentist-shell, .owner-shell) .reviews-page .reviews-entry-header { display: grid; gap: 8px; justify-content: start; }
+}
+@media (max-width: 479px) {
+  :is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  :is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary > div + div { padding: 20px 0 0; border-left: 0; border-top: 1px solid var(--auth-divider); }
+  :is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary dd { font-size: 32px; }
+  :is(.dentist-shell, .owner-shell) .reviews-page .reviews-summary .reviews-unrated { font-size: 20px; }
+  :is(.dentist-shell, .owner-shell) .reviews-page .reviews-pagination { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :is(.dentist-shell, .owner-shell) .reviews-page .reviews-pagination-status { grid-column: 1 / -1; grid-row: 1; text-align: center; }
+  :is(.dentist-shell, .owner-shell) .reviews-page .reviews-pagination .reception-button { min-width: 0; padding-inline: 12px; }
+}

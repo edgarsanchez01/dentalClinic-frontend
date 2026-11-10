@@ -1,0 +1,150 @@
+/* UX-04G.4: compact professional context → recurring weekly calendar → independent consultation.
+   Shared consultation only: reception and dentist. Editors stay outside this page scope. */
+:is(.reception-shell, .dentist-shell) .reception-scheduling { gap: 24px; }
+.dentist-shell .reception-scheduling { display: grid; min-width: 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling h2 { color: var(--auth-petrol); font-size: 24px; font-weight: 500; line-height: 1.25; letter-spacing: -.015em; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling h3 { color: var(--auth-petrol); font-size: 16px; font-weight: 500; line-height: 1.4; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-heading { display: grid; gap: 6px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-heading p,
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-note { color: var(--auth-muted); font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-section { min-width: 0; display: grid; gap: 16px; align-content: start; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-time { font-family: var(--font-mono); font-size: 13px; font-variant-numeric: tabular-nums; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling :focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 3px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling ::selection { background: var(--auth-sage); color: var(--auth-petrol); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-detail { min-width: 0; display: grid; gap: 24px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-selected-name { color: var(--auth-petrol); font-size: 24px; font-weight: 500; line-height: 1.25; overflow-wrap: anywhere; }
+
+/* Context stays below shell overlays (z20+). One disclosure, no persistent directory column. */
+.reception-shell .reception-scheduling .rs-directory,
+.dentist-shell .reception-scheduling .rs-directory { position: sticky; top: 0; z-index: 10; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 12px 24px; min-width: 0; padding: 12px 0 16px; background: var(--auth-canvas); border-bottom: 1px solid var(--auth-border); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-context-identity { display: grid; gap: 2px; min-width: 0; }
+.reception-shell .reception-scheduling .rs-picker { display: contents; }
+.reception-shell .reception-scheduling .rs-picker-panel { grid-column: 1 / -1; min-width: 0; display: grid; gap: 12px; padding: 12px 0 0; border-top: 1px solid var(--auth-divider); }
+.reception-shell .reception-scheduling .rs-picker-list { max-height: min(220px, 32dvh); overflow-y: auto; overscroll-behavior: contain; scrollbar-color: var(--auth-secondary) var(--auth-canvas); list-style: none; margin: 0; padding: 0; }
+.reception-shell .reception-scheduling .rs-picker-list:empty { display: none; }
+.reception-shell .reception-scheduling .rs-picker-list li { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; align-items: center; min-height: 48px; padding: 10px 12px; border-bottom: 1px solid var(--auth-divider); border-radius: var(--auth-radius); color: var(--auth-petrol); font-size: 16px; cursor: pointer; overflow-wrap: anywhere; }
+.reception-shell .reception-scheduling .rs-picker-list li[aria-selected='true'] { background: var(--auth-sage); font-weight: 500; }
+.reception-shell .reception-scheduling .rs-picker-list li:hover:not([aria-selected='true']) { background: color-mix(in srgb, var(--auth-sage) 55%, var(--auth-paper)); }
+/* Inset, rounded virtual focus cannot be clipped by the scrollable option list. */
+.reception-shell .reception-scheduling .rs-picker-list li.is-keyboard-active { outline: 2px solid var(--auth-petrol); outline-offset: -3px; }
+.reception-shell .reception-scheduling .rs-picker-current { font-size: 12px; font-weight: 400; }
+.reception-shell .reception-scheduling .rs-directory-pages { display: flex; flex-wrap: wrap; gap: 8px; }
+.reception-shell .reception-scheduling .rs-directory-pages button,
+.reception-shell .reception-scheduling .rs-change { min-height: 44px; padding: 8px 12px; font-size: 14px; }
+.reception-shell .reception-scheduling .rs-directory > .reception-empty,
+.reception-shell .reception-scheduling .rs-directory > [role='status'] { grid-column: 1 / -1; }
+
+/* One vertical local-time scale shared by all seven days. No dates or bookable controls. */
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-professional { padding: 24px; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); scroll-margin-top: 144px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 24px; margin-bottom: 16px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-legend { display: flex; flex-wrap: wrap; gap: 8px 16px; color: var(--auth-muted); font-size: 12px; line-height: 1.4; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-legend span { display: inline-flex; align-items: center; gap: 6px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-legend span::before { content: ''; width: 12px; height: 10px; border: 1px solid var(--auth-secondary); border-radius: 2px; background: var(--auth-sage); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-legend span:nth-child(2)::before { background: var(--auth-canvas); border-style: dashed; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-legend span:nth-child(3)::before { background: var(--auth-canvas); border-color: var(--auth-divider); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-columns { display: grid; grid-template-columns: 48px repeat(var(--calendar-columns), minmax(0, 1fr)); min-width: 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day { min-width: 0; border-left: 1px solid var(--auth-divider); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-heading { box-sizing: border-box; display: grid; align-content: start; gap: 8px; height: 88px; padding: 12px 8px; border-bottom: 1px solid var(--auth-divider); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-heading h3 { font-size: 14px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-heading .rs-time { font-size: 12px; overflow-wrap: anywhere; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-day-state { color: var(--auth-muted); font-size: 13px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-axis-body { position: relative; height: var(--calendar-height); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-axis-body > span { position: absolute; left: 0; transform: translateY(-50%); color: var(--auth-muted); font-family: var(--font-mono); font-size: 11px; font-variant-numeric: tabular-nums; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-plot { position: relative; height: var(--calendar-height); background-image: linear-gradient(to bottom, var(--auth-divider) 1px, transparent 1px); background-size: 100% var(--calendar-hour); border-bottom: 1px solid var(--auth-divider); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-block { box-sizing: border-box; position: absolute; inset-inline: 6px; display: grid; align-content: start; gap: 3px; padding: 4px 5px; overflow: hidden; border: 1px solid var(--auth-secondary); border-radius: 4px; background: var(--auth-sage); color: var(--auth-petrol); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-block-kind { font-size: 12px; font-weight: 500; line-height: 1.4; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-block-time { font-family: var(--font-mono); font-size: 11px; line-height: 1.4; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-break { background: var(--auth-canvas); border-style: dashed; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-tiny { padding: 0; border-width: 0; border-radius: 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-tiny.rs-calendar-break { background: repeating-linear-gradient(135deg, var(--auth-paper), var(--auth-paper) 3px, var(--auth-border) 3px, var(--auth-border) 4px); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day[data-state='closed'] .rs-calendar-plot,
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day[data-state='missing'] .rs-calendar-plot,
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day[data-state='invalid'] .rs-calendar-plot { background-color: var(--auth-canvas); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-message { display: block; padding: 20px 8px; color: var(--auth-muted); font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-details { padding: 12px 8px 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-details .rs-note,
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-details .rs-breaks { font-size: 11px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-details .rs-time { display: inline-block; font-size: 11px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-issue { padding: 12px 8px; font-size: 12px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-no-work { padding: 12px 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-week-footnote { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--auth-divider); font-size: 12px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-empty { display: grid; gap: 12px; padding: 20px 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-navigation { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; margin: 16px 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-actions { display: flex; gap: 8px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-day-actions button { min-height: 46px; padding: 10px 12px; font-size: 14px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-daily .rs-calendar-day-heading h3 { font-size: 18px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-daily .rs-calendar-block-kind { font-size: 14px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-daily .rs-calendar-block-time { font-size: 13px; }
+
+/* Complementary dated records, not permanent changes to the recurring week. */
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-exceptions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-exceptions h2,
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-columns h2 { font-size: 18px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-events { display: grid; list-style: none; margin: 0; padding: 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-events li { display: grid; grid-template-columns: 58px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--auth-divider); overflow-wrap: anywhere; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-event-date { display: grid; gap: 2px; align-content: start; color: var(--auth-petrol); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-date-day { font-family: var(--font-mono); font-size: 22px; line-height: 1.2; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-date-month { font-size: 11px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-event-body { display: grid; gap: 4px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-event-kind { color: var(--auth-petrol); font-size: 14px; font-weight: 500; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-events p { color: var(--auth-muted); font-size: 13px; line-height: 1.5; white-space: pre-wrap; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-timeoff li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-breaks { display: grid; gap: 4px; list-style: none; margin: 0; padding: 0; color: var(--auth-muted); font-size: 12px; }
+
+/* Availability is independent of calendar layout and fed exclusively by the existing API. */
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-availability { display: grid; gap: 16px; min-width: 0; padding: 24px 0; border-top: 1px solid var(--auth-border); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-tool-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 20px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-tool-scope { color: var(--auth-muted); font-size: 13px; }
+.dentist-shell .reception-scheduling .rs-tool-controls { display: grid; gap: 16px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-search { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto; gap: 16px; align-items: end; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-field { display: grid; gap: 6px; min-width: 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-field label { font-size: 13px; font-weight: 500; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-field input,
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-field select { box-sizing: border-box; min-width: 0; width: 100%; min-height: 46px; padding: 10px 12px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); color: var(--auth-ink); caret-color: var(--auth-petrol); font-size: 16px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-field input:hover,
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-field select:hover { border-color: var(--auth-petrol); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-field input::placeholder { color: var(--auth-muted); opacity: 1; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-results { display: grid; gap: 12px; min-width: 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-result-context { display: grid; gap: 4px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-slots { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 0 16px; list-style: none; padding: 0; margin: 8px 0 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-slots li { padding: 8px 0; border-bottom: 1px solid var(--auth-divider); color: var(--auth-petrol); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .reception-empty { padding: 12px 0; border: 0; border-radius: 0; background: transparent; text-align: left; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-results [role='alert'] { padding: 12px; border: 1px solid var(--danger-ink); border-radius: var(--auth-radius); background: var(--danger-subtle); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-loading { color: var(--auth-muted); font-size: 14px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-loading-lines { display: flex; gap: 16px; margin-top: 12px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-loading-lines span { width: 80px; height: 8px; background: var(--auth-divider); }
+
+/* Global clinic reference retains the compact textual week, not a second competing calendar. */
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic { display: grid; gap: 20px; padding-top: 24px; border-top: 1px solid var(--auth-border); }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-rules { display: grid; gap: 24px; align-content: start; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-week .rs-week { margin: 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-week .rs-day { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 8px; padding: 8px 0; border: 0; border-bottom: 1px solid var(--auth-divider); border-radius: 0; background: transparent; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-week dt { font-size: 14px; font-weight: 500; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-week dd { margin: 0; min-width: 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-week .rs-breaks { margin-top: 4px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-week .rs-breaks .rs-time { font-size: 12px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-policy { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-policy dt { color: var(--auth-muted); font-size: 12px; line-height: 1.5; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-policy dd { margin: 4px 0 0; color: var(--auth-petrol); font-family: var(--font-mono); font-size: 22px; line-height: 1.25; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-policy dd span { font-family: var(--font-sans); font-size: 14px; }
+:is(.reception-shell, .dentist-shell) .reception-scheduling .rs-policy .rs-timezone { font-family: var(--font-sans); font-size: 14px; overflow-wrap: anywhere; }
+
+@media (max-width: 1100px) {
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-directory { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; }
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-context-zone { grid-column: 1 / -1; grid-row: 2; }
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-clinic-columns { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-calendar-navigation { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 767px) {
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-professional { padding: 20px 16px; }
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-selected-name { font-size: 20px; }
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-context-zone { font-size: 12px; }
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-exceptions { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-search { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-search button { grid-column: 1 / -1; }
+  :is(.reception-shell, .dentist-shell) .reception-scheduling .rs-slots { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.reception-shell, .dentist-shell) .reception-scheduling * { scroll-behavior: auto; }
+}

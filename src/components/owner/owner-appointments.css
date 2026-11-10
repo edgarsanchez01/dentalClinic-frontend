@@ -1,0 +1,8 @@
+/* Excepción funcional: comparación temporal OWNER. El resto usa Recepción. */
+.owner-column-comparison { min-width: 0; max-width: 100%; }
+.owner-column-comparison .owner-day-grid { width: 100%; min-width: 0; max-height: none; overflow-x: auto; overflow-y: hidden; }
+.owner-column-comparison .owner-day-grid > p { margin-bottom: 12px; }
+.owner-day-grid [aria-label^='Agenda de '] { flex-shrink: 0; }
+.owner-day-grid h3 { display: flex; align-items: center; height: 44px; background: var(--auth-paper); }
+.owner-day-grid .reception-calendar-event { height: 100%; min-height: 0; overflow: hidden; align-content: start; }
+.owner-day-grid .reception-calendar-event[data-short] > :not(:first-child) { display: none; }

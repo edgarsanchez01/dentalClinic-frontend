@@ -1,0 +1,56 @@
+/* Publicación única. OWNER y Recepción heredan la misma paleta desde el shell;
+   las recetas de contenido siguen siendo opt-in, sin adoptar módulos por rol. */
+.auth-layout, .intake-surface, .patient-shell, .reception-shell, .dentist-shell, .owner-shell, .collection-page, .clinical-editorial, .ce-combobox-root {
+  --auth-petrol: #193f43;
+  --auth-secondary: #52766f;
+  --auth-sage: #b9d6c9;
+  --auth-canvas: #f6f7f3;
+  --auth-paper: #fff;
+  --auth-ink: #293b3a;
+  --auth-muted: #526761;
+  --auth-border: #7c8f88;
+  --auth-divider: #d6dfd7;
+  --auth-hover: #113034;
+  --auth-radius: 12px;
+}
+
+/* Intersección exacta de las recetas existentes; no amplía alias de PATIENT. */
+.patient-shell, .reception-shell, .owner-shell, .dentist-shell, .clinical-editorial {
+  --primary: var(--auth-petrol);
+  --primary-hover: var(--auth-hover);
+  --primary-ink: var(--auth-petrol);
+  --primary-subtle: var(--auth-sage);
+  --surface-canvas: var(--auth-canvas);
+  --surface-sidebar: var(--auth-canvas);
+  --surface-input-fill: var(--auth-paper);
+  --foreground: var(--auth-ink);
+  --foreground-muted: var(--auth-muted);
+  --foreground-subtle: var(--auth-muted);
+  --border: var(--auth-divider);
+  --border-strong: var(--auth-border);
+  --radius-control: var(--auth-radius);
+  --radius-card: var(--auth-radius);
+  color: var(--auth-ink);
+  caret-color: var(--auth-petrol);
+  scrollbar-color: var(--auth-secondary) var(--auth-canvas);
+}
+.patient-shell {
+  --surface-sunken: var(--auth-canvas);
+  --foreground-secondary: var(--auth-muted);
+  --shadow-card: none;
+  --text-body-app: 1rem;
+  --text-body-sm: .875rem;
+  --text-caption: .8125rem;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.reception-shell, .owner-shell, .dentist-shell, .clinical-editorial {
+  --surface-paper: var(--auth-paper);
+  --surface-sunken: #edf1ec;
+  --surface-featured: var(--auth-sage);
+  --surface-contextual: var(--auth-paper);
+  --foreground-secondary: var(--auth-secondary);
+  --ring: var(--auth-petrol);
+  --radius-nested: 8px;
+  --shadow-card: 0 1px 2px rgb(25 63 67 / 0.05), 0 1px 1px -1px rgb(25 63 67 / 0.04);
+}

@@ -1,4 +1,5 @@
 import { apiFetch } from './http';
+import type { AppointmentSelection, RecordedAppointmentContext } from './clinicalTrace';
 
 /**
  * Pacientes (administrativo) y expediente clinico (Fase 4, matriz §7.4).
@@ -82,6 +83,16 @@ export interface ClinicalNoteDto {
   authorDentistId: number;
   authorName: string;
   createdAt: string;
+  appointmentContext?: RecordedAppointmentContext;
+  /** Id de la nota original corregida; ausente en notas raiz (Fase 1B.2). */
+  correctsRecordId?: number;
+  /** Motivo obligatorio de la correccion; ausente en notas raiz. */
+  correctionReason?: string;
+}
+
+export interface ClinicalCorrectionInput {
+  content: string;
+  correctionReason: string;
 }
 
 function query(params: PatientListParams): string {
@@ -127,14 +138,25 @@ export const patientsApi = {
     return apiFetch<ClinicalRecordDto>(`/api/patients/${id}/clinical`, { method: 'PUT', body: input });
   },
 
-  listClinicalNotes(id: number): Promise<ClinicalNoteDto[]> {
-    return apiFetch<ClinicalNoteDto[]>(`/api/patients/${id}/clinical/notes`);
+  listClinicalNotes(id: number, generalOnly = false): Promise<ClinicalNoteDto[]> {
+    return apiFetch<ClinicalNoteDto[]>(`/api/patients/${id}/clinical/notes${generalOnly ? '?generalOnly=true' : ''}`);
   },
 
-  addClinicalNote(id: number, content: string): Promise<ClinicalNoteDto> {
+  addClinicalNote(id: number, content: string, appointmentContext?: AppointmentSelection | null): Promise<ClinicalNoteDto> {
     return apiFetch<ClinicalNoteDto>(`/api/patients/${id}/clinical/notes`, {
       method: 'POST',
-      body: { content },
+      body: { content, ...(appointmentContext === undefined ? {} : { appointmentContext }) },
+    });
+  },
+
+  /**
+   * Corrige una nota conservando la original (append-only). `noteId` puede ser la raiz o cualquier
+   * correccion: el backend resuelve siempre la raiz.
+   */
+  correctClinicalNote(id: number, noteId: number, input: ClinicalCorrectionInput): Promise<ClinicalNoteDto> {
+    return apiFetch<ClinicalNoteDto>(`/api/patients/${id}/clinical/notes/${noteId}/corrections`, {
+      method: 'POST',
+      body: input,
     });
   },
 };

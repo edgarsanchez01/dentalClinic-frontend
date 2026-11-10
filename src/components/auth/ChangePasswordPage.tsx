@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { ApiError } from '../../api/http';
 import { useAuthStore } from '../../app/authStore';
-import { AuthCard, Field, FormAlert, SubmitButton } from './ui';
+import { AuthLayout } from './AuthLayout';
+import { AuthFeedback, PasswordField, AuthSubmitButton } from './AuthForm';
+import { PASSWORD_HINT, passwordError } from './authValidation';
+import { useAuthForm } from './useAuthForm';
+import { PageContainer } from '../ui/Page';
 
 /**
  * Cambio de contraseña autenticado (RF-IA-11). Al completarlo, el backend revoca
@@ -16,68 +19,62 @@ export function ChangePasswordPage() {
   const [current, setCurrent] = useState('');
   const [next, setNext] = useState('');
   const [confirmation, setConfirmation] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [pending, setPending] = useState(false);
+  const { error, errors, pending, submit } = useAuthForm();
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(null);
-    if (next !== confirmation) {
-      setError('Las contraseñas no coinciden.');
-      return;
-    }
-    setPending(true);
-    try {
+    const issue = passwordError(next);
+    await submit(event, async () => {
       await changePassword(current, next);
       navigate('/login', {
         replace: true,
         state: { notice: 'Contraseña actualizada. Inicia sesión de nuevo.' },
       });
-    } catch (cause) {
-      setError(cause instanceof ApiError ? cause.message : 'No se pudo cambiar la contraseña.');
-    } finally {
-      setPending(false);
-    }
+    }, {
+      ...(issue ? { 'new-password': issue } : {}),
+      ...(next !== confirmation ? { 'confirm-password': 'Las contraseñas no coinciden.' } : {}),
+    });
   }
 
   return (
-    <AuthCard
+    <div className="clinical-editorial change-password-page"><PageContainer preset="form"><AuthLayout
+      embedded
       title="Cambiar contraseña"
       intro="Se cerrarán todas las sesiones abiertas, incluida esta."
       footer={
-        <Link className="text-ink underline underline-offset-2" to="/">
+        <Link to="/">
           Volver
         </Link>
       }
     >
-      <form className="grid gap-4" onSubmit={handleSubmit} noValidate>
-        {error ? <FormAlert>{error}</FormAlert> : null}
-        <Field
+      <form className="auth-form" onSubmit={handleSubmit} noValidate aria-busy={pending}>
+        <AuthFeedback errors={errors}>{error}</AuthFeedback>
+        <PasswordField
           id="current-password"
           label="Contraseña actual"
-          type="password"
           value={current}
           onChange={setCurrent}
           autoComplete="current-password"
+          error={errors['current-password']}
         />
-        <Field
+        <PasswordField
           id="new-password"
           label="Nueva contraseña"
-          type="password"
           value={next}
           onChange={setNext}
           autoComplete="new-password"
+          hint={PASSWORD_HINT}
+          error={errors['new-password']}
         />
-        <Field
+        <PasswordField
           id="confirm-password"
           label="Repite la nueva contraseña"
-          type="password"
           value={confirmation}
           onChange={setConfirmation}
           autoComplete="new-password"
+          error={errors['confirm-password']}
         />
-        <SubmitButton pending={pending}>Cambiar contraseña</SubmitButton>
+        <AuthSubmitButton pending={pending}>Cambiar contraseña</AuthSubmitButton>
       </form>
-    </AuthCard>
+    </AuthLayout></PageContainer></div>
   );
 }

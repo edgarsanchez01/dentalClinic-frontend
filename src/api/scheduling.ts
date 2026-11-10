@@ -62,6 +62,7 @@ export interface TimeOffDto {
   allDay: boolean;
   startTime?: string | null;
   endTime?: string | null;
+  reason?: string | null;
 }
 
 export interface TimeOffInput {
@@ -208,13 +209,17 @@ export const schedulingApi = {
     dentistId: number;
     from: string;
     to?: string;
-    duration: number;
+    duration?: number;
+    serviceId?: number;
+    appointmentId?: number;
   }): Promise<AvailabilityDto> {
     const search = new URLSearchParams({
       dentistId: String(params.dentistId),
       from: params.from,
-      duration: String(params.duration),
     });
+    if (params.duration !== undefined) search.set('duration', String(params.duration));
+    if (params.serviceId !== undefined) search.set('serviceId', String(params.serviceId));
+    if (params.appointmentId !== undefined) search.set('appointmentId', String(params.appointmentId));
     if (params.to) {
       search.set('to', params.to);
     }

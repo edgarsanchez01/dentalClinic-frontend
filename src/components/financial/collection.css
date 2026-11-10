@@ -1,0 +1,127 @@
+/* Collections: one Clinical Editorial composition, independent of the actor's shell. */
+main:has(> .collection-page) { background: var(--auth-canvas); }
+.reception-page.collection-page { min-width: 0; gap: 24px; font-size: 16px; line-height: 1.5; }
+.collection-page [hidden] { display: none !important; }
+.collection-page :is(p, dd, h2, h3, label) { overflow-wrap: anywhere; }
+.collection-page h2 { margin: 0; color: var(--auth-petrol); font-size: 20px; font-weight: 500; line-height: 1.3; }
+.collection-page h3 { margin: 0; color: var(--auth-petrol); font-size: 18px; font-weight: 500; }
+.collection-page .reception-page-intro { margin-top: 12px; }
+.collection-page .reception-text-button { display: inline-flex; align-items: center; min-height: 44px; padding-block: 8px; color: var(--auth-petrol); text-decoration: underline; text-underline-offset: 4px; text-align: left; }
+.collection-page .reception-text-button:hover { color: var(--auth-hover); }
+.collection-page .reception-text-button:disabled { color: var(--auth-muted); cursor: not-allowed; }
+.collection-page :focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 3px; }
+.collection-page ::selection { background: var(--auth-sage); color: var(--auth-petrol); }
+.collection-page .reception-readonly-note { color: var(--auth-muted); font-size: 14px; }
+.collection-page [role='alert'] { padding: 16px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-canvas); }
+
+/* Existing amounts only, never estimates of unrecorded debt. */
+.collection-overview { display: grid; gap: 8px; }
+.collection-overview > p { font-size: 14px; color: var(--auth-muted); }
+.collection-operating-summary { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; padding-block: 16px; border-block: 1px solid var(--auth-divider); }
+.collection-verified-balance dt, .collection-summary dt { color: var(--auth-muted); font-size: 14px; }
+.collection-verified-balance dd { margin-top: 4px; color: var(--auth-petrol); font: 500 28px/1.3 var(--font-mono); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.collection-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px 20px; }
+.collection-summary dd { margin-top: 4px; font-size: 24px; color: var(--auth-petrol); font-variant-numeric: tabular-nums; }
+.collection-summary [data-state='REVIEW_REQUIRED'] dt { color: var(--auth-petrol); font-weight: 500; }
+
+/* Secondary fields stay mounted to preserve drafts. */
+.collection-filters { display: grid; gap: 16px; min-width: 0; }
+.collection-filter-primary { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto auto; gap: 12px; align-items: end; }
+.collection-filter-primary > *, .collection-filter-secondary > * { min-width: 0; }
+.collection-filter-secondary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding: 20px; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); }
+.collection-filter-secondary > div { grid-column: 1 / -1; }
+.collection-filters label, .collection-field { display: grid; gap: 8px; min-width: 0; font-size: 14px; }
+.collection-page .collection-filters label { font-size: 14px; font-weight: 500; color: var(--auth-ink); }
+.collection-field input, .collection-field select, .collection-filters input:not([type='checkbox']):not([type='radio']), .collection-filters select { min-height: 50px; width: 100%; min-width: 0; padding: 12px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); color: var(--auth-ink); font-size: 16px; }
+.collection-filters .collection-choice { display: flex; padding: 0; }
+.collection-filter-status { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 20px; border-bottom: 1px solid var(--auth-divider); padding-bottom: 8px; }
+.collection-filter-status p { flex: 1 1 20rem; font-size: 14px; color: var(--auth-muted); }
+.collection-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+
+/* Flat visit cards with explicit navigation. */
+.collection-rows { display: grid; gap: 16px; list-style: none; margin: 0; padding: 0; }
+.collection-page .collection-row { display: grid; gap: 16px; min-width: 0; padding: 24px; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); }
+.collection-rows header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: start; gap: 12px 24px; }
+.collection-rows header > div { min-width: 0; }
+.collection-row > p, .collection-row-reference { color: var(--auth-muted); font-size: 14px; }
+.collection-page .collection-row .reception-chip { white-space: normal; max-width: 100%; }
+.collection-page .collection-row [data-state='NO_CHARGE'] { background: var(--auth-canvas); color: var(--auth-muted); }
+.collection-row-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.collection-totals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; min-width: 0; }
+.collection-totals dt { color: var(--auth-muted); font-size: 14px; }
+.collection-totals dd { margin-top: 4px; color: var(--auth-ink); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.collection-totals > div:last-child dd { font-weight: 500; color: var(--auth-petrol); }
+.collection-money-value { white-space: normal; overflow-wrap: anywhere; }
+
+/* Two real steps; consent and the only write belong to the final review. */
+.collection-progress { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; border-block: 1px solid var(--auth-divider); padding-block: 16px; color: var(--auth-muted); }
+.collection-progress li { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.collection-progress li > span { display: grid; place-items: center; flex: 0 0 auto; width: 28px; height: 28px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); font-variant-numeric: tabular-nums; }
+.collection-progress [aria-current] { color: var(--auth-petrol); font-weight: 500; }
+.collection-progress [aria-current] > span { background: var(--auth-petrol); color: var(--auth-paper); border-color: var(--auth-petrol); }
+.collection-workspace-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: start; gap: 32px; min-width: 0; }
+.collection-workspace-grid--result { grid-template-columns: minmax(0, 1fr); }
+.collection-page .collection-operation { display: grid; gap: 20px; min-width: 0; }
+.collection-decision { display: grid; gap: 12px; padding-top: 20px; border-top: 1px solid var(--auth-divider); }
+.collection-decision > p { color: var(--auth-muted); }
+.collection-choice { display: flex; align-items: flex-start; gap: 12px; padding-block: 12px; min-height: 44px; cursor: pointer; }
+.collection-choice input { width: 20px; height: 20px; min-height: 20px; flex-shrink: 0; margin: 2px 0 0; accent-color: var(--auth-petrol); }
+.collection-options { display: grid; gap: 12px; min-width: 0; margin: 0; padding: 0; border: 0; }
+.collection-payment-choice { display: grid; grid-template-columns: 20px minmax(0, 1fr); align-items: start; gap: 12px; min-width: 0; padding: 16px; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); }
+.collection-payment-choice > span { min-width: 0; }
+.collection-payment-choice:hover:not(:has(input:checked)):not(:has(input:disabled)) { border-color: var(--auth-border); }
+.collection-payment-choice:has(input:checked) { background: color-mix(in srgb, var(--auth-petrol) 5%, var(--auth-paper)); border-color: color-mix(in srgb, var(--auth-petrol) 45%, var(--auth-divider)); }
+.collection-payment-choice:has(input:focus-visible) { outline: 2px solid var(--auth-petrol); outline-offset: 3px; }
+.collection-page .collection-payment-choice input:focus-visible { outline: none; }
+.collection-payment-choice:has(input:disabled) { color: var(--auth-muted); cursor: not-allowed; }
+.collection-payment-choice strong { display: block; font-weight: 500; }
+.collection-payment-choice small { display: block; margin-top: 4px; color: var(--auth-muted); font-size: 14px; }
+.collection-payment-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 16px; }
+.collection-payment-fields .collection-field { grid-template-rows: auto 50px auto; align-content: start; }
+.collection-payment-fields .collection-field :is(input, select):focus-visible { outline-offset: -2px; }
+.collection-field input[aria-invalid='true'] { border-color: var(--auth-petrol); }
+.collection-field > span { color: var(--auth-muted); }
+.collection-financial-summary { display: grid; gap: 20px; padding: 24px; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); min-width: 0; }
+.collection-financial-summary .collection-totals { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+.collection-financial-summary .collection-totals dd { font-size: 20px; }
+.collection-financial-summary .collection-totals > div:last-child { padding-top: 16px; border-top: 1px solid var(--auth-divider); }
+.collection-financial-summary .collection-totals > div:last-child dd { font-size: 28px; }
+.collection-proposed-price strong { display: block; margin-top: 8px; font: 500 24px/1.3 var(--font-mono); color: var(--auth-petrol); }
+.collection-history { padding-top: 16px; border-top: 1px solid var(--auth-divider); }
+.collection-page summary { display: flex; align-items: center; min-height: 44px; cursor: pointer; color: var(--auth-petrol); text-decoration: underline; text-underline-offset: 4px; }
+.collection-history ul { display: grid; gap: 12px; padding-top: 12px; }
+.collection-review { display: grid; gap: 20px; }
+.collection-review dl { display: grid; gap: 16px; padding-block: 20px; border-block: 1px solid var(--auth-divider); }
+.collection-review dt { color: var(--auth-muted); font-size: 14px; }
+.collection-review dd { margin-top: 4px; color: var(--auth-petrol); font-weight: 500; }
+.collection-final-consent { border-block: 1px solid var(--auth-divider); }
+.collection-state-select { display: block; min-width: 0; padding-inline-end: 12px; border: 1px solid var(--auth-border); border-radius: var(--auth-radius); background: var(--auth-paper); }
+.collection-filters .collection-state-select select { min-height: 48px; border: 0; border-radius: inherit; background: transparent; }
+.collection-state-select:focus-within { outline: 2px solid var(--auth-petrol); outline-offset: 3px; }
+.collection-page .collection-state-select select:focus-visible { outline: 0; }
+.collection-footer { padding-block: 16px; border-top: 1px solid var(--auth-divider); }
+@media (max-width: 1099px) {
+  .collection-filter-primary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collection-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .collection-workspace-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .collection-financial-summary { grid-row: 1; }
+  .collection-financial-summary .collection-totals { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .collection-financial-summary .collection-totals > div:last-child { padding: 0; border: 0; }
+  .collection-financial-summary .collection-totals > div:last-child dd { font-size: 20px; }
+  .collection-filter-secondary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 639px) {
+  .reception-page.collection-page { gap: 24px; padding-inline: 16px; }
+  .collection-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collection-filter-primary > :first-child, .collection-filter-primary > label { grid-column: 1 / -1; }
+  .collection-page .collection-row, .collection-financial-summary, .collection-filter-secondary { padding: 16px; }
+  .collection-filter-secondary, .collection-payment-fields { grid-template-columns: minmax(0, 1fr); }
+  .collection-totals, .collection-financial-summary .collection-totals { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .collection-totals > div { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; min-width: 0; }
+  .collection-totals dd { min-width: 0; text-align: right; margin: 0; }
+  .collection-row-actions { display: grid; gap: 4px; }
+  .collection-row-actions > .reception-text-button { justify-content: center; }
+  .collection-progress { gap: 8px; font-size: 14px; }
+  .collection-progress li { align-items: start; flex-direction: column; }
+  .collection-footer { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+}

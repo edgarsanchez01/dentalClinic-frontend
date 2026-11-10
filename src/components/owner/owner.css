@@ -1,0 +1,38 @@
+/* OWNER comparte paleta/foco de shell con Recepción; estas recetas siguen
+   limitadas al workspace de Inicio/Citas, no al resto de módulos. */
+.owner-workspace { min-height: 100%; background: var(--auth-canvas); }
+.owner-workspace > nav[aria-label='Ámbito de trabajo'] { padding: 24px 32px 0; gap: 8px; }
+.owner-workspace > nav[aria-label='Ámbito de trabajo'] a { border: 1px solid var(--auth-border); box-shadow: none; font-size: 14px; }
+.owner-workspace > nav[aria-label='Ámbito de trabajo'] [aria-current='page'] { background: var(--auth-sage); color: var(--auth-petrol); border-color: var(--auth-petrol); font-weight: 500; }
+.owner-home { display: grid; gap: 32px; }
+.owner-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.owner-metrics > section { padding: 0 0 16px; border: 0; border-bottom: 1px solid var(--auth-divider); border-radius: 0; background: transparent; box-shadow: none; }
+.owner-workspace .owner-home .owner-metrics h2 { font-size: 13px; font-weight: 500; color: var(--auth-muted); text-transform: none; letter-spacing: 0; }
+.owner-metrics h2 + p { color: var(--auth-petrol); }
+.owner-metrics a { font-size: 13px; }
+.owner-home-actions { display: flex; flex-wrap: wrap; gap: 8px 24px; padding-bottom: 24px; border-bottom: 1px solid var(--auth-divider); }
+.owner-home-columns { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+.owner-home-columns > section { box-shadow: none; padding: 24px; }
+.owner-home-columns > section > h2 { margin-bottom: 16px; }
+.owner-home-columns > section p { font-size: 14px; line-height: 1.5; }
+.owner-home-columns > section li p { margin-top: 8px; }
+.owner-home-columns > section[aria-label='Próximas citas'] { grid-row: span 2; }
+.owner-home-columns > section[aria-label='Próximas citas'] li { padding-block: 20px; }
+.owner-agenda .owner-day-grid { padding: 20px; border: 1px solid var(--auth-divider); border-radius: var(--auth-radius); background: var(--auth-paper); }
+.owner-agenda .owner-day-grid h3 { min-height: 44px; white-space: normal; overflow-wrap: anywhere; }
+.owner-agenda .dc-calendar button { min-height: 44px; }
+.owner-agenda .reception-step button[aria-pressed='true'] { background: var(--auth-sage); color: var(--auth-petrol); outline: 1px solid var(--auth-petrol); }
+@media (max-width: 1100px) {
+  .owner-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .owner-home-columns { grid-template-columns: minmax(0, 1fr); }
+  .owner-home-columns > section[aria-label='Próximas citas'] { grid-row: auto; }
+}
+@media (max-width: 767px) {
+  .owner-workspace > nav[aria-label='Ámbito de trabajo'] { padding: 20px 16px 0; }
+  .owner-home { gap: 24px; }
+  .owner-metrics { gap: 20px 16px; }
+  .owner-home-columns > section { padding: 20px 16px; }
+}
+@media (max-width: 359px) {
+  .owner-metrics { grid-template-columns: minmax(0, 1fr); }
+}

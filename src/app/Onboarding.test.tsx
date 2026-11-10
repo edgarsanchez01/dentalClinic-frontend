@@ -1,9 +1,9 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { tokenStore } from '../api/http';
 import { useAuthStore } from './authStore';
-import { App } from './App';
+import { renderApp } from '../test/renderApp';
 
 const ANA = {
   id: 1,
@@ -33,13 +33,13 @@ afterEach(() => {
 });
 
 describe('Onboarding de la instalación', () => {
-  it('una instalación nueva dirige a `/` hacia el wizard y completa la configuración', async () => {
-    let statusCalls = 0;
+  it('la entrada explícita de instalación nueva completa el wizard sin desplazar la landing', async () => {
+    window.history.pushState({}, '', '/onboarding');
+    let completed = false;
     vi.stubGlobal('fetch', (input: RequestInfo | URL, init?: RequestInit) => {
       const url = typeof input === 'string' ? input : input.toString();
+      if (url.includes('/api/notifications/unread-count')) return Promise.resolve(response(200, { unread: 0 }));
       if (url.includes('/api/onboarding/status')) {
-        statusCalls += 1;
-        const completed = statusCalls > 1;
         return Promise.resolve(
           response(200, {
             status: completed ? 'COMPLETED' : 'AWAITING_FIRST_USER',
@@ -48,6 +48,7 @@ describe('Onboarding de la instalación', () => {
         );
       }
       if (url.includes('/api/onboarding')) {
+        completed = true;
         return Promise.resolve(response(201, { status: 'COMPLETED', ownerUserId: 1, clinicId: 1 }));
       }
       if (url.includes('/api/auth/login')) {
@@ -63,6 +64,9 @@ describe('Onboarding de la instalación', () => {
       if (url.includes('/api/auth/refresh')) {
         return Promise.resolve(response(401));
       }
+      if (url.includes('/api/auth/me')) {
+        return Promise.resolve(response(200, ANA));
+      }
       if (url.includes('/actuator/health')) {
         return Promise.resolve(response(200, { status: 'UP' }));
       }
@@ -70,7 +74,7 @@ describe('Onboarding de la instalación', () => {
       return Promise.reject(new Error(`Sin stub para ${url}`));
     });
 
-    render(<App />);
+    renderApp();
 
     expect(await screen.findByRole('heading', { name: 'Prepara tu clínica' })).toBeInTheDocument();
 
@@ -91,7 +95,7 @@ describe('Onboarding de la instalación', () => {
 
     fireEvent.click(await screen.findByRole('button', { name: 'Crear clínica' }));
 
-    expect(await screen.findByRole('heading', { name: 'owner@clinica.com' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'Resumen de la clínica' })).toBeInTheDocument();
     await waitFor(() => expect(tokenStore.get()).toBe('access-1'));
   });
 });

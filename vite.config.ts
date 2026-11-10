@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => {
       // El proxy solo existe para que el shell tecnico pueda consultar
       // /actuator/health sin CORS en desarrollo.
       proxy: {
+        '/api': { target: apiTarget, changeOrigin: true },
         '/actuator': { target: apiTarget, changeOrigin: true },
       },
     },

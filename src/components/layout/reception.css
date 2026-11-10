@@ -1,0 +1,758 @@
+/**
+ * UX-04 — Experiencia de Recepción (identidad Clinical Editorial).
+ *
+ * `.reception-shell` ofrece la gramática existente de recepción. DC-OWNER-UI-01
+ * la reutiliza dentro de Inicio/Citas del OWNER, nunca en sus otros módulos.
+ * El chrome y la paleta del shell se comparten con OWNER. Las recetas de contenido
+ * de Recepción no se activan globalmente sobre sus módulos administrativos.
+ *
+ * Paleta y alias compatibles: styles/clinical-editorial.css, importado por auth.css.
+ * Este archivo conserva las recetas y su alcance, no publica otro juego de tokens.
+ */
+
+/* ------------
+ * 1. Tokens
+ * ---------- */
+:is(.reception-shell, .owner-shell) ::selection { background: var(--auth-sage); color: var(--auth-petrol); }
+:is(.reception-shell, .owner-shell) :focus-visible { outline: 2px solid var(--auth-petrol); outline-offset: 2px; }
+:is(.reception-shell, .owner-shell) button, :is(.reception-shell, .owner-shell) summary { cursor: pointer; }
+:is(.reception-shell, .owner-shell) button:disabled, :is(.reception-shell, .owner-shell) [aria-disabled='true'] { cursor: not-allowed; }
+
+/* ------------
+ * 2. Cabecera
+ * ---------- */
+:is(.reception-shell, .owner-shell) > header { padding: 10px 24px; box-shadow: inset 0 -3px 0 0 var(--auth-sage); }
+:is(.reception-shell, .owner-shell) > header > a { color: var(--auth-petrol); font-size: 22px; letter-spacing: -0.03em; }
+/* Menú de cuenta: el <details> vive dentro de un div del encabezado, no como hijo directo. */
+:is(.reception-shell, .owner-shell) > header details[open] > div {
+  border: 1px solid var(--auth-divider);
+  box-shadow: var(--shadow-floating);
+}
+:is(.reception-shell, .owner-shell) > header details[open] > div > a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding-inline: 8px;
+  border-radius: 8px;
+  color: var(--auth-petrol);
+}
+:is(.reception-shell, .owner-shell) > header details[open] > div > a:hover { background: var(--auth-canvas); }
+
+/* Menú de navegación móvil: sale del <dialog> a pantalla completa. */
+:is(.reception-shell, .owner-shell) dialog[aria-label='Menú de navegación'] {
+  background: var(--auth-canvas);
+  padding: 20px;
+}
+:is(.reception-shell, .owner-shell) dialog[aria-label='Menú de navegación'] button {
+  border-color: var(--auth-divider);
+}
+:is(.reception-shell, .owner-shell) dialog[aria-label='Menú de navegación'] span { color: var(--auth-petrol); }
+
+/* ------------
+ * 3. Navegación (sidebar, móvil y barra inferior)
+ * ---------- */
+:is(.reception-shell, .owner-shell) > div > aside > div > span { color: var(--auth-petrol); }
+
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación de escritorio'],
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación móvil'] { gap: 18px; }
+
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación de escritorio'] p,
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación móvil'] p { color: var(--auth-secondary); }
+
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación de escritorio'] a,
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación móvil'] a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  border-radius: 10px;
+}
+
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación de escritorio'] [aria-current='page'],
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación móvil'] [aria-current='page'],
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación rápida'] [aria-current='page'] {
+  background: var(--auth-sage);
+  color: var(--auth-petrol);
+  font-weight: 600;
+  box-shadow: none;
+}
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación de escritorio'] a:not([aria-current='page']):hover,
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación móvil'] a:not([aria-current='page']):hover {
+  background: color-mix(in oklab, var(--auth-sage) 45%, white);
+  color: var(--auth-petrol);
+}
+
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación rápida'] {
+  background: var(--auth-paper);
+  box-shadow: 0 -1px 0 0 var(--auth-divider);
+  padding-top: 8px;
+}
+:is(.reception-shell, .owner-shell) nav[aria-label='Navegación rápida'] a { border-radius: 10px; }
+
+/* ------------
+ * 4. Contenido: tipografía de página y superficies
+ * ---------- */
+.reception-shell main h1 { color: var(--auth-petrol); }
+.reception-shell main p a, .reception-shell main dd a { text-underline-offset: 4px; }
+
+.reception-shell main table,
+.dentist-shell .reception-finances table,
+.owner-shell .reception-finances table { border-collapse: collapse; }
+.reception-shell main thead th,
+.dentist-shell .reception-finances thead th,
+.owner-shell .reception-finances thead th {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--auth-muted);
+}
+.reception-shell main tbody tr,
+.dentist-shell .reception-finances tbody tr,
+.owner-shell .reception-finances tbody tr { transition: background-color 120ms ease-out; }
+.reception-shell main tbody tr:hover,
+.dentist-shell .reception-finances tbody tr:hover,
+.owner-shell .reception-finances tbody tr:hover { background: color-mix(in oklab, var(--auth-sage) 26%, white); }
+
+/* ------------
+ * 5. Inicio de Recepción (UX-04)
+ * ---------- */
+.reception-home {
+  display: grid;
+  gap: 28px;
+  width: 100%;
+  min-width: 0;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding: 32px 32px 48px;
+}
+.reception-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
+.reception-head-copy { min-width: 0; }
+.reception-eyebrow {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-title {
+  margin-top: 10px;
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--auth-petrol);
+}
+.reception-lead { margin-top: 12px; max-width: 64ch; color: var(--auth-muted); }
+.reception-cta { flex-shrink: 0; min-height: 48px; padding-inline: 22px; }
+
+.reception-kpis { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+
+.reception-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.reception-col-main, .reception-col-side { display: grid; gap: 20px; min-width: 0; }
+
+.reception-actions {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-actions-title {
+  margin-bottom: 4px;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-action { display: flex; align-items: center; width: 100%; }
+.reception-action:hover { background: var(--auth-canvas); }
+
+.reception-next {
+  padding: 18px 20px;
+  border: 1px solid var(--auth-sage);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-next-eyebrow {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+
+/* ------------
+ * 6. Asistente de "Nueva cita" (3 pasos, todo visible)
+ * ---------- */
+.reception-booking > h2 { color: var(--auth-petrol); }
+/* El asistente se monta siempre para conservar borradores y contratos; solo se
+   presenta cuando la URL pide crear una cita. */
+.reception-booking[data-open='false'] { display: none; }
+
+.reception-stepper {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+  padding: 0;
+  list-style: none;
+}
+.reception-stepper-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  color: var(--auth-muted);
+}
+.reception-stepper-index {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: 1px solid var(--auth-border);
+  border-radius: 999px;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.reception-stepper-text { display: grid; min-width: 0; }
+.reception-stepper-text strong { font-size: 14px; font-weight: 500; }
+.reception-stepper-text small { font-size: 12px; color: var(--auth-muted); }
+.reception-stepper-step[data-state='done'] { border-color: var(--auth-sage); }
+.reception-stepper-step[data-state='done'] .reception-stepper-index { background: var(--auth-sage); border-color: var(--auth-petrol); color: var(--auth-petrol); }
+.reception-stepper-step[data-state='current'] { border-color: var(--auth-petrol); }
+.reception-stepper-step[data-state='current'] .reception-stepper-index { background: var(--auth-petrol); border-color: var(--auth-petrol); color: var(--auth-paper); }
+.reception-stepper-step[data-state='current'] .reception-stepper-text strong { color: var(--auth-petrol); }
+
+.reception-step {
+  margin-top: 16px;
+  padding: 20px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-canvas);
+}
+.reception-step-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--auth-petrol);
+}
+.reception-step-head > span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--auth-petrol);
+  color: var(--auth-paper);
+  font-size: 12px;
+}
+.reception-step[data-state='pending'] { background: var(--auth-paper); }
+.reception-step[data-state='pending'] .reception-step-head { color: var(--auth-muted); }
+.reception-step[data-state='pending'] .reception-step-head > span { background: var(--auth-divider); color: var(--auth-muted); }
+.reception-confirm { margin-top: 16px; border-top: 1px solid var(--auth-divider); padding-top: 16px; }
+
+/* Stepper progresivo: solo el paso activo ocupa el área principal. Los paneles inactivos
+   permanecen montados (el contrato de datos y sus pruebas no cambian), pero `display:none`
+   los retira de la vista y del árbol de accesibilidad en el navegador real. */
+.reception-step[data-active='false'] { display: none; }
+.reception-step-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--auth-divider);
+}
+.reception-step-back { display: flex; justify-content: flex-start; margin-bottom: 12px; }
+.reception-booking-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.reception-review {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-review > div { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; }
+.reception-review dt {
+  min-width: 76px;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--auth-muted);
+}
+.reception-review dd { margin: 0; font-size: var(--text-body-sm); color: var(--auth-ink); }
+
+/* ------------
+ * 6b. Listados operativos (pacientes, cargos)
+ * ---------- */
+.reception-filters,
+.reception-filter-card {
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-filters { padding: 20px; }
+.reception-filters-title {
+  margin-bottom: 12px;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-filters-fields { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16px; }
+.reception-filter-card label { font-size: var(--text-body-sm); font-weight: 500; color: var(--auth-ink); }
+
+.reception-record { transition: background-color 140ms ease-out, border-color 140ms ease-out; }
+.reception-record:hover { border-color: var(--auth-border); }
+
+.reception-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--text-caption);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.reception-chip-pendiente { background: var(--warning-subtle); color: var(--warning-ink); }
+.reception-chip-parcial { background: var(--info-subtle); color: var(--info-ink); }
+.reception-chip-pagado { background: var(--success-subtle); color: var(--success-ink); }
+.reception-chip-anulado { background: var(--danger-subtle); color: var(--danger-ink); }
+
+/* Estado de cargo dentro de la tabla: el texto debe seguir siendo hijo directo
+   del <td> (los tests lo consultan con un selector de celda), así que el color
+   y el peso marcan la diferencia sin envolverlo en otro elemento. */
+.reception-status-pendiente { color: var(--warning-ink); }
+.reception-status-parcial { color: var(--info-ink); }
+.reception-status-pagado { color: var(--success-ink); }
+.reception-status-anulado { color: var(--auth-muted); }
+
+.reception-empty {
+  display: grid;
+  gap: 6px;
+  padding: 28px 24px;
+  border: 1px dashed var(--auth-border);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+  text-align: center;
+  justify-items: center;
+}
+.reception-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: var(--text-body-sm);
+  color: var(--auth-muted);
+}
+
+.reception-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-tabs > [role='tab'] { flex: 0 1 auto; }
+
+.reception-metric-card { border-top: 3px solid var(--auth-sage); }
+.reception-metric-value { color: var(--auth-petrol); }
+
+/* Horarios: secciones y presentación de solo lectura */
+.reception-sections > section > h2 { color: var(--auth-petrol); }
+
+/* Solo lectura: los mismos datos reales, sin apariencia de formulario editable.
+   Los controles siguen en el DOM y siguen `disabled`, así que ni las pruebas ni
+   la validación cambian: solo cambia cómo se ven. */
+.reception-readonly fieldset {
+  padding: 8px 0;
+  background: transparent;
+  border-radius: 0;
+}
+.reception-readonly input:disabled,
+.reception-readonly select:disabled {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: var(--auth-ink);
+  font-weight: 500;
+  opacity: 1;
+  -webkit-text-fill-color: var(--auth-ink);
+}
+.reception-readonly input[type='checkbox']:disabled {
+  opacity: 1;
+  accent-color: var(--auth-petrol);
+}
+.reception-readonly button { display: none; }
+
+/* Formularios administrativos */
+.reception-shell main form label {
+  font-size: var(--text-body-sm);
+  font-weight: 500;
+  color: var(--auth-ink);
+}
+.reception-fieldset > h2 { color: var(--auth-petrol); }
+.reception-concept { position: relative; }
+.reception-preview {
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px;
+  border: 1px dashed var(--auth-border);
+  border-radius: var(--auth-radius);
+  background: var(--auth-canvas);
+}
+
+/* ------------
+ * 7. Responsive
+ * ---------- */
+@media (max-width: 1023px) {
+  .reception-columns { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 767px) {
+  :is(.reception-shell, .owner-shell) > header { padding: 10px 16px; gap: 8px; }
+  .reception-home { padding: 24px 16px 40px; gap: 22px; }
+  .reception-head { align-items: flex-start; }
+  .reception-cta { width: 100%; justify-content: center; }
+  .reception-stepper { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .reception-stepper-step { padding: 10px 12px; }
+  .reception-step { padding: 16px; }
+}
+@media (max-width: 359px) {
+  .reception-kpis { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ------------
+ * 8. Movimiento discreto
+ * ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .reception-action, .reception-stepper-step, :is(.reception-shell, .owner-shell) nav[aria-label] a {
+    transition: background-color 140ms ease-out, border-color 140ms ease-out, color 140ms ease-out;
+  }
+}
+
+/* =============================================================================
+ * 9. Sistema editorial de páginas de Recepción
+ *
+ * Espejo de las formas aprobadas del paciente (`patient.css`) con prefijos
+ * propios de recepción. Ordena la lectura de cada módulo: cabecera editorial,
+ * secciones separadas por aire, listas en filas y estados vacíos útiles. No se
+ * aplica a `.patient-shell`, de modo que la experiencia del paciente queda igual.
+ * ========================================================================== */
+
+/* 9.1 Página y cabecera editorial */
+.reception-page {
+  display: grid;
+  gap: 28px;
+  width: 100%;
+  min-width: 0;
+  max-width: 1120px;
+  margin-inline: auto;
+  padding: 36px 32px 48px;
+}
+.reception-page-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 32px;
+}
+.reception-page-heading-copy { min-width: 0; }
+.reception-page-title {
+  font-size: clamp(28px, 3vw, 36px);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--auth-petrol);
+}
+.reception-page-intro {
+  margin-top: 12px;
+  max-width: 66ch;
+  color: var(--auth-muted);
+}
+.reception-page-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; flex-shrink: 0; }
+
+/* 9.2 Botones y enlaces (reutilizables si se prefiere semántica propia) */
+.reception-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 12px 22px;
+  border: 1px solid var(--auth-petrol);
+  border-radius: var(--auth-radius);
+  background: var(--auth-petrol);
+  color: var(--auth-paper);
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+}
+.reception-button:hover:not(:disabled) { background: var(--auth-hover); }
+.reception-button-secondary { background: var(--auth-paper); color: var(--auth-petrol); border-color: var(--auth-border); }
+.reception-button-secondary:hover:not(:disabled) { background: var(--auth-canvas); }
+.reception-button:disabled { background: var(--auth-canvas); border-color: var(--auth-border); color: var(--auth-muted); cursor: not-allowed; }
+.reception-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 8px;
+  color: var(--auth-petrol);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-align: left;
+}
+.reception-link:hover { color: var(--auth-hover); }
+
+/* 9.3 Bloques y secciones */
+.reception-card {
+  min-width: 0;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+  padding: 24px;
+}
+.reception-section { display: grid; gap: 16px; min-width: 0; }
+.reception-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 20px;
+}
+.reception-section-heading h2 {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--auth-petrol);
+}
+.reception-section-heading p { color: var(--auth-muted); max-width: 68ch; }
+.reception-section-heading a { color: var(--auth-petrol); font-weight: 500; text-decoration: underline; text-underline-offset: 4px; }
+.reception-divider { border: 0; border-top: 1px solid var(--auth-divider); }
+
+/* 9.4 Acciones principales */
+.reception-primary-action {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 56px;
+  padding: 14px 18px;
+  border: 1px solid var(--auth-petrol);
+  border-radius: var(--auth-radius);
+  background: var(--auth-petrol);
+  color: var(--auth-paper);
+  font-weight: 500;
+  text-decoration: none;
+}
+.reception-primary-action:hover { background: var(--auth-hover); }
+.reception-primary-action > span:first-child {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--auth-paper) 22%, var(--auth-petrol));
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* 9.5 Indicadores: no son tarjetas decorativas; separación por aire y borde inferior */
+.reception-kpi {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  padding: 4px 0 14px;
+  border-bottom: 1px solid var(--auth-divider);
+}
+.reception-kpi-label {
+  font-size: var(--text-caption);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--auth-secondary);
+}
+.reception-kpi-value {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--auth-petrol);
+  font-variant-numeric: tabular-nums;
+}
+.reception-kpi-hint { color: var(--auth-muted); font-size: var(--text-body-sm); }
+.reception-kpi a { color: var(--auth-petrol); font-weight: 500; text-decoration: underline; text-underline-offset: 4px; }
+
+/* 9.6 Listas en filas (pacientes, cargos, resultados) */
+.reception-list { display: grid; gap: 10px; }
+.reception-list-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  padding: 16px 18px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-list-row-main { min-width: 0; }
+.reception-list-row-title { font-weight: 500; color: var(--auth-ink); overflow-wrap: anywhere; }
+.reception-list-row-title a { color: var(--auth-petrol); text-decoration: underline; text-underline-offset: 4px; }
+.reception-list-row-meta { margin-top: 2px; color: var(--auth-muted); font-size: var(--text-body-sm); }
+.reception-list-row-side { display: flex; align-items: center; gap: 12px; }
+
+/* 9.7 Estado vacío y errores */
+.reception-empty {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  padding: 28px 24px;
+  border: 1px dashed var(--auth-border);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-empty h3 { font-size: 18px; font-weight: 500; color: var(--auth-petrol); }
+.reception-empty p { color: var(--auth-muted); max-width: 62ch; }
+
+/* 9.8 Filtros: búsqueda simple visible, filtros avanzados plegables */
+.reception-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+.reception-advanced {
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-advanced > summary {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 18px;
+  color: var(--auth-petrol);
+  font-weight: 500;
+  cursor: pointer;
+}
+.reception-advanced > summary:hover { background: var(--auth-canvas); }
+.reception-advanced[open] > summary { border-bottom: 1px solid var(--auth-divider); }
+.reception-advanced-body { display: grid; gap: 16px; padding: 18px; }
+
+/* 9.9 Tarjetas de notificación (espejo del paciente) */
+.reception-notifications { display: grid; gap: 8px; }
+.reception-notification {
+  padding: 22px 24px;
+  border: 1px solid var(--auth-divider);
+  border-radius: var(--auth-radius);
+  background: var(--auth-paper);
+}
+.reception-notification-unread { box-shadow: inset 3px 0 0 0 var(--auth-petrol); }
+.reception-notification-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: var(--text-caption);
+  font-weight: 500;
+  color: var(--auth-muted);
+}
+.reception-notification-unread .reception-notification-labels > span:first-child {
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--auth-sage);
+  color: var(--auth-petrol);
+}
+.reception-notification p { margin-top: 10px; color: var(--auth-muted); white-space: pre-wrap; }
+.reception-notification-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-top: 16px;
+  color: var(--auth-muted);
+  font-size: var(--text-body-sm);
+}
+
+/* 9.10 Horarios en solo lectura: composición por días, sin apariencia de formulario */
+.reception-week { display: grid; gap: 2px; }
+.reception-week-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.9fr) minmax(0, 1.6fr);
+  gap: 12px 20px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--auth-divider);
+}
+.reception-week-row:last-child { border-bottom: 0; }
+.reception-week-day { font-weight: 500; color: var(--auth-ink); }
+.reception-week-detail { min-width: 0; color: var(--auth-ink); font-variant-numeric: tabular-nums; }
+.reception-week-closed { color: var(--auth-muted); }
+.reception-week-breaks { margin-top: 4px; color: var(--auth-muted); font-size: var(--text-body-sm); }
+.reception-readonly-note { color: var(--auth-muted); font-size: var(--text-body-sm); }
+
+/* 9.11 Tablas: legibilidad y espaciado consistente */
+.reception-shell main table.reception-table,
+.dentist-shell .reception-finances table.reception-table,
+.owner-shell .reception-finances table.reception-table { width: 100%; text-align: left; border-collapse: collapse; }
+.reception-shell main table.reception-table th,
+.reception-shell main table.reception-table td,
+.dentist-shell .reception-finances table.reception-table th,
+.dentist-shell .reception-finances table.reception-table td,
+.owner-shell .reception-finances table.reception-table th,
+.owner-shell .reception-finances table.reception-table td { padding: 14px 18px; }
+.reception-shell main table.reception-table tbody td,
+.dentist-shell .reception-finances table.reception-table tbody td,
+.owner-shell .reception-finances table.reception-table tbody td { border-top: 1px solid var(--auth-divider); }
+
+/* 9.13 Contraseña embebida: alinea la superficie de autenticación dentro del
+   layout editorial de recepción sin alterar reglas ni flujo. */
+.reception-shell .auth-embedded .auth-content {
+  width: 100%;
+  max-width: 560px;
+  padding: 0;
+}
+.reception-shell .auth-embedded .auth-heading h1 { font-weight: 500; }
+.reception-shell .auth-embedded .auth-footer { margin-top: 24px; }
+
+/* 9.14 Responsive del sistema editorial */
+@media (max-width: 767px) {
+  .reception-page { padding: 24px 16px 40px; gap: 24px; }
+  .reception-page-heading { align-items: flex-start; }
+  .reception-page-actions { width: 100%; }
+  .reception-page-actions > a, .reception-page-actions > button { flex: 1 1 auto; justify-content: center; }
+  .reception-card { padding: 18px 16px; }
+  .reception-kpi-value { font-size: 26px; }
+  .reception-week-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .reception-notification { padding: 18px 16px; }
+  .reception-shell main table.reception-table th,
+  .reception-shell main table.reception-table td,
+  .dentist-shell .reception-finances table.reception-table th,
+  .dentist-shell .reception-finances table.reception-table td,
+  .owner-shell .reception-finances table.reception-table th,
+  .owner-shell .reception-finances table.reception-table td { padding: 12px; }
+}

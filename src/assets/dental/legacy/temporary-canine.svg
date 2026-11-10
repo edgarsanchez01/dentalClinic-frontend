@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" width="44" height="44"
+  data-family="canine" data-dentition="TEMPORARY" fill="none">
+  <title>Corona de canino temporal</title>
+  <!-- Cúspide más corta y roma que el canino permanente, con cuerpo redondeado. Sin estados clínicos. -->
+  <path d="M22 3.6
+    C24.6 6.3 27 9.6 28.8 13.3
+    C30.6 17.1 31.6 21.1 31.5 25.3
+    C31.3 29.8 29.7 33 27.3 34.9
+    C25.9 35.8 23.9 36.2 22 36.2
+    C20.1 36.2 18.1 35.8 16.7 34.9
+    C14.3 33 12.7 29.8 12.5 25.3
+    C12.4 21.1 13.4 17.1 15.2 13.3
+    C17 9.6 19.4 6.3 22 3.6 Z"
+    fill="var(--tooth-fill, #eef1f3)" stroke="var(--tooth-outline, #3f474b)"
+    stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

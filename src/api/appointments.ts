@@ -1,4 +1,7 @@
 import { apiFetch } from './http';
+import { parseServices, type BookingServiceDto } from './catalog';
+
+const decimalResponse = { parseResponse: parseServices };
 
 export interface PageDto<T> {
   content: T[];
@@ -30,6 +33,7 @@ export interface AppointmentResponse {
   completedAt?: string;
   createdAt: string;
   updatedAt?: string;
+  service?: BookingServiceDto | null;
 }
 
 export interface AppointmentEventView {
@@ -40,6 +44,7 @@ export interface AppointmentEventView {
     | 'APPOINTMENT_CANCELLED'
     | 'APPOINTMENT_COMPLETED'
     | 'APPOINTMENT_NO_SHOW'
+    // Eventos históricos: se leen, pero no existen acciones para emitirlos (T4.4).
     | 'PATIENT_ARRIVED'
     | 'APPOINTMENT_STARTED'
     | 'REMINDER_SENT'
@@ -52,6 +57,7 @@ export interface AppointmentEventView {
 }
 
 export interface CreateAppointmentRequest {
+  serviceId: number;
   patientId: number;
   dentistId: number;
   startAt: string;
@@ -77,7 +83,7 @@ export interface AppointmentListParams {
 }
 
 export const appointmentsApi = {
-  list(params: AppointmentListParams = {}): Promise<PageDto<AppointmentResponse>> {
+  list(params: AppointmentListParams = {}, signal?: AbortSignal): Promise<PageDto<AppointmentResponse>> {
     const search = new URLSearchParams();
     if (params.dentistId !== undefined) {
       search.set('dentistId', String(params.dentistId));
@@ -101,11 +107,11 @@ export const appointmentsApi = {
       search.set('size', String(params.size));
     }
     const suffix = search.toString();
-    return apiFetch<PageDto<AppointmentResponse>>(`/api/appointments${suffix === '' ? '' : `?${suffix}`}`);
+    return apiFetch<PageDto<AppointmentResponse>>(`/api/appointments${suffix === '' ? '' : `?${suffix}`}`, { ...decimalResponse, ...(signal ? { signal } : {}) });
   },
 
   get(id: number): Promise<AppointmentResponse> {
-    return apiFetch<AppointmentResponse>(`/api/appointments/${id}`);
+    return apiFetch<AppointmentResponse>(`/api/appointments/${id}`, decimalResponse);
   },
 
   events(id: number): Promise<AppointmentEventView[]> {
@@ -115,6 +121,7 @@ export const appointmentsApi = {
   create(input: CreateAppointmentRequest, idempotencyKey: string): Promise<AppointmentResponse> {
     return apiFetch<AppointmentResponse>('/api/appointments', {
       method: 'POST',
+      ...decimalResponse,
       body: input,
       headers: { 'Idempotency-Key': idempotencyKey },
     });
@@ -122,28 +129,23 @@ export const appointmentsApi = {
 
   reschedule(id: number, input: RescheduleAppointmentRequest): Promise<AppointmentResponse> {
     return apiFetch<AppointmentResponse>(`/api/appointments/${id}/reschedule`, {
+      ...decimalResponse,
       method: 'POST',
       body: input,
     });
   },
 
   cancel(id: number): Promise<AppointmentResponse> {
-    return apiFetch<AppointmentResponse>(`/api/appointments/${id}/cancel`, { method: 'POST' });
+    return apiFetch<AppointmentResponse>(`/api/appointments/${id}/cancel`, { method: 'POST', ...decimalResponse });
   },
 
-  complete(id: number): Promise<AppointmentResponse> {
-    return apiFetch<AppointmentResponse>(`/api/appointments/${id}/complete`, { method: 'POST' });
+  complete(id: number, input: { expectedOccurrenceVersion: number }, key: string): Promise<AppointmentResponse> {
+    return apiFetch<AppointmentResponse>(`/api/appointments/${id}/complete`, { method: 'POST', ...decimalResponse,
+      body: input, headers: { 'Idempotency-Key': key }, signal: AbortSignal.timeout(30_000) });
   },
 
   noShow(id: number): Promise<AppointmentResponse> {
-    return apiFetch<AppointmentResponse>(`/api/appointments/${id}/no-show`, { method: 'POST' });
+    return apiFetch<AppointmentResponse>(`/api/appointments/${id}/no-show`, { method: 'POST', ...decimalResponse });
   },
 
-  arrive(id: number): Promise<AppointmentEventView> {
-    return apiFetch<AppointmentEventView>(`/api/appointments/${id}/arrive`, { method: 'POST' });
-  },
-
-  start(id: number): Promise<AppointmentEventView> {
-    return apiFetch<AppointmentEventView>(`/api/appointments/${id}/start`, { method: 'POST' });
-  },
 };
